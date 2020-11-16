@@ -8,10 +8,11 @@ import { port } from '../../config.js'
 const SERVER = new ApolloServer({
   typeDefs: TYPEDEFS,
   resolvers: RESOLVERS,
+  context: ({req}) =>({req}),
   playground: {
     endpoint: `http://localhost:${port}/graphql`,
     settings: {
-      'editor.theme': 'light'
+      'editor.theme': 'dark'
     }
   }
 });
