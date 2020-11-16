@@ -1,19 +1,7 @@
-<script context="module">
-  import gql from 'graphql-tag'
-  import { client } from './apollo'
-
-  const CATS_LIST = gql`
-    query cat {
-      cats {
-        id
-        name
-      }
-    }
-  `
-</script>
-
 <script>
+  import { client } from './apollo'
   import { restore, query } from 'svelte-apollo'
+  import CATS_LIST from './graphql/allCatsgrapql.js'
   const cats = query(client, { query: CATS_LIST })
 </script>
 

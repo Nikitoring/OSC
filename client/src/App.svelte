@@ -4,7 +4,6 @@
   import { client } from './apollo'
   import { setClient } from 'svelte-apollo'
 
-
 	import Cats from './Cats.svelte'
 	setClient(client)
 

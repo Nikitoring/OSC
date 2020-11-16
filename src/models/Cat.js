@@ -12,6 +12,10 @@ const catSchema = new Schema({
   date: {
     type: Number,
     default: nowDate
+  },
+  description: {
+    type: String,
+    required: false
   }
 })
 const Cat = model('Cat', catSchema)
