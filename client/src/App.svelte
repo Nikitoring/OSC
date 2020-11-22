@@ -1,19 +1,18 @@
-
 <script>
-  import ApolloClient from 'apollo-client'
-  import { client } from './apollo'
-  import { setClient } from 'svelte-apollo'
+  import { Router } from 'svelte-router-spa'
+  import { routes } from './routes.js'
+  import '@fortawesome/fontawesome-free/css/all.css'
 
-	import Cats from './Cats.svelte'
-	setClient(client)
-
+  export let currentRoute
+  const params = {}
 </script>
 
-<style>
-  h1 {
-    color: purple;
-  }
-</style>
+<svelte:head>
+  <title>OSC</title>
+</svelte:head>
 
-<h1>Hello!</h1>
-<Cats />
+<Router {routes} />
+
+<style lang="scss" global>
+  @import './styles/global.scss';
+</style>

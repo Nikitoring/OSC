@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon --exec babel-node src/server.js --ignore 'client/'",
-    "client": "yarn --cwd client/ run dev",
+    "client": "yarn --cwd client run dev",
     "dev": "concurrently \"yarn run server\" \"yarn run client\"",
     "start": "node server.js"
   },
@@ -20,9 +20,12 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^5.3.0",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "graphql": "^15.4.0",
     "graphql-tools": "^7.0.1",
     "jsonwebtoken": "^8.5.1",

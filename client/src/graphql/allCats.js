@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from 'apollo-boost';
 
 const CATS_LIST = gql`
 query cats {

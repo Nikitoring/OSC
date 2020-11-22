@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 import {UserInputError} from 'apollo-server-express'
 import {SECRET_KEY} from '../../../config.js'
 import User from "../../models/User.js";
-
 import { validateRegisterInput, validateLoginInput } from '../../utils/validate.js'
 
 const generateToken = (user) => {
@@ -14,6 +13,8 @@ const generateToken = (user) => {
     username: user.username
   }, SECRET_KEY, {expiresIn: '1h'})
 }
+
+// const res = Response
 
 export default {
   Query: {

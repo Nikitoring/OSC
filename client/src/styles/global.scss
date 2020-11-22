@@ -1,0 +1,320 @@
+@import './theme.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Rubik Mono One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Rubik Mono One Regular'), local('RubikMonoOne-Regular'),
+    url(https://fonts.gstatic.com/s/rubikmonoone/v9/UqyJK8kPP3hjw6ANTdfRk9YSN985TKUbcw.woff2)
+      format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Rubik Mono One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Rubik Mono One Regular'), local('RubikMonoOne-Regular'),
+    url(https://fonts.gstatic.com/s/rubikmonoone/v9/UqyJK8kPP3hjw6ANTdfRk9YSN983TKU.woff2)
+      format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 62.5%; /* 1rem = 10px */
+}
+body {
+  background: $light;
+  color: $text_0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  width: 100vw;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+body:not(.jsGoOn) {
+  height: 100%;
+  overflow: hidden;
+}
+
+section,
+header,
+footer {
+  padding: 0;
+}
+
+@media (min-width: 575.98px) {
+  section,
+  header,
+  footer {
+    padding: 0 calc(50vw - 270px);
+  }
+}
+
+@media (min-width: 767.98px) {
+  section,
+  header,
+  footer {
+    padding: 0 calc(50vw - 360px);
+  }
+}
+
+@media (min-width: 991.98px) {
+  section,
+  header,
+  footer {
+    padding: 0 calc(50vw - 480px);
+  }
+}
+
+@media (min-width: 1199.98px) {
+  section,
+  header,
+  footer {
+    padding: 0 calc(50vw - 590px);
+  }
+}
+ul {
+  li {
+    list-style: none;
+    text-decoration: none;
+  }
+}
+a {
+  text-decoration: none;
+}
+$openDelay: 100ms;
+.navigation {
+  display: inline-block;
+  margin: 0;
+  .nav-link {
+    opacity: 0;
+    display: inline-block;
+    padding-right: 2rem;
+    font-size: $font-size-lg;
+    text-decoration: none;
+    &:nth-child(1)  {
+      --delay: calc($openDelay * 3);
+    }
+    &:nth-child(2)  {
+      --delay: calc($openDelay * 2.5);
+    }
+    &:nth-child(3)  {
+      --delay: calc($openDelay * 2);
+    }
+    &:nth-child(4)  {
+      --delay: calc($openDelay * 1.5);
+    }
+    &:nth-child(5)  {
+      --delay: calc($openDelay * 1);
+    }
+    .isOpen & {
+      opacity: 1;
+      &:nth-child(1)  {
+        --delay: calc($openDelay * 1);
+      }
+      &:nth-child(2)  {
+        --delay: calc($openDelay * 2);
+      }
+      &:nth-child(3)  {
+        --delay: calc($openDelay * 3);
+      }
+      &:nth-child(4)  {
+        --delay: calc($openDelay * 4);
+      }
+      &:nth-child(5)  {
+        --delay: calc($openDelay * 5);
+      }
+    }
+  }
+  .nav-item {
+    font-size: $font-size-lg;
+    text-decoration: none;
+    &:hover,
+    :focus {
+      color: $primary;
+    }
+  }
+}
+
+/* Animations */
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 4s;
+  animation-duration: 4s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes laserOn {
+  0%,
+  85% {
+    opacity: 0;
+  }
+  87% {
+    opacity: 0.8;
+  }
+  88% {
+    opacity: 0.1;
+  }
+  89% {
+    opacity: 0.8;
+  }
+  92% {
+    opacity: 0.2;
+  }
+  94%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation bg-pan-left
+ * ----------------------------------------
+ */
+.bg-pan-left {
+  -webkit-animation: bg-pan-left 8s both;
+  animation: bg-pan-left 8s both;
+}
+
+@-webkit-keyframes bg-pan-left {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 10%;
+  }
+}
+@keyframes bg-pan-left {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 10%;
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation blur-out-contract
+ * ----------------------------------------
+ */
+.blur-out-contract {
+  -webkit-animation: blur-out-contract 1s cubic-bezier(0.55, 0.085, 0.68, 0.53)
+    both;
+  animation: blur-out-contract 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+
+@-webkit-keyframes blur-out-contract {
+  0% {
+    -webkit-filter: blur(0.01);
+    filter: blur(0.01);
+  }
+  100% {
+    letter-spacing: -0.5em;
+    -webkit-filter: blur(12px) opacity(0%);
+    filter: blur(12px) opacity(0%);
+  }
+}
+@keyframes blur-out-contract {
+  0% {
+    -webkit-filter: blur(0.01);
+    filter: blur(0.01);
+  }
+  100% {
+    letter-spacing: -0.5em;
+    -webkit-filter: blur(12px) opacity(0%);
+    filter: blur(12px) opacity(0%);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation fade-in-cats
+ * ----------------------------------------
+ */
+.fade-in-cats {
+  -webkit-animation: fade-in-cats 0.8s linear forwards;
+  animation: fade-in-cats 0.8s linear forwards;
+}
+
+@-webkit-keyframes fade-in-cats {
+  0% {
+    -webkit-transform: translateZ(-80px);
+    transform: translateZ(-80px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in-cats {
+  0% {
+    -webkit-transform: translateZ(-80px);
+    transform: translateZ(-80px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+@mixin transform($transform) {
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  -ms-transform: $transform;
+  -o-transform: $transform;
+  transform: $transform;
+}

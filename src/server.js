@@ -1,19 +1,36 @@
-import express from 'express'
+import cors from 'cors';
+import express from 'express';
+import session from 'express-session';
 import { port, dbURI } from '../config.js'
-import cors from 'cors'
 import mongoose from 'mongoose'
+import jwt from 'jsonwebtoken'
 // Подключаем  graphql
 import SERVER from './graphql/Schema.js'
+import cookieParser from 'cookie-parser'
 
-import Cat from './models/Cat.js'
-
-const startServer = async () => {
+const startServer = async (req, res) => {
   const app = express()
-  app.use(cors())
 
+  // CORS configuration
+  const corsOptions = {
+    origin: true,
+    credentials: true,
+  }
+
+  app.use(cors(corsOptions));
+  // Pass in session auth middleware to express
+	app.use(
+		session({
+			secret: `${process.env.SESSION_SECRET}`,
+			resave: false, // Only resaves session w/ change
+			saveUninitialized: false // Don't assign a user a session til we give them data
+		})
+	);
   // Middleware: GraphQL
   SERVER.applyMiddleware({
     app,
+    path: '/',
+    cors: false
   })
 
   await mongoose.connect(dbURI, {
@@ -25,11 +42,10 @@ const startServer = async () => {
 
   app.listen(port, () => {
     console.log(
-      `Example app listening at http://localhost:${port}${SERVER.graphqlPath}`,
+      `Server listening http://localhost:${port}`,
+      `Graphql listening http://localhost:${port}${SERVER.graphqlPath}`,
     )
   })
 }
 
 startServer()
-
-// app.use('/api/cats', catsRoute)
