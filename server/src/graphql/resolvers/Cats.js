@@ -1,5 +1,5 @@
 import Cat from '../../models/Cat.js'
-import checkAuth from '../../utils/auth.js'
+// import checkAuth from '../../utils/auth.js'
 import pkg from 'apollo-server-express';
 const {AuthentificationError} = pkg;
 
@@ -28,7 +28,7 @@ export default {
   },
   Mutation: {
     createCat: async (_, { name, description }, context) => {
-      const user = checkAuth(context)
+      // const user = checkAuth(context)
       const kitty = new Cat({
         name,
         description,
@@ -40,7 +40,7 @@ export default {
       return kitty
     },
     deleteCat: async (_, {catId}, context) => {
-      const user = checkAuth(context)
+      // const user = checkAuth(context)
       try {
         const kitty = Cat.findById(catId)
         if (user.username === cat.username) {

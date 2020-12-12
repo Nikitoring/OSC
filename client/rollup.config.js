@@ -5,7 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import postcss from 'rollup-plugin-postcss';
-import graphql from 'rollup-plugin-graphql';
+// import graphql from 'rollup-plugin-graphql';
 const preprocess = sveltePreprocess({
 
 	defaults: {
@@ -83,7 +83,7 @@ export default {
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
 		production && terser(),
-		graphql()
+		// graphql()
 	],
 	watch: {
 		clearScreen: false

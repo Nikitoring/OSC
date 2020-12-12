@@ -19,15 +19,16 @@ const TYPEDEFS = gql`
   type Query {
     cats: [Cat!]!,
     cat(catId:ID!): Cat!,
-    users: [User]!
+    users: [User]!,
+    me: User
   }
 
-  input RegisterInput{
+  input RegistrationInput{
       username: String!,
       password: String!,
       confirmPassword: String!,
       email: String!
-     }
+  }
   type Mutation {
     createCat(
       name: String!,
@@ -45,8 +46,8 @@ const TYPEDEFS = gql`
     ): String!
     # USERS
     login(username: String!, password:String!): User
-    register(registerInput: RegisterInput): User
-
+    logout: User
+    registration(registrationInput: RegistrationInput): User
   }
 `
 export default TYPEDEFS

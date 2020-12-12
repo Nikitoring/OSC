@@ -27,6 +27,7 @@
     "svelte-preprocess": "^4.6.1"
   },
   "dependencies": {
+    "@apollo/client": "^3.1.0-pre.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "apollo-boost": "^0.4.9",
     "apollo-cache-inmemory": "^1.6.6",
@@ -38,6 +39,7 @@
     "autoprefixer": "^10.0.2",
     "graphql": "^14.7.0",
     "graphql-tag": "^2.10.1",
+    "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
     "sirv-cli": "^1.0.0",
     "subscriptions-transport-ws": "^0.9.16",

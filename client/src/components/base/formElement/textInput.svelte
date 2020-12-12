@@ -5,7 +5,7 @@
   export let inputLabel
   export let value = ''
   export let rules = []
-
+  export let type = "text"
   let isValue = false
   const dispatch = createEventDispatcher()
   const [validity, validate] = createFieldValidator(...rules)
@@ -19,6 +19,13 @@
       inputValue: value,
       inputId: inputId,
     })
+  }
+  const handleInput = e => {
+    // in here, you can switch on type and implement
+    // whatever behaviour you need
+    value = type.match(/^(number|range)$/)
+      ? +e.target.value
+      : e.target.value;
   }
 </script>
 
@@ -84,14 +91,16 @@
 <div class="input-group">
   <input
     class:active={isValue}
-    type="text"
+    {type}
+    {value}
     id={inputId}
     class:field-danger={!$validity.valid}
     class:field-success={$validity.valid}
     on:blur={checkInput}
     on:change={changeInput}
-    bind:value
-    use:validate={value} />
+    use:validate={value}
+    on:input={handleInput}
+  />
   <label
     class:label-danger={!$validity.valid}
     class:label-success={$validity.valid}

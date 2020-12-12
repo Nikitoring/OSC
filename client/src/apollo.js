@@ -1,30 +1,20 @@
 import ApolloClient from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { WebSocketLink } from 'apollo-link-ws'
+// import { WebSocketLink } from 'apollo-link-ws'
 import { split } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import { getMainDefinition } from 'apollo-utilities'
-
 import { setContext } from 'apollo-link-context'
-import { readable } from 'svelte-persistent-store/dist/local'
-import { wsUrl, connectUrl } from './utils/connection.js'
+import Cookies from 'js-cookie'
+import { connectUrl } from './utils/connection.js'
+import { getToken } from './utils/auth.js'
+
 const headers = { 'content-type': 'application/json' }
 const getHeaders = () => {
   return headers
 }
 
-// const cache = new InMemoryCache();
-
-const wsLink = new WebSocketLink({
-  uri: wsUrl,
-  options: {
-    reconnect: true,
-    lazy: true,
-    connectionParams: () => {
-      return { headers: getHeaders() }
-    },
-  },
-})
+const cache = new InMemoryCache();
 
 const httpLink = new HttpLink({
   uri: connectUrl,
@@ -34,7 +24,7 @@ const httpLink = new HttpLink({
 
 
 const authLink = setContext((_, { headers }) => {
-  const token = readable('token')
+  const token = Cookies.get('authorization')
   return {
     headers: {
       ...headers,
@@ -43,21 +33,16 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-const link = split(
-  ({ query }) => {
-    const { kind, operation } = getMainDefinition(query)
-    return kind === 'OperationDefinition' && operation === 'subscription'
-  },
-  wsLink,
-  httpLink
-  // authLink,
-)
+// const link = split(
+//   ({ query }) => {
+//     const { kind, operation } = getMainDefinition(query)
+//     return kind === 'OperationDefinition' && operation === 'subscription'
+//   },
+//   authLink,
+//   httpLink
+// )
 
 export const client = new ApolloClient({
-  link,
-  ssrMode: true,
-  cache: new InMemoryCache(),
-  fetchOptions: {
-    mode: 'no-cors',
-  },
+  link:authLink.concat(httpLink),
+  cache
 })

@@ -17,6 +17,7 @@ export const formData = {
       props: {
         inputId: 'password',
         inputLabel: 'Password',
+        type: 'password',
         rules: [requiredValidator()]
       },
     },
@@ -27,12 +28,21 @@ export const formData = {
       },
     },
   ],
-  register: [
+  registration: [
+    {
+      component: Input,
+      props: {
+        inputId: 'email',
+        inputLabel: 'Email',
+        rules: [emailValidator(), requiredValidator()]
+      },
+    },
     {
       component: Input,
       props: {
         inputId: 'username',
         inputLabel: 'Username',
+        rules: [requiredValidator()]
       },
     },
     {
@@ -40,6 +50,8 @@ export const formData = {
       props: {
         inputId: 'password',
         inputLabel: 'Password',
+        type: 'password',
+        rules: [requiredValidator()]
       },
     },
     {
@@ -47,13 +59,14 @@ export const formData = {
       props: {
         inputId: 'confirmPassword',
         inputLabel: 'Confirm password',
+        type: 'password',
+        rules: [requiredValidator()]
       },
     },
     {
       component: Submit,
       props: {
-        label: 'REGISTER',
-        classes: 'color-primary',
+        label: 'REGISTRATION'
       },
     },
   ],

@@ -1,23 +1,30 @@
 <script>
-  import { strGeneral, updateGeneral } from '../stores/general'
   import { Navigate } from 'svelte-router-spa'
   import Modal from './base/Modal.svelte'
-
+  import { meData } from '../stores/meStore.js'
   let isCalculated = false
   let isMenuOpen = false
 
   const openMenuButtonClick = () => {
     isMenuOpen = !isMenuOpen
   }
-  let pageContainer = $strGeneral.pageContainer
 
-  // Login form
+  // Login or Registration
   let component
   let props
   const openLoginForm = () => {
     component = Modal
-    props = { modalTitle: 'SIGN IN', isShow: true, element: { name: 'Login' } }
+    props = { modalTitle: 'Sign in', isShow: true, element: { name: 'Login' } }
   }
+  const openRegisterForm = () => {
+    component = Modal
+    props = { modalTitle: 'Registration', isShow: true, element: { name: 'Registration' } }
+  }
+  // Logout
+  const logout =() => {
+
+  }
+  const addCat = () => {}
 </script>
 
 <style lang="scss">
@@ -32,11 +39,8 @@
     padding: 1rem 2rem 0 1rem;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     width: 100%;
-    &.isReady {
-      opacity: 1;
-    }
   }
   .menu {
     display: flex;
@@ -88,66 +92,56 @@
     justify-content: space-between;
     align-items: start;
   }
+  .authorization {
+    align-self: flex-end;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    .sign-in-button:not(:first-child){
+      margin-left: 1.5rem;
+    }
+  }
   .sign-in-button {
     opacity: 1;
     color: $primary;
-    font-size: $font-size-lg;
-    font-weight: 400;
-    font-family: 'Rubik Mono One';
-    text-transform: uppercase;
+    font-family: 'IBM Plex Sans', sans-serif;
+    white-space: nowrap;
+    // text-transform: uppercase;
+    @media (min-width: 769px) {
+        font-size:  $font-size-md;
+      }
+    @media (max-width: 768px) and (min-width: 562px) {
+        font-size: $font-size-base;
+      }
     &:hover {
       opacity: 0.5;
       cursor: pointer;
     }
   }
+
 </style>
 
 <nav class="nav" class:isReady={isCalculated}>
-  <div class="menu" class:isOpen={isMenuOpen}>
-    <button
-      class="hamburger-button"
-      aria-pressed={isMenuOpen}
-      on:click={openMenuButtonClick}>
-      <svg class="hamburgerSVG" xmlns="http://www.w3.org/2000/svg">
-        <rect
-          x="0"
-          y="0"
-          width="20"
-          height="2"
-          rx="1"
-          class="hamburgerSvgTop" />
-        <rect
-          x="0"
-          y="7"
-          width="15"
-          height="2"
-          rx="1"
-          class="hamburgerSvgMiddle" />
-        <rect
-          x="0"
-          y="14"
-          width="20"
-          height="2"
-          rx="1"
-          class="hamburgerSvgBottom" />
-      </svg>
-    </button>
-    <div class="drawer">
-      <ul class="navigation">
-        {#each pageContainer as page}
-          <li class="nav-link">
-            {#if page === 'intro'}
-              <Navigate styles="nav-item" to="/">{page}</Navigate>
-            {:else}
-              <Navigate styles="nav-item" to={page}>{page}</Navigate>
-            {/if}
-
-          </li>
-        {/each}
-      </ul>
-    </div>
+  {#if $meData && $meData.username}
+  <div class="menu">
+    <div class="sign-in-button" on:click={addCat}>Add Cat</div>
   </div>
-  <div class="sign-in-button" on:click={openLoginForm}>Sign In</div>
+    <div class="authorization">
+    <div class="">{$meData.username}</div>
+    <div class="sign-in-button" on:click={logout}>Logout</div>
+    </div>
+    {:else}
+    <div class="menu">
+      <!-- <div class="sign-in-button" on:click={addCat}>Add Cat</div> -->
+    </div>
+    <div class="authorization">
+      <div class="sign-in-button" on:click={openLoginForm}>Sign In</div>
+      <div class="sign-in-button" on:click={openRegisterForm}>Registration</div>
+    </div>
+  {/if}
+
+
 </nav>
 
 <svelte:component this={component} {...props} />

@@ -5,10 +5,10 @@ import RESOLVERS from './Resolvers.js'
 import { port } from '../../config.js'
 
 // GraphQL: Schema
-const SERVER = new ApolloServer({
+const apolloServer = new ApolloServer({
   typeDefs: TYPEDEFS,
   resolvers: RESOLVERS,
-  context: ({ req }) => ({ req }),
+  context: ({ req, res, payload }) => ({ req,res, payload }),
   playground: {
     endpoint: `http://localhost:${port}/graphql`,
     settings: {
@@ -17,4 +17,4 @@ const SERVER = new ApolloServer({
   },
 })
 
-export default SERVER
+export default apolloServer
