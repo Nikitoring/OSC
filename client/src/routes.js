@@ -1,14 +1,17 @@
-
-import Index from './views/Index.svelte'
-import Layout from './views/Layout.svelte'
-import Maps from './views/Maps.svelte'
+import Index from './views/Index.svelte';
+import Layout from './views/Layout.svelte';
+import Maps from './views/Map.svelte';
 const routes = [
   {
     name: '/',
     component: Index,
-    layout: Layout
+    layout: Layout,
   },
-  { name: '/catmaps', component: Maps, layout: Layout },
-]
+  {
+    name: '/map',
+    component: Maps,
+    layout: Layout,
+  },
+];
 
-export { routes }
+export { routes };

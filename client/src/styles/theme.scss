@@ -1,21 +1,3 @@
-// As hex codes */
-@mixin transition($transition...) {
-  -webkit-transition: $transition;
-  -moz-transition: $transition;
-  -ms-transition: $transition;
-  -o-transition: $transition;
-  transition: $transition;
-}
-@mixin transform($transform) {
-  -webkit-transform: $transform;
-  -moz-transform: $transform;
-  -ms-transform: $transform;
-  -o-transform: $transform;
-  transform: $transform;
-}
-
-
-
 $text_0: #03161d;
 
 $primary:#068a9c;
@@ -25,10 +7,10 @@ $success: #5E7240;
 $light:#E6E7EA;
 $secondary-2: #83552d;
 
-$font-size-base: 1rem;
-$font-size-md: 1.5rem;
-$font-size-lg: 1.7rem;
-$font-size-xl: 2rem;
+$font-size-base: 1rem; // 10px
+$font-size-md: 1.5rem;  // 15px
+$font-size-lg: 1.7rem;  //17px
+$font-size-xl: 2rem;  // 20px
 
 $shadow1 : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 $shadow2 : 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
