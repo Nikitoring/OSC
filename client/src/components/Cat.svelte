@@ -1,11 +1,4 @@
 <script lang="ts">
-  interface Props {
-    className?: string;
-    width?: number;
-    height?: number;
-  }
-
-  let { className = '', width = 246, height = 236 }: Props = $props();
 </script>
 
 <svg
@@ -13,8 +6,8 @@
   xmlns="http://www.w3.org/2000/svg"
   fill="none"
   viewBox="-10 -40 100 100"
-  {width}
-  {height}
+  width="246"
+  height="236"
 >
   <!-- Тень под котом -->
   <ellipse

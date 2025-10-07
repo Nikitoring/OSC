@@ -1,13 +1,26 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "module": "es2015",
-    "target": "ES2017",
+    "target": "ES2020",
+    "module": "ESNext",
     "rootDir": "src",
+    "moduleResolution": "node",
     "outDir": "dist",
     "sourceMap": false,
-    "strict": true
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "verbatimModuleSyntax": true,
+    "preserveValueImports": false,
+    "types": ["svelte"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules/*"],
+  "exclude": ["node_modules/*"]
 }

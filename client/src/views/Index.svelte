@@ -6,12 +6,12 @@
 <div class="container">
   <!-- Анимированный кот -->
   <div class="illustration">
-    <Cat className="cat cat-animation" />
+    <Cat />
   </div>
 
   <!-- Вращающаяся Земля -->
   <div class="illustration">
-    <Earth className="earth earth-rotation" />
+    <Earth />
   </div>
 
   <!-- Текст и кнопка -->

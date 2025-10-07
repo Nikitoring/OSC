@@ -1,6 +1,6 @@
 import Index from './views/Index.svelte';
 import Layout from './views/Layout.svelte';
-import Maps from './views/Map.svelte';
+import CatMaps from './views/CatMaps.svelte';
 const routes = [
   {
     name: '/',
@@ -9,7 +9,7 @@ const routes = [
   },
   {
     name: '/map',
-    component: Maps,
+    component: CatMaps,
     layout: Layout,
   },
 ];

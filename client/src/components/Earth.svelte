@@ -1,11 +1,4 @@
 <script lang="ts">
-  interface Props {
-    className?: string;
-    width?: number;
-    height?: number;
-  }
-
-  let { className = '', width = 475, height = 475 }: Props = $props();
 </script>
 
 <svg
@@ -13,8 +6,8 @@
   xmlns="http://www.w3.org/2000/svg"
   fill-rule="evenodd"
   viewBox="0 0 520 520"
-  {width}
-  {height}
+  width="475"
+  height="475"
 >
   <defs>
     <filter id="earthGlow">
