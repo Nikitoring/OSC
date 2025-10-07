@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
   import { client } from './apollo.js'
   import { setClient } from 'svelte-apollo'
   import ME from './graphql/me.js'

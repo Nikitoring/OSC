@@ -1,6 +1,10 @@
 <script lang="ts">
   import { Route } from 'svelte-router-spa';
-  export let currentRoute: object = {};
+  interface Props {
+    currentRoute?: object;
+  }
+
+  let { currentRoute = {} }: Props = $props();
   const params = {};
 </script>
 

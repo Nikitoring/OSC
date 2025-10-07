@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let className: string = '';
-  export let width: number = 246;
-  export let height: number = 236;
+  interface Props {
+    className?: string;
+    width?: number;
+    height?: number;
+  }
+
+  let { className = '', width = 246, height = 236 }: Props = $props();
 </script>
 
 <svg
