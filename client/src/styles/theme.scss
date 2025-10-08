@@ -1,16 +1,28 @@
 $text_0: #03161d;
 
-$primary:#068a9c;
-$secondary:#d44a1e;
-$danger:#770f10;
-$success: #5E7240;
-$light:#E6E7EA;
+$primary: #068a9c;
+$secondary: #d44a1e;
+$danger: #770f10;
+$success: #5e7240;
+$light: #e6e7ea;
 $secondary-2: #83552d;
 
 $font-size-base: 1rem; // 10px
-$font-size-md: 1.5rem;  // 15px
-$font-size-lg: 1.7rem;  //17px
-$font-size-xl: 2rem;  // 20px
+$font-size-md: 1.5rem; // 15px
+$font-size-lg: 1.7rem; //17px
+$font-size-xl: 2rem; // 20px
 
-$shadow1 : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-$shadow2 : 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+$shadow1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$shadow2: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+// Переменные для карты
+$map-light-base: #e6e7ea; // ваш $light
+$map-light-1: lighten($map-light-base, 2%);
+$map-light-2: lighten($map-light-base, 4%);
+$map-light-3: lighten($map-light-base, 6%);
+$map-light-4: darken($map-light-base, 2%);
+$map-light-5: darken($map-light-base, 4%);
+$map-light-6: darken($map-light-base, 8%);
+$map-light-7: darken($map-light-base, 12%);
+$map-light-8: darken($map-light-base, 16%);
+$map-light-9: darken($map-light-base, 20%);

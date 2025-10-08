@@ -8,7 +8,7 @@ const routes = [
     layout: Layout,
   },
   {
-    name: '/map',
+    name: '/cat-map',
     component: CatMaps,
     layout: Layout,
   },

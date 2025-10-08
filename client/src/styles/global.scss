@@ -160,8 +160,8 @@ $openDelay: 100ms;
 }
 
 .primary-button {
-  padding: 1rem 2.5rem;
-  font-size: 1rem;
+  padding: clamp(0.8rem, 3vw, 1.2rem) clamp(1.5rem, 6vw, 2.5rem);
+  font-size: clamp(1.1rem, 4vw, 1.8rem);
   font-weight: bold;
   background: linear-gradient(145deg, $primary, darken($primary, 15%));
   color: white;
@@ -170,8 +170,9 @@ $openDelay: 100ms;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
+  width: auto;
+  min-width: min(280px, 80vw);
+  text-align: center;
 
   &:hover {
     transform: translateY(-2px);
@@ -185,7 +186,6 @@ $openDelay: 100ms;
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
 }
 
