@@ -2,41 +2,32 @@
   "name": "osc_api",
   "version": "1.0.0",
   "description": "osc api",
-  "main": "server.js",
+  "main": "server.ts",
+  "type": "module",
   "scripts": {
-    "server": "nodemon --exec babel-node 'src/server.js'",
-    "start": "node server.js"
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "server": "nodemon --exec ts-node src/server.ts",
+    "clean": "rm -rf dist"
   },
   "author": "Nikitoring",
   "license": "ISC",
-  "type": "module",
-  "exports": {
-    "require": "./index.js",
-    "import": "./esm/wrapper.js"
-  },
   "dependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/node": "^7.12.6",
-    "apollo-server-express": "^2.0.0",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "concurrently": "^5.3.0",
-    "connect-mongo": "^3.2.0",
-    "cookie-parser": "^1.4.5",
+    "express": "^4.18.2",
+    "@supabase/supabase-js": "^2.38.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "graphql": "^15.4.0",
-    "graphql-tools": "^7.0.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.10",
-    "morgan": "^1.10.0",
-    "reflect-metadata": "^0.1.13"
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.12.1",
-    "nodemon": "^2.0.6"
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/pg": "^8.10.9",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "keywords": []
 }
