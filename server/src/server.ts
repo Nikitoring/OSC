@@ -2,8 +2,9 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
+import authRoutes from './routes/auth.ts';
 import catRoutes from './routes/cats.ts';
-
+import userRoutes from './routes/users.ts';
 // Загружаем env в самом начале
 dotenv.config();
 
@@ -14,8 +15,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use('/auth', authRoutes);
 app.use('/cats', catRoutes);
-
+app.use('/users', userRoutes);
 // Health check
 app.get('/health', (req, res) => {
   res.status(200).json({

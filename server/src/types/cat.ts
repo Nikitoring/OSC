@@ -7,4 +7,5 @@ export interface Cat {
 
 export interface CreateCatRequest {
   name: string;
+  coordinates: string;
 }

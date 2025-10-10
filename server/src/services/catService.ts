@@ -1,5 +1,4 @@
-// services/catService.ts
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabase.ts';
 import type { Cat, CreateCatRequest } from '../types/cat';
 
 export class CatService {
