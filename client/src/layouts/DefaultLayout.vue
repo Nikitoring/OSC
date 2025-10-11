@@ -17,7 +17,7 @@
 
         <div
           v-if="$q.screen.gt.sm"
-          class="GL__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap"
+          class="OSC__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap"
         >
           <a href="javascript:void(0)" class="text-white"> Cat maps </a>
           <a href="javascript:void(0)" class="text-white"> Add cat </a>
@@ -27,60 +27,62 @@
         <q-space />
 
         <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
-          <q-btn v-if="user && user.email" dense flat no-wrap>
-            <q-avatar rounded size="20px">
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
+          <q-btn v-if="userInfo && userInfo.email" flat no-wrap>
+            <q-avatar rounded size="40px" color="green-8">
+              {{ userInfo.full_name.charAt(0) }}
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
 
             <q-menu auto-close>
               <q-list dense>
-                <q-item class="GL__menu-link-signed-in">
-                  <q-item-section>
-                    <div>Signed in as <strong>Mary</strong></div>
-                  </q-item-section>
-                </q-item>
-                <q-separator />
-                <q-item clickable class="GL__menu-link-status">
+                <q-item class="OSC__menu-link-signed-in">
                   <q-item-section>
                     <div>
-                      <q-icon name="tag_faces" color="blue-9" size="18px" />
-                      Set your status
+                      Signed in as
+                      <strong>
+                        <pre>{{ userInfo.full_name }}</pre>
+                      </strong>
                     </div>
                   </q-item-section>
                 </q-item>
                 <q-separator />
-                <q-item clickable class="GL__menu-link">
+                <q-item clickable class="OSC__menu-link">
                   <q-item-section>Your profile</q-item-section>
                 </q-item>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>Your repositories</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>Your projects</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
+                <q-item clickable class="OSC__menu-link">
                   <q-item-section>Your stars</q-item-section>
                 </q-item>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>Your gists</q-item-section>
+                <q-item clickable class="OSC__menu-link">
+                  <q-item-section>Your cats</q-item-section>
                 </q-item>
                 <q-separator />
-                <q-item clickable class="GL__menu-link">
+                <q-item clickable class="OSC__menu-link">
                   <q-item-section>Help</q-item-section>
                 </q-item>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>Settings</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
+                <q-item clickable class="OSC__menu-link">
                   <q-item-section>Sign out</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn dense outline no-wrap v-if="!isLoading && (!user || !user.email)">
-            Sign in \ Register
+          <q-btn
+            dense
+            outline
+            no-wrap
+            no-caps
+            v-if="!isLoading && (!userInfo || !userInfo.email)"
+            @click="onSignIn"
+          >
+            Sign in
           </q-btn>
+          <q-btn
+            dense
+            flat
+            no-caps
+            v-if="!isLoading && (!userInfo || !userInfo.email)"
+            @click="onRegister"
+            >Registration</q-btn
+          >
         </div>
       </q-toolbar>
     </q-header>
@@ -89,25 +91,108 @@
       <router-view />
     </q-page-container>
   </q-layout>
+  <ModalWrapper v-model="isShowModal" v-bind="modalState" />
 </template>
 
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores/counter'
+import ModalWrapper from '@/components/base/ModalWrapper.vue'
+import { useAuthStore } from '@/stores/authStore'
 import { fasPaw } from '@quasar/extras/fontawesome-v6'
 import { storeToRefs } from 'pinia'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
+import type { ModalState } from '@/domains/index'
 
-const { initializeAuth } = useAuthStore()
-const { user, isLoading } = storeToRefs(useAuthStore())
+const { initializeAuth, login, register } = useAuthStore()
+const { userInfo, isLoading } = storeToRefs(useAuthStore())
 
 onBeforeMount(() => {
   initializeAuth()
 })
+const isShowModal = ref(false)
+const modalState = ref<ModalState>({
+  header: '',
+  form: [],
+})
+const onSignIn = () => {
+  isShowModal.value = true
+  modalState.value.header = 'Sign in'
+  modalState.value.form = [
+    {
+      component: 'q-input',
+      id: 'email',
+      elementProps: {
+        debounce: '500',
+        label: 'E-mail',
+        rules: ['required'],
+        type: 'email',
+      },
+    },
+    {
+      component: 'q-input',
+      id: 'password',
+      elementProps: {
+        debounce: '500',
+        label: 'Password',
+        rules: ['required'],
+        type: 'password',
+      },
+    },
+  ]
+  modalState.value.approve = {
+    text: 'Confirm',
+    action: (formData) => {
+      login(formData)
+      isShowModal.value = false
+    },
+  }
+}
+const onRegister = () => {
+  isShowModal.value = true
+  modalState.value.header = 'Registration'
+  modalState.value.form = [
+    {
+      component: 'q-input',
+      id: 'fullName',
+      elementProps: {
+        debounce: '500',
+        label: 'Full Name',
+        rules: ['required'],
+      },
+    },
+    {
+      component: 'q-input',
+      id: 'email',
+      elementProps: {
+        debounce: '500',
+        label: 'E-mail',
+        rules: ['required'],
+        type: 'email',
+      },
+    },
+    {
+      component: 'q-input',
+      id: 'password',
+      elementProps: {
+        debounce: '500',
+        label: 'Password',
+        rules: ['required'],
+        type: 'password',
+      },
+    },
+  ]
+  modalState.value.approve = {
+    text: 'Confirm',
+    action: (formData) => {
+      register(formData)
+      isShowModal.value = false
+    },
+  }
+}
 </script>
 
 <style lang="sass">
-.GL
-  &__select-GL__menu-link
+.OSC
+  &__select-OSC__menu-link
     .default-type
       visibility: hidden
 
