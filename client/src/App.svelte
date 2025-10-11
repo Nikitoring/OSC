@@ -9,7 +9,3 @@
 </svelte:head>
 <Header></Header>
 <Router {routes} />
-
-<style lang="scss" global>
-  @import './styles/global.scss';
-</style>

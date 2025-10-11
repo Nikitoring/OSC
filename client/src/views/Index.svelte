@@ -21,7 +21,6 @@
 </div>
 
 <style lang="scss">
-  @import '../styles/theme.scss';
   @import '../styles/animations/cat.scss';
   @import '../styles/animations/earth.scss';
 
@@ -32,7 +31,6 @@
     justify-content: center;
     gap: 1.5rem;
     padding: 1.5rem;
-    background: $light;
     min-height: 100vh;
     min-height: 100dvh; /* Для мобильных браузеров */
     box-sizing: border-box;
@@ -59,8 +57,7 @@
 
   .message {
     font-family: 'Rubik Mono One', monospace;
-    font-size: clamp(1rem, 5vw, $font-size-xl);
-    color: $secondary;
+    font-size: clamp(1rem, 5vw, 2rem);
     text-align: center;
     margin-top: 0.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);

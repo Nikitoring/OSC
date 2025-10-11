@@ -13,6 +13,7 @@ export default ({ mode }) => {
           scss: {
             includePaths: ['src'],
           },
+          postcss: true, // Добавляем поддержку PostCSS
         }),
         compilerOptions: {
           dev: process.env.NODE_ENV !== 'production',
@@ -20,6 +21,16 @@ export default ({ mode }) => {
         hot: true,
       }),
     ],
+
+    // Добавляем конфигурацию CSS
+    css: {
+      postcss: './postcss.config.cjs', // Указываем путь к PostCSS конфигу
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "./src/styles/global.scss";`,
+        },
+      },
+    },
 
     resolve: {
       alias: {
