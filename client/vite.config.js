@@ -5,7 +5,7 @@ import path from 'path';
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-  console.log('process.env', process.env);
+
   return defineConfig({
     plugins: [
       svelte({
@@ -13,25 +13,13 @@ export default ({ mode }) => {
           scss: {
             includePaths: ['src'],
           },
-          postcss: true, // Добавляем поддержку PostCSS
         }),
         compilerOptions: {
           dev: process.env.NODE_ENV !== 'production',
         },
-        hot: true,
+        hmr: true,
       }),
     ],
-
-    // Добавляем конфигурацию CSS
-    css: {
-      postcss: './postcss.config.cjs', // Указываем путь к PostCSS конфигу
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@import "./src/styles/global.scss";`,
-        },
-      },
-    },
-
     resolve: {
       alias: {
         '@lib': path.resolve(__dirname, '/src/lib'),

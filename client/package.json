@@ -1,6 +1,7 @@
 {
   "name": "open-street-cats",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -28,6 +29,7 @@
   "dependencies": {
     "@apollo/client": "^3.1.0-pre.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
+    "@popperjs/core": "^2.11.8",
     "@supabase/supabase-js": "^2.75.0",
     "@tailwindcss/postcss": "^4.1.14",
     "apollo-boost": "^0.4.9",
@@ -47,6 +49,7 @@
     "svelte-apollo": "^0.4.0",
     "svelte-persistent-store": "^0.1.4",
     "svelte-router-spa": "^7.0.1",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.14"
   }
 }

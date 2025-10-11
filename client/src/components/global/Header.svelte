@@ -27,18 +27,10 @@
     {:else if !$user}
       <div class="flex">
         <Button
-          color="primary"
+          color="green"
           onclick={() => {
             showRegisterModal('signIn');
           }}>Sign in</Button
-        >
-        <a
-          href="#"
-          onclick={() => {
-            showRegisterModal('register');
-          }}
-        >
-          Register</a
         >
       </div>
     {:else if user}

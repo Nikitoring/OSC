@@ -2,9 +2,15 @@
   import { navigateTo } from 'svelte-router-spa';
   import Cat from '../components/Cat.svelte';
   import Earth from '../components/Earth.svelte';
+  import { Alert } from 'flowbite-svelte';
 </script>
 
 <div class="container">
+  <Alert>
+    UUULLL
+    <span class="font-medium">Default alert!</span>
+    Change a few things up and try submitting again.
+  </Alert>
   <div class="illustration">
     <Cat />
   </div>
