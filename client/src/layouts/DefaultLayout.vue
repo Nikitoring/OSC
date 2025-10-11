@@ -1,6 +1,6 @@
 <template>
-  <q-layout class="bg-blue-grey-2">
-    <q-header elevated class="text-white" style="background: #572660" height-hint="61.59">
+  <q-layout class="bg-grey-3">
+    <q-header elevated style="background: #ff9a8b" height-hint="61.59">
       <q-toolbar class="q-py-sm q-px-md">
         <q-btn
           round
@@ -9,7 +9,7 @@
           :ripple="false"
           :icon="fasPaw"
           size="19px"
-          color="white"
+          color="dark"
           class="q-mr-sm"
           no-caps
         >
@@ -88,7 +88,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <main class="q-page q-layout-padding flex flex-center"><router-view /></main>
     </q-page-container>
   </q-layout>
   <ModalWrapper v-model="isShowModal" v-bind="modalState" />
