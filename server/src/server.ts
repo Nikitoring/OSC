@@ -1,41 +1,55 @@
-// src/server.ts
-import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth.ts';
-import catRoutes from './routes/cats.ts';
-import userRoutes from './routes/users.ts';
-// Загружаем env в самом начале
+import helmet from 'helmet';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+
+import { authController } from './controllers/auth.controller.ts';
+import { catsController } from './controllers/cats.controller.ts';
+import { usersController } from './controllers/users.controller.ts';
+
 dotenv.config();
 
 const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Routes
-app.use('/auth', authRoutes);
-app.use('/cats', catRoutes);
-app.use('/users', userRoutes);
-// Health check
-app.get('/health', (req, res) => {
-  res.status(200).json({
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    database: 'Supabase',
-  });
-});
-
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
-
 const PORT = process.env.PORT || 3000;
 
+// Middleware
+app.use(helmet());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true,
+  })
+);
+app.use(morgan('combined'));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/api/auth', authController);
+app.use('/api/cats', catsController);
+app.use('/api/users', usersController);
+
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Error handling
+app.use(
+  (
+    err: any,
+    _req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction
+  ) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Что-то пошло не так!' });
+  }
+);
+
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Environment: ${process.env.NODE_ENV}`);
-  console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+  console.log(`🚀 Сервер запущен на порту ${PORT}`);
+  console.log(`📱 Frontend: ${process.env.FRONTEND_URL}`);
+  console.log(`🗄️ Supabase: ${process.env.SUPABASE_URL}`);
 });
