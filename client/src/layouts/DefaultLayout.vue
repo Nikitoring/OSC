@@ -70,17 +70,12 @@
             outline
             no-wrap
             no-caps
-            v-if="!isLoading && (!userInfo || !userInfo.email)"
+            v-if="!userInfo || !userInfo.email"
             @click="onSignIn"
           >
             Sign in
           </q-btn>
-          <q-btn
-            dense
-            flat
-            no-caps
-            v-if="!isLoading && (!userInfo || !userInfo.email)"
-            @click="onRegister"
+          <q-btn dense flat no-caps v-if="!userInfo || !userInfo.email" @click="onRegister"
             >Registration</q-btn
           >
         </div>
@@ -96,18 +91,14 @@
 
 <script lang="ts" setup>
 import ModalWrapper from '@/components/base/ModalWrapper.vue'
-import { useAuthStore } from '@/stores/authStore'
 import { fasPaw } from '@quasar/extras/fontawesome-v6'
 import { storeToRefs } from 'pinia'
-import { onBeforeMount, ref } from 'vue'
 import type { ModalState } from '@/domains/index'
+import { useUserStore } from '@/stores/useUserStore'
+import { ref } from 'vue'
 
-const { initializeAuth, login, register } = useAuthStore()
-const { userInfo, isLoading } = storeToRefs(useAuthStore())
-
-onBeforeMount(() => {
-  initializeAuth()
-})
+const { userInfo } = storeToRefs(useUserStore())
+const { login, register } = useUserStore()
 const isShowModal = ref(false)
 const modalState = ref<ModalState>({
   header: '',
@@ -152,10 +143,10 @@ const onRegister = () => {
   modalState.value.form = [
     {
       component: 'q-input',
-      id: 'fullName',
+      id: 'username',
       elementProps: {
         debounce: '500',
-        label: 'Full Name',
+        label: 'Username',
         rules: ['required'],
       },
     },
