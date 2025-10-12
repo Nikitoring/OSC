@@ -51,6 +51,38 @@ export class SupabaseService {
     if (error) throw error;
     return data;
   }
+  // Получение профиля пользователя
+  async getUserProfile(userId: string) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(
+        `
+        *,
+        cats:cats(count),
+        cat_sightings(count)
+      `
+      )
+      .eq('id', userId)
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
+
+  // Обновление сессии (тихая авторизация)
+  async refreshSession(refreshToken: string) {
+    const { data, error } = await supabase.auth.refreshSession({
+      refresh_token: refreshToken,
+    });
+
+    if (error) throw error;
+    return data;
+  }
+
+  async signOut(accessToken: string) {
+    const { error } = await supabase.auth.admin.signOut(accessToken);
+    if (error) throw error;
+  }
 
   // Валидация JWT токена
   async validateToken(token: string) {

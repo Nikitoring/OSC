@@ -2,43 +2,27 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useApi } from '@/composables/useApi'
 import { useQuasar } from 'quasar'
-
-const $q = useQuasar()
+import { useAuth } from '@/composables/useAuth'
 
 export const useUserStore = defineStore('userStore', () => {
-  const { auth } = useApi()
+  const $q = useQuasar()
+  const { login: authLogin, authState, register: authRegister } = useAuth()
 
-  const user = ref(null)
+  const user = computed(() => authState.value.user)
+  const isAuthenticated = computed(() => authState.value.isAuthenticated)
+  const isLoading = computed(() => authState.value.isLoading)
   const access_token = ref(null)
+  const userInfo = computed(() => user.value?.user_metadata)
+
   const register = async (payload: { email: string; password: string; username: string }) => {
     if (!payload.email || !payload.password || !payload.username) return
 
-    const { message, user: responseUser, error } = await auth.register(payload)
-    if (message) {
-      $q.notify({
-        type: 'positive',
-        message: message,
-      })
-    }
-    user.value = responseUser
-    if (error) throw new Error(error)
+    await authRegister(payload)
   }
 
   const login = async (payload: { email: string; password: string }) => {
     if (!payload.email || !payload.password) return
-    const { message, access_token, user: responseUser, error } = await auth.login(payload)
-    if (message) {
-      $q.notify({
-        type: 'positive',
-        message: message,
-      })
-    }
-    if (access_token) {
-      $q.localStorage.set('auth_token', access_token)
-    }
-    user.value = responseUser
-
-    if (error) throw new Error(error)
+    await authLogin(payload)
   }
 
   // const logout = async () => {
@@ -59,15 +43,13 @@ export const useUserStore = defineStore('userStore', () => {
   //   if (authError) throw new Error(authError.message)
   // }
 
-  const userInfo = computed(() => {
-    return user.value && user.value.email ? user.value.user_metadata : {}
-  })
-
   return {
     user,
     userInfo,
+    isLoading,
     register,
     login,
+    isAuthenticated,
     // logout,
     // resetPassword,
     // updateProfile,

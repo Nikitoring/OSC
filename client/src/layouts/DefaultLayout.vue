@@ -27,7 +27,9 @@
         <q-space />
 
         <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
-          <q-btn v-if="userInfo && userInfo.email" flat no-wrap>
+          userInfo
+          <pre>{{ userInfo }}</pre>
+          <q-btn v-if="!isLoading && userInfo && userInfo.email" flat no-wrap>
             <q-avatar rounded size="40px" color="green-8">
               {{ userInfo.full_name.charAt(0) }}
             </q-avatar>
@@ -70,12 +72,17 @@
             outline
             no-wrap
             no-caps
-            v-if="!userInfo || !userInfo.email"
+            v-if="!isLoading && (!userInfo || !userInfo.email)"
             @click="onSignIn"
           >
             Sign in
           </q-btn>
-          <q-btn dense flat no-caps v-if="!userInfo || !userInfo.email" @click="onRegister"
+          <q-btn
+            dense
+            flat
+            no-caps
+            v-if="!isLoading && (!userInfo || !userInfo.email)"
+            @click="onRegister"
             >Registration</q-btn
           >
         </div>
@@ -95,10 +102,13 @@ import { fasPaw } from '@quasar/extras/fontawesome-v6'
 import { storeToRefs } from 'pinia'
 import type { ModalState } from '@/domains/index'
 import { useUserStore } from '@/stores/useUserStore'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+import { useAuth } from '@/composables/useAuth'
+import { User } from '../../../server/src/types/user'
 
-const { userInfo } = storeToRefs(useUserStore())
+const { userInfo, isLoading } = storeToRefs(useUserStore())
 const { login, register } = useUserStore()
+const { initializeAuth, startTokenMonitor, authState } = useAuth()
 const isShowModal = ref(false)
 const modalState = ref<ModalState>({
   header: '',
@@ -114,7 +124,7 @@ const onSignIn = () => {
       elementProps: {
         debounce: '500',
         label: 'E-mail',
-        rules: ['required'],
+        rules: ['required', 'email'],
         type: 'email',
       },
     },
@@ -179,6 +189,18 @@ const onRegister = () => {
     },
   }
 }
+
+onBeforeMount(async () => {
+  const isAuthenticated = await initializeAuth()
+
+  if (isAuthenticated) {
+    // Запускаем мониторинг токена для автоматического обновления
+    startTokenMonitor()
+  } else {
+    // Если не авторизован - показываем окно регистрации
+    onSignIn()
+  }
+})
 </script>
 
 <style lang="sass">

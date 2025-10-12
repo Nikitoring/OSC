@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Quasar, Notify, LocalStorage } from 'quasar'
+
 import App from './App.vue'
 import router from './router'
 

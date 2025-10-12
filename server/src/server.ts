@@ -49,7 +49,7 @@ app.use(
 );
 
 app.listen(PORT, () => {
-  console.log(`🚀 Сервер запущен на порту ${PORT}`);
-  console.log(`📱 Frontend: ${process.env.FRONTEND_URL}`);
-  console.log(`🗄️ Supabase: ${process.env.SUPABASE_URL}`);
+  console.info(`🚀 Сервер запущен на порту ${PORT}`);
+  console.info(`📱 Frontend: ${process.env.FRONTEND_URL}`);
+  console.info(`🗄️ Supabase: ${process.env.SUPABASE_URL}`);
 });

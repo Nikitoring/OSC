@@ -6,10 +6,12 @@ export function useApi() {
   const { api } = config()
   const $q = useQuasar()
   const loading = ref(false)
-
-  const request = async (endpoint: string, options: RequestInit = {}) => {
+  const request = async (
+    endpoint: string,
+    options: RequestInit = {},
+    config: { silent?: boolean } = {},
+  ) => {
     loading.value = true
-
     try {
       const token = $q.localStorage.getItem('auth_token')
       const headers = {
@@ -22,39 +24,69 @@ export function useApi() {
         ...options,
         headers,
       })
+      // Если получили 401 и это не запрос на обновление токена - пробуем refresh
+      if (
+        response.status === 401 &&
+        !endpoint.includes('/auth/silent-refresh') &&
+        !endpoint.includes('/auth/logout') &&
+        options.retry !== false
+      ) {
+        const refreshToken = $q.localStorage.getItem('refresh_token') as string
+        if (refreshToken) {
+          const responseRefresh = await request(
+            '/api/auth/silent-refresh',
+            {
+              method: 'POST',
+              body: JSON.stringify({ refresh_token: refreshToken }),
+            },
+            { silent: true },
+          )
 
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Ошибка сервера')
+          if (responseRefresh.success) {
+            $q.localStorage.set('auth_token', responseRefresh.access_token)
+            $q.localStorage.set('refresh_token', responseRefresh.refresh_token)
+            // Сохраняем время истечения токена (примерно 1 час)
+            const expiresAt = Date.now() + 60 * 60 * 1000 // 1 час
+            $q.localStorage.set('token_expires_at', expiresAt)
+
+            // Сохраняем базовые данные пользователя
+            $q.localStorage.set('user_data', JSON.stringify(responseRefresh.user))
+            // Повторяем оригинальный запрос с новым токеном
+            const newToken = $q.localStorage.getItem('auth_token') as string
+            headers.Authorization = `Bearer ${newToken}`
+
+            const retryResponse = await fetch(`${api}${endpoint}`, {
+              ...options,
+              headers,
+            })
+
+            if (!retryResponse.ok) {
+              throw new Error(`HTTP error! status: ${retryResponse.status}`)
+            }
+
+            const result = await retryResponse.json()
+            loading.value = false
+            return result
+          }
+
+          if (!responseRefresh.ok) {
+            const error = await response.json()
+            throw new Error(error.error || 'Ошибка сервера')
+          }
+        }
       }
-
-      return await response.json()
+      return { response: response, data: await response.json() }
     } catch (error: any) {
-      $q.notify({
-        type: 'negative',
-        message: error.message || 'Произошла ошибка',
-      })
-      throw error
+      if (!config.silent) {
+        $q.notify({
+          type: 'negative',
+          message: error.message || 'Произошла ошибка',
+        })
+      }
+      return { error }
     } finally {
       loading.value = false
     }
-  }
-
-  // Auth methods
-  const auth = {
-    login: (payload: { email: string; password: string }) =>
-      request('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      }),
-
-    register: (payload: { email: string; password: string; username: string }) =>
-      request('/auth/register', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      }),
-
-    getProfile: () => request('/auth/profile'),
   }
 
   // Cats methods
@@ -85,7 +117,7 @@ export function useApi() {
 
   return {
     loading,
-    auth,
     cats,
+    request,
   }
 }

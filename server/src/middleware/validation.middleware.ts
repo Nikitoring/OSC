@@ -14,7 +14,6 @@ export const validationMiddleware = (schema) => {
         params: req.params,
         query: req.query,
       };
-
       const validated = schema.parse(dataToValidate);
 
       // Сохраняем валидированные данные в request
@@ -22,7 +21,6 @@ export const validationMiddleware = (schema) => {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        console.log('error', error);
         const validationErrors = error.issues.map((err) => ({
           field: err.path.join('.'),
           message: err.message,

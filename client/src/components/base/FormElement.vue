@@ -35,10 +35,14 @@ const isPwd = ref(true)
 const globalRules = {
   required: (val) => !!val || 'Field is required',
   maxVal: (val, maxCount) => val.length <= maxCount || `Please use maximum ${maxCount} characters`,
+  email: (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(String(email).toLowerCase())
+  },
 }
 const rules = ref([])
 if (props.elementProps?.rules) {
-  console.log(props.elementProps.rules)
   rules.value = props.elementProps.rules.reduce((rules, rule) => {
     if (Object.prototype.hasOwnProperty.call(globalRules, rule)) {
       rules.push(globalRules[rule])
