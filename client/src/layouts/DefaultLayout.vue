@@ -1,98 +1,35 @@
 <template>
-  <q-layout class="bg-grey-3">
-    <q-header elevated style="background: #ff9a8b" height-hint="61.59">
-      <q-toolbar class="q-py-sm q-px-md">
-        <q-btn
-          round
-          dense
-          flat
-          :ripple="false"
-          :icon="fasPaw"
-          size="19px"
-          color="dark"
-          class="q-mr-sm"
-          no-caps
-        >
-        </q-btn>
-
-        <div
-          v-if="$q.screen.gt.sm"
-          class="OSC__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap"
-        >
-          <a href="javascript:void(0)" class="text-white"> Cat maps </a>
-          <a href="javascript:void(0)" class="text-white"> Add cat </a>
-          <a href="javascript:void(0)" class="text-white"> About </a>
-        </div>
-
-        <q-space />
-
-        <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
-          userInfo
-          <pre>{{ userInfo }}</pre>
-          <q-btn v-if="!isLoading && userInfo && userInfo.email" flat no-wrap>
-            <q-avatar rounded size="40px" color="green-8">
-              {{ userInfo.full_name.charAt(0) }}
-            </q-avatar>
-            <q-icon name="arrow_drop_down" size="16px" />
-
-            <q-menu auto-close>
-              <q-list dense>
-                <q-item class="OSC__menu-link-signed-in">
-                  <q-item-section>
-                    <div>
-                      Signed in as
-                      <strong>
-                        <pre>{{ userInfo.full_name }}</pre>
-                      </strong>
-                    </div>
-                  </q-item-section>
-                </q-item>
-                <q-separator />
-                <q-item clickable class="OSC__menu-link">
-                  <q-item-section>Your profile</q-item-section>
-                </q-item>
-                <q-item clickable class="OSC__menu-link">
-                  <q-item-section>Your stars</q-item-section>
-                </q-item>
-                <q-item clickable class="OSC__menu-link">
-                  <q-item-section>Your cats</q-item-section>
-                </q-item>
-                <q-separator />
-                <q-item clickable class="OSC__menu-link">
-                  <q-item-section>Help</q-item-section>
-                </q-item>
-                <q-item clickable class="OSC__menu-link">
-                  <q-item-section>Sign out</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
+  <q-layout view="lHh Lpr lFf" style="background-color: #fff8ee">
+    <q-header elevated>
+      <q-toolbar>
+        <q-toolbar-title>
+          <q-btn round dense flat :ripple="false" :icon="fasPaw" size="19px" color="white" no-caps>
           </q-btn>
-          <q-btn
-            dense
-            outline
-            no-wrap
-            no-caps
-            v-if="!isLoading && (!userInfo || !userInfo.email)"
-            @click="onSignIn"
-          >
-            Sign in
-          </q-btn>
-          <q-btn
-            dense
-            flat
-            no-caps
-            v-if="!isLoading && (!userInfo || !userInfo.email)"
-            @click="onRegister"
-            >Registration</q-btn
-          >
-        </div>
+          OpenStreetCats
+        </q-toolbar-title>
+        <q-btn flat round dense icon="person" to="/profile" />
       </q-toolbar>
     </q-header>
 
+    <q-footer>
+      <q-tabs>
+        <q-route-tab to="/" icon="map" />
+        <q-route-tab to="/list" icon="list" />
+        <q-route-tab to="/add" icon="add" />
+        <q-route-tab to="/profile">
+          <q-avatar v-if="!isLoading && userInfo && userInfo.email" rounded color="green-8">
+            {{ userInfo.full_name.charAt(0) }}
+          </q-avatar>
+          <q-icon v-else name="person"></q-icon>
+        </q-route-tab>
+      </q-tabs>
+    </q-footer>
+
     <q-page-container>
-      <main class="q-page q-layout-padding flex flex-center"><router-view /></main>
+      <router-view />
     </q-page-container>
   </q-layout>
+
   <ModalWrapper v-model="isShowModal" v-bind="modalState" />
 </template>
 
