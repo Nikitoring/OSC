@@ -71,18 +71,12 @@ export function useAuth() {
         { silent: true },
       )
 
-      if (response.ok) {
+      if (response && response.ok) {
         await setAuthData(data.access_token, data.refresh_token, data.expires_at, data.user)
 
         authState.value.user = data.user
         authState.value.isAuthenticated = true
         authState.value.isLoading = false
-
-        $q.notify({
-          type: 'positive',
-          message: 'Сессия обновлена',
-          timeout: 2000,
-        })
         return true
       }
     } catch (error) {
@@ -150,7 +144,7 @@ export function useAuth() {
         method: 'POST',
         body: JSON.stringify(payload),
       })
-      if (response.ok) {
+      if (response && response.ok) {
         await setAuthData(data.access_token, data.refresh_token, data.expires_at, data.user)
 
         authState.value.user = data.user
@@ -166,8 +160,9 @@ export function useAuth() {
       }
     } catch (error) {
       console.error('Login error:', error)
-      throw error
+      return false
     }
+    return false
   }
 
   const register = async (payload: { email: string; password: string; username: string }) => {
@@ -176,7 +171,7 @@ export function useAuth() {
         method: 'POST',
         body: JSON.stringify(payload),
       })
-      if (response.ok) {
+      if (response && response.ok) {
         $q.notify({
           type: 'positive',
           message: 'Регистрация успешна! Теперь вы можете войти.',
@@ -186,7 +181,7 @@ export function useAuth() {
       }
     } catch (error) {
       console.error('Register error:', error)
-      throw error
+      return false
     }
 
     return false

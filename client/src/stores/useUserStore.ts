@@ -21,8 +21,8 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   const login = async (payload: { email: string; password: string }) => {
-    if (!payload.email || !payload.password) return
-    await authLogin(payload)
+    if (!payload.email || !payload.password) return false
+    return await authLogin(payload)
   }
 
   // const logout = async () => {
