@@ -5,22 +5,22 @@
     v-bind="props.elementProps"
     v-model="modelValue"
     :rules="rules"
-    style="max-width: 300px"
   >
   </Component>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { QInput, QSelect, QDate } from 'quasar'
-import type { FormElement } from '@/domains/index'
+import { QInput, QSelect, QDate, QToggle } from 'quasar'
+import type { IFormElement } from '@/domains/index'
 
 const componentsMap: Record<string, any> = {
   'q-input': QInput,
   'q-select': QSelect,
   'q-date': QDate,
+  'q-toggle': QToggle,
 }
-const props = withDefaults(defineProps<FormElement>(), {
+const props = withDefaults(defineProps<IFormElement>(), {
   component: 'q-input',
   id: 'form-element-input',
 })
@@ -29,8 +29,9 @@ const emit = defineEmits<{
 }>()
 
 const modelValue = ref(null)
-
-const isPwd = ref(true)
+if (props.elementProps && Object.prototype.hasOwnProperty.call(props.elementProps, 'value')) {
+  modelValue.value = props.elementProps?.value
+}
 
 const globalRules = {
   required: (val) => !!val || 'Field is required',

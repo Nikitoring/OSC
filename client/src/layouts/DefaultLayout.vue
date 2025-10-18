@@ -20,7 +20,7 @@
       <q-tabs>
         <q-route-tab to="/" icon="map" />
         <q-route-tab to="/list" icon="list" />
-        <q-route-tab to="/add" icon="add" />
+        <q-route-tab to="/add-cat" icon="add" />
         <q-route-tab to="/profile" icon="person"> </q-route-tab>
       </q-tabs>
     </q-footer>

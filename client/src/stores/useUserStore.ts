@@ -1,6 +1,5 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useApi } from '@/composables/useApi'
 import { useQuasar } from 'quasar'
 import { useAuth } from '@/composables/useAuth'
 

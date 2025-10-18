@@ -93,26 +93,29 @@ export function useApi() {
   const cats = {
     getAll: (params?: any) => {
       const query = new URLSearchParams(params).toString()
-      return request(`/cats?${query}`)
+      return request(`/api/cats?${query}`)
     },
 
-    getById: (id: string) => request(`/cats/${id}`),
+    getById: (id: string) => request(`/api/cats/${id}`),
 
-    create: (catData: FormData) =>
-      request('/cats', {
+    create: (catData: FormData) => {
+      request('/api/cats', {
         method: 'POST',
         body: catData,
-        headers: {}, // FormData сам установит Content-Type
-      }),
+        headers: {
+          'Content-Type': 'application/json',
+        }, // FormData сам установит Content-Type
+      })
+    },
 
     update: (id: string, catData: FormData) =>
-      request(`/cats/${id}`, {
+      request(`/api/cats/${id}`, {
         method: 'PUT',
         body: catData,
         headers: {},
       }),
 
-    delete: (id: string) => request(`/cats/${id}`, { method: 'DELETE' }),
+    delete: (id: string) => request(`/api/cats/${id}`, { method: 'DELETE' }),
   }
 
   return {

@@ -1,4 +1,4 @@
-export interface FormElement {
+export interface IFormElement {
   component: string
   id: string
   elementProps?: {
@@ -10,7 +10,26 @@ export interface FormElement {
     type?: string
     hint?: string
     rules?: string[]
+    rows?: string
+    filled?: boolean
+    value: boolean | string | number | null
+    options: string[] | { value: number | string; label: string }[]
   }
+}
+
+export interface ICat {
+  id: number
+  name: string
+  description: string
+  location: {
+    latitude: number | null
+    longitude: number | null
+  }
+  health_status: string
+  is_sterilized: boolean
+  is_friendly: boolean
+  characteristics: string
+  created_by: number
 }
 
 export interface ApproveAction {

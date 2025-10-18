@@ -158,16 +158,24 @@ export function useAuth() {
 
         return true
       }
+      let message = data.error
+      if (data.details) {
+        message = data.details.message ? data.details.message : message
+      }
+      $q.notify({
+        type: 'negative',
+        message,
+      })
+      return false
     } catch (error) {
       console.error('Login error:', error)
       return false
     }
-    return false
   }
 
   const register = async (payload: { email: string; password: string; username: string }) => {
     try {
-      const { response } = await request('/api/auth/register', {
+      const { response, data } = await request('/api/auth/register', {
         method: 'POST',
         body: JSON.stringify(payload),
       })
@@ -179,12 +187,19 @@ export function useAuth() {
         })
         return true
       }
+      let message = data.error
+      if (data.details) {
+        message = data.details.message ? data.details.message : message
+      }
+      $q.notify({
+        type: 'negative',
+        message,
+      })
+      return false
     } catch (error) {
       console.error('Register error:', error)
       return false
     }
-
-    return false
   }
 
   const logout = async (): Promise<void> => {
