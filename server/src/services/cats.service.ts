@@ -14,8 +14,8 @@ export class CatsService {
     filters?: any;
   }) {
     let query = supabase
-      .from('cats')
-      .select()
+      .from('cats_with_coordinates')
+      .select('*')
       .range((params.page - 1) * params.limit, params.page * params.limit - 1);
 
     // Фильтрация по местоположению
@@ -41,12 +41,10 @@ export class CatsService {
     const { data, error, count } = await query
       .range((params.page - 1) * params.limit, params.page * params.limit - 1)
       .order('created_at', { ascending: false });
-    console.log('data', data);
     if (error) throw new Error(error.message);
     const cats = data.map((cat) => {
       return {
         ...cat,
-        coordinates: parseWKBToCoordinates(cat.location),
       };
     });
     return {
