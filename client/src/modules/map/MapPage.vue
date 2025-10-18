@@ -6,53 +6,48 @@
       v-model:zoom="zoom"
       v-model:center="mapCenter"
       :use-global-leaflet="false"
-      @ready="onMapReady"
-      @click="addCat"
     >
-      <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Lmarker
-        v-for="(marker, index) in markers"
-        :key="index"
-        :lat-lng="marker.location || []"
-        :ref="
-          (el) => {
-            if (el) markertsRef[index] = el
-          }
-        "
+      <LTileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        layer-type="base"
+        name="OpenStreetMap"
+      />
+      <LMarker
+        v-for="marker in markers"
+        :key="marker.id"
+        :lat-lng="marker?.location"
+        :icon="customIcon"
       >
-        <LIcon :icon-size="iconSize">
-          <q-icon name="fa-shield-cat"></q-icon>
-        </LIcon>
-        <Lpopup ref="popup"> CatInfo </Lpopup>
-      </Lmarker>
+        <LPopup>
+          <CatPopup :cat="marker" />
+        </LPopup>
+      </LMarker>
     </LMap>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useApi } from '@/composables/useApi'
 import type { ICat } from '@/domains'
-import {
-  LMap,
-  LIcon,
-  LTileLayer,
-  LMarker,
-  LControlLayers,
-  LTooltip,
-  LPopup,
-  LPolyline,
-  LPolygon,
-  LRectangle,
-} from '@vue-leaflet/vue-leaflet'
+import { useCatsStore } from '@/stores/useCatsStore'
+import { LMap, LTileLayer, LMarker, LPopup } from '@vue-leaflet/vue-leaflet'
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { ref } from 'vue'
-const { cats } = useApi()
+import { storeToRefs } from 'pinia'
+import { onBeforeMount, ref } from 'vue'
+import CatPopup from './components/CatPopup.vue'
+
+const { cats } = storeToRefs(useCatsStore())
+const { getAllCats } = useCatsStore()
 // Основные элементы карты
 const mapRef = ref(null)
 const mapCenter = ref<string | number[]>([37.61556, 55.75222])
 const zoom = ref(13)
-// const staticAnchor = [16, 37]
-const iconSize = 64
+const customIcon = L.icon({
+  iconUrl: '/mapPin.png',
+  iconSize: [48, 64],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+})
 // -----
 const markertsRef = ref([])
 const markers = ref<ICat[]>([])
@@ -77,20 +72,30 @@ if (navigator?.geolocation) {
 } else {
   console.error('Geolocation is not supported by this browser.')
 }
+onBeforeMount(async () => {
+  await getAllCats()
+  if (cats.value) {
+    markers.value = cats.value.map((cat) => ({
+      ...cat,
+      location:
+        Object.prototype.hasOwnProperty.call(cat, 'lat') &&
+        Object.prototype.hasOwnProperty.call(cat, 'long')
+          ? [Number(cat.lat), Number(cat.long)]
+          : [],
+    }))
+  }
+  console.log(markers.value)
+})
 
-const onMapReady = async (leafletMap: any) => {
-  const { data, error } = await cats.getAll()
-  console.log(`output->`, data, error)
-}
-const addCat = (event) => {
-  const { lat, lng } = event.latlng
-  markers.value.push({ location: [lat, lng] })
-  setTimeout(() => {
-    console.log('markertsRef.value', markertsRef.value)
-    // if (markertsRef.value && markertsRef.value[markertsRef.value.length - 1])
-    //   markertsRef.value[markertsRef.value.length - 1].leafletObject.openPopup()
-  }, 100)
-}
+// const addCat = (event) => {
+//   const { lat, lng } = event.latlng
+//   markers.value.push({ location: [lat, lng] })
+//   setTimeout(() => {
+//     console.log('markertsRef.value', markertsRef.value)
+//     // if (markertsRef.value && markertsRef.value[markertsRef.value.length - 1])
+//     //   markertsRef.value[markertsRef.value.length - 1].leafletObject.openPopup()
+//   }, 100)
+// }
 </script>
 
 <style lang="scss">
@@ -120,8 +125,8 @@ const addCat = (event) => {
   border-top: none;
 }
 
-/* Убираем цветные элементы */
+/* Убираем цветные элементы
 .leaflet-marker-icon:not(.monochrome-marker) {
   filter: grayscale(100%) brightness(80%);
-}
+}*/
 </style>
