@@ -1,4 +1,5 @@
 import { supabase } from '../auth/supabase.client.ts';
+import { parseWKBToCoordinates } from '../utils/parseGeo.ts';
 // import { RatingService } from './rating.service'
 // import { UploadService } from './upload.service'
 
@@ -12,15 +13,10 @@ export class CatsService {
     bounds?: any;
     filters?: any;
   }) {
-    let query = supabase.from('cats').select(
-      `
-        *,
-        profiles:created_by(username, avatar_url),
-        cat_photos(*),
-        cat_sightings(count)
-      `,
-      { count: 'exact' }
-    );
+    let query = supabase
+      .from('cats')
+      .select()
+      .range((params.page - 1) * params.limit, params.page * params.limit - 1);
 
     // Фильтрация по местоположению
     if (params.bounds) {
@@ -45,11 +41,16 @@ export class CatsService {
     const { data, error, count } = await query
       .range((params.page - 1) * params.limit, params.page * params.limit - 1)
       .order('created_at', { ascending: false });
-
+    console.log('data', data);
     if (error) throw new Error(error.message);
-
+    const cats = data.map((cat) => {
+      return {
+        ...cat,
+        coordinates: parseWKBToCoordinates(cat.location),
+      };
+    });
     return {
-      cats: data,
+      cats,
       pagination: {
         page: params.page,
         limit: params.limit,
@@ -58,10 +59,10 @@ export class CatsService {
     };
   }
 
-  async createCat(catData: any, photos: Express.Multer.File[]) {
+  async createCat(catData: any, photos?: Express.Multer.File[]) {
     // Загрузка фото
     // const photoUrls = await this.uploadService.uploadPhotos(photos)
-
+    console.log(`catData->`, catData);
     // Создание кота
     const { data: cat, error } = await supabase
       .from('cats')
@@ -74,7 +75,10 @@ export class CatsService {
       .select()
       .single();
 
-    if (error) throw new Error(error.message);
+    if (error) {
+      console.error(error.message);
+      return { error, data: cat };
+    }
 
     // Добавление фото
     // if (photoUrls.length > 0) {
@@ -138,19 +142,15 @@ export class CatsService {
   async getCatById(catId: string) {
     const { data, error } = await supabase
       .from('cats')
-      .select(
-        `
-        *,
-        profiles:created_by(username, avatar_url, rating, level),
-        cat_photos(*),
-        cat_sightings(count)
-      `
-      )
+      .select()
       .eq('id', catId)
       .single();
 
-    if (error) throw new Error(error.message);
-    return data;
+    if (error) {
+      console.error('GetCatById: ', error.message);
+      return { data, error };
+    }
+    return { data, error };
   }
 
   async deleteCat(catId: string, userId: string) {

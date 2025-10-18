@@ -50,8 +50,7 @@ export class UsersService {
       .select(
         `
         *,
-        cats:cats(count),
-        cat_sightings(count)
+        cats:cats(count)
       `
       )
       .eq('id', userId)
@@ -94,14 +93,7 @@ export class UsersService {
   async getUserCats(userId: string, page: number = 1, limit: number = 20) {
     const { data, error, count } = await supabase
       .from('cats')
-      .select(
-        `
-        *,
-        cat_photos(*),
-        cat_sightings(count)
-      `,
-        { count: 'exact' }
-      )
+      .select()
       .eq('created_by', userId)
       .order('created_at', { ascending: false })
       .range((page - 1) * limit, page * limit - 1);

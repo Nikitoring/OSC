@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { authMiddleware, type AuthRequest } from '../auth/auth.middleware.ts';
 import { CatsService } from '../services/cats.service.ts';
 // import { uploadMiddleware } from '../middleware/upload.middleware';
-import { validationMiddleware } from '../middleware/validation.middleware.ts';
+import { validateBody } from '../middleware/validation.middleware.ts';
 import { z } from 'zod';
 
 const router = Router();
@@ -12,14 +12,16 @@ const catsService = new CatsService();
 const createCatSchema = z.object({
   name: z.string().min(1, 'Имя обязательно'),
   description: z.string().optional(),
-  location: z.object({
-    latitude: z.number(),
-    longitude: z.number(),
-  }),
+  location: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   health_status: z.enum(['healthy', 'needs_help', 'sick']),
-  is_sterilized: z.boolean(),
+  is_sterilized: z.boolean().optional(),
   is_friendly: z.boolean().optional(),
-  characteristics: z.array(z.string()).default([]),
+  characteristics: z.string().optional(),
 });
 
 // Получить всех котов (с пагинацией и фильтрами)
@@ -60,20 +62,22 @@ router.post(
   '/',
   authMiddleware,
   // uploadMiddleware.array('photos', 5),
-  validationMiddleware(createCatSchema),
-  async (req: AuthRequest, res) => {
+  validateBody(createCatSchema),
+  async (req, res) => {
     try {
       const catData = req.body;
-      const photos = req.files as Express.Multer.File[];
-
+      // const photos = req.files as Express.Multer.File[];
       const cat = await catsService.createCat(
         {
           ...catData,
           created_by: req.user.id,
-        },
-        photos
+        }
+        // photos
       );
-
+      if (cat.error) {
+        res.status(400).json(cat);
+        return;
+      }
       res.status(201).json(cat);
     } catch (error: any) {
       res.status(400).json({ error: error.message });
@@ -86,7 +90,7 @@ router.put(
   '/:id',
   authMiddleware,
   // uploadMiddleware.array('photos', 5),
-  validationMiddleware(createCatSchema.partial()),
+  validateBody(createCatSchema.partial()),
   async (req: AuthRequest, res) => {
     try {
       const cat = await catsService.updateCat(

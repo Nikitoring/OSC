@@ -25,6 +25,7 @@
     "helmet": "^8.1.0",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "wkb-raster": "^1.1.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
