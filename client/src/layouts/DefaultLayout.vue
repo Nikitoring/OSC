@@ -26,10 +26,7 @@
     </q-footer>
 
     <q-page-container>
-      <q-inner-loading v-if="loading" :showing="loading">
-        <q-spinner-clock color="primary" size="16em" />
-      </q-inner-loading>
-      <main v-else class="q-page q-layout-padding flex justify-center items-start">
+      <main class="q-page q-layout-padding flex justify-center items-start">
         <router-view />
       </main>
     </q-page-container>
@@ -38,16 +35,18 @@
 
 <script lang="ts" setup>
 import { fasPaw } from '@quasar/extras/fontawesome-v6'
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useAuth } from '@/composables/useAuth'
 import { useRouter } from 'vue-router'
+import { useQuasar, QSpinnerClock } from 'quasar'
+import { useApi } from '@/composables/useApi'
 
+const $q = useQuasar()
+const { loading } = useApi()
 const router = useRouter()
 const { initializeAuth, startTokenMonitor, authState } = useAuth()
 
-const loading = ref(false)
 onBeforeMount(async () => {
-  loading.value = true
   const isAuthenticated = await initializeAuth()
   if (isAuthenticated) {
     // Запускаем мониторинг токена для автоматического обновления
@@ -56,7 +55,26 @@ onBeforeMount(async () => {
     // Если не авторизован - показываем окно регистрации
     router.push('/login')
   }
-  loading.value = false
 })
 const userInfo = computed(() => authState.value.user?.user_metadata)
+
+watch(
+  () => loading.value,
+  (state) => {
+    if (state) {
+      $q.loading.show({
+        spinner: QSpinnerClock,
+        spinnerColor: 'secondary',
+        spinnerSize: 140,
+        backgroundColor: '#f7eeef',
+      })
+    } else {
+      $q.loading?.hide()
+    }
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+)
 </script>

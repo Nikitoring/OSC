@@ -6,6 +6,7 @@
       v-model:zoom="zoom"
       v-model:center="mapCenter"
       :use-global-leaflet="false"
+      @click="addCat"
     >
       <LTileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -17,6 +18,11 @@
         :key="marker.id"
         :lat-lng="marker?.location"
         :icon="customIcon"
+        :ref="
+          (el) => {
+            markersRef[marker.id] = el
+          }
+        "
       >
         <LPopup>
           <CatPopup :cat="marker" />
@@ -35,9 +41,11 @@ import 'leaflet/dist/leaflet.css'
 import { storeToRefs } from 'pinia'
 import { onBeforeMount, ref } from 'vue'
 import CatPopup from './components/CatPopup.vue'
+import { useRoute } from 'vue-router'
 
-const { cats } = storeToRefs(useCatsStore())
+const { cats, newCat } = storeToRefs(useCatsStore())
 const { getAllCats } = useCatsStore()
+const route = useRoute()
 // Основные элементы карты
 const mapRef = ref(null)
 const mapCenter = ref<string | number[]>([37.61556, 55.75222])
@@ -49,7 +57,7 @@ const customIcon = L.icon({
   popupAnchor: [0, -32],
 })
 // -----
-const markertsRef = ref([])
+const markersRef = ref({})
 const markers = ref<ICat[]>([])
 
 const successPosition = (position: GeolocationPosition) => {
@@ -84,18 +92,36 @@ onBeforeMount(async () => {
           : [],
     }))
   }
-  console.log(markers.value)
+  if (route.query && route.query.id) {
+    const currentCat = markers.value.find((cat) => cat.id === route.query.id)
+    if (currentCat) {
+      mapCenter.value = currentCat.location
+      setTimeout(() => {
+        markersRef.value[route.query.id].leafletObject.openPopup()
+      }, 500)
+    }
+  }
 })
 
-// const addCat = (event) => {
-//   const { lat, lng } = event.latlng
-//   markers.value.push({ location: [lat, lng] })
-//   setTimeout(() => {
-//     console.log('markertsRef.value', markertsRef.value)
-//     // if (markertsRef.value && markertsRef.value[markertsRef.value.length - 1])
-//     //   markertsRef.value[markertsRef.value.length - 1].leafletObject.openPopup()
-//   }, 100)
-// }
+const addCat = (event) => {
+  const { lat, lng } = event.latlng
+  const indexNewMarker = markers.value.findIndex((marker) => marker.id === 'newCat')
+  const newCatObject = { location: [lat, lng], id: 'newCat' }
+  newCat.value = {
+    location: {
+      latitude: lat,
+      longitude: lng,
+    },
+  }
+  if (indexNewMarker !== -1) {
+    markers.value.splice(indexNewMarker, 1, newCatObject)
+  } else {
+    markers.value.push(newCatObject)
+  }
+  setTimeout(() => {
+    markersRef.value['newCat'].leafletObject.openPopup()
+  }, 100)
+}
 </script>
 
 <style lang="scss">

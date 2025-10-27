@@ -14,15 +14,20 @@ export function useApi() {
     loading.value = true
     try {
       const token = $q.localStorage.getItem('auth_token')
-      const headers = {
-        'Content-Type': 'application/json',
+      const headers: HeadersInit = {
+        ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
         ...options.headers,
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      }
+      let body = options.body
+      if (body && !(body instanceof FormData) && typeof body === 'object') {
+        body = JSON.stringify(body)
       }
 
       const response = await fetch(`${api}${endpoint}`, {
         ...options,
         headers,
+        body,
       })
       // Если получили 401 и это не запрос на обновление токена - пробуем refresh
       if (
@@ -75,6 +80,7 @@ export function useApi() {
           }
         }
       }
+
       return { response: response, data: await response.json() }
     } catch (error: any) {
       if (!config.silent) {
@@ -99,12 +105,9 @@ export function useApi() {
     getById: (id: string) => request(`/api/cats/${id}`),
 
     create: (catData: FormData) => {
-      request('/api/cats', {
+      return request('/api/cats', {
         method: 'POST',
         body: catData,
-        headers: {
-          'Content-Type': 'application/json',
-        }, // FormData сам установит Content-Type
       })
     },
 

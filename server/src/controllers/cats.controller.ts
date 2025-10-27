@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import { authMiddleware, type AuthRequest } from '../auth/auth.middleware.ts';
 import { CatsService } from '../services/cats.service.ts';
-// import { uploadMiddleware } from '../middleware/upload.middleware';
+import { uploadMiddleware } from '../middleware/upload.middleware.ts';
 import { validateBody } from '../middleware/validation.middleware.ts';
 import { z } from 'zod';
 
@@ -13,14 +13,62 @@ const createCatSchema = z.object({
   name: z.string().min(1, 'Имя обязательно'),
   description: z.string().optional(),
   location: z
-    .object({
-      latitude: z.number(),
-      longitude: z.number(),
+    .string()
+    .transform((str, ctx) => {
+      try {
+        console.log('str');
+        const parsed = JSON.parse(str);
+        if (
+          typeof parsed === 'object' &&
+          parsed !== null &&
+          'latitude' in parsed &&
+          'longitude' in parsed
+        ) {
+          return parsed;
+        }
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Location must be an object with latitude and longitude',
+        });
+        return z.NEVER;
+      } catch (error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Location must be a valid JSON string',
+        });
+        return z.NEVER;
+      }
     })
     .optional(),
   health_status: z.enum(['healthy', 'needs_help', 'sick']),
-  is_sterilized: z.boolean().optional(),
-  is_friendly: z.boolean().optional(),
+  is_sterilized: z
+    .string()
+    .transform((srt, ctx) => {
+      const parsed = srt === 'true' ? true : srt === 'false' ? false : null;
+      if (parsed === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'is_sterilized must be a boolean string',
+        });
+        return z.NEVER;
+      }
+      return parsed;
+    })
+    .optional(),
+  is_friendly: z
+    .string()
+    .transform((srt, ctx) => {
+      const parsed = srt === 'true' ? true : srt === 'false' ? false : null;
+      if (parsed === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'is_sterilized must be a boolean string',
+        });
+        return z.NEVER;
+      }
+      return parsed;
+    })
+    .optional(),
   characteristics: z.string().optional(),
 });
 
@@ -61,18 +109,25 @@ router.get('/:id', async (req, res) => {
 router.post(
   '/',
   authMiddleware,
-  // uploadMiddleware.array('photos', 5),
+  uploadMiddleware.array('photos', 5),
   validateBody(createCatSchema),
   async (req, res) => {
     try {
       const catData = req.body;
-      // const photos = req.files as Express.Multer.File[];
+      const photos = req.files as Express.Multer.File[];
+      console.log('controller photos', photos);
+      const userToken = req.headers.authorization?.replace('Bearer ', '');
+
+      if (!userToken) {
+        return res.status(401).json({ error: 'Токен пользователя не найден' });
+      }
       const cat = await catsService.createCat(
         {
           ...catData,
           created_by: req.user.id,
-        }
-        // photos
+        },
+        photos,
+        userToken
       );
       if (cat.error) {
         res.status(400).json(cat);

@@ -1,11 +1,10 @@
 import { supabase } from '../auth/supabase.client.ts';
-import { parseWKBToCoordinates } from '../utils/parseGeo.ts';
 // import { RatingService } from './rating.service'
-// import { UploadService } from './upload.service'
+import { UploadService } from './upload.service.ts';
 
 export class CatsService {
   // private ratingService = new RatingService()
-  // private uploadService = new UploadService()
+  private uploadService = new UploadService();
 
   async getCats(params: {
     page: number;
@@ -15,7 +14,14 @@ export class CatsService {
   }) {
     let query = supabase
       .from('cats_with_coordinates')
-      .select('*')
+      .select(
+        `
+        *,
+        profiles:created_by(username),
+        cats_photos(*)
+        `,
+        { count: 'exact' }
+      )
       .range((params.page - 1) * params.limit, params.page * params.limit - 1);
 
     // Фильтрация по местоположению
@@ -57,10 +63,24 @@ export class CatsService {
     };
   }
 
-  async createCat(catData: any, photos?: Express.Multer.File[]) {
+  async createCat(
+    catData: any,
+    photos?: Express.Multer.File[],
+    userToken: string
+  ) {
     // Загрузка фото
-    // const photoUrls = await this.uploadService.uploadPhotos(photos)
-    console.log(`catData->`, catData);
+    console.log('photos', photos);
+    let photoUrls: string[] = [];
+    if (photos && photos.length) {
+      for (const photo of photos) {
+        const validation = this.uploadService.validateFile(photo);
+        if (!validation.isValid) {
+          throw new Error(validation.error);
+        }
+      }
+
+      photoUrls = await this.uploadService.uploadPhotos(photos, userToken);
+    }
     // Создание кота
     const { data: cat, error } = await supabase
       .from('cats')
@@ -79,15 +99,21 @@ export class CatsService {
     }
 
     // Добавление фото
-    // if (photoUrls.length > 0) {
-    //   await supabase
-    //     .from('cat_photos')
-    //     .insert(photoUrls.map((url, index) => ({
-    //       cat_id: cat.id,
-    //       url,
-    //       is_main: index === 0
-    //     })))
-    // }
+    if (photoUrls.length > 0) {
+      const { error: photosError } = await supabase.from('cat_photos').insert(
+        photoUrls.map((url, index) => ({
+          cat_id: cat.id,
+          url,
+          is_main: index === 0,
+        }))
+      );
+
+      if (photosError) {
+        // Если не удалось добавить фото, удаляем созданного кота и загруженные файлы
+        await this.deleteCat(cat.id, catData.created_by);
+        throw new Error(`Failed to save photos: ${photosError.message}`);
+      }
+    }
 
     // Обновление рейтинга пользователя
     // await this.ratingService.updateUserRating(catData.created_by)
@@ -123,16 +149,16 @@ export class CatsService {
     if (error) throw new Error(error.message);
 
     // Добавление новых фото
-    // if (newPhotos && newPhotos.length > 0) {
-    //   const photoUrls = await this.uploadService.uploadPhotos(newPhotos)
-    //   await supabase
-    //     .from('cat_photos')
-    //     .insert(photoUrls.map(url => ({
-    //       cat_id: catId,
-    //       url,
-    //       is_main: false
-    //     })))
-    // }
+    if (newPhotos && newPhotos.length > 0) {
+      const photoUrls = await this.uploadService.uploadPhotos(newPhotos);
+      await supabase.from('cats_photos').insert(
+        photoUrls.map((url) => ({
+          cat_id: catId,
+          url,
+          is_main: false,
+        }))
+      );
+    }
 
     return this.getCatById(catId);
   }
@@ -140,7 +166,13 @@ export class CatsService {
   async getCatById(catId: string) {
     const { data, error } = await supabase
       .from('cats')
-      .select()
+      .select(
+        `
+        *,
+        profiles:created_by(username),
+        cats_photos(*)
+        `
+      )
       .eq('id', catId)
       .single();
 

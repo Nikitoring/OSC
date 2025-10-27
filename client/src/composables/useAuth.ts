@@ -10,7 +10,7 @@ interface AuthState {
 }
 
 export function useAuth() {
-  const { request } = useApi()
+  const { request, loading } = useApi()
   const $q = useQuasar()
 
   const authState = ref<AuthState>({
@@ -21,6 +21,7 @@ export function useAuth() {
   // Инициализация авторизации при загрузке приложения
   const initializeAuth = async (): Promise<boolean> => {
     authState.value.isLoading = true
+    loading.value = true
     try {
       const accessToken = $q.localStorage.getItem('auth_token') as string
       const refreshToken = $q.localStorage.getItem('refresh_token') as string
@@ -55,6 +56,8 @@ export function useAuth() {
       await clearAuthData()
       authState.value.isLoading = false
       return false
+    } finally {
+      loading.value = false
     }
   }
 

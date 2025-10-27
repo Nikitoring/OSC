@@ -30,6 +30,7 @@ export interface ICat {
   is_friendly: boolean
   characteristics: string
   created_by: number
+  files: File[]
 }
 
 export interface ApproveAction {
