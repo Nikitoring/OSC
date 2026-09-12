@@ -76,6 +76,7 @@ export function useApi() {
 
           if (!responseRefresh.ok) {
             const error = await response.json()
+
             throw new Error(error.error || 'Ошибка сервера')
           }
         }

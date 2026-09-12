@@ -35,6 +35,13 @@ export const useCatsStore = defineStore('catsStore', () => {
         })
       }
       const { data } = await apiCats.create(formData)
+      if (data.error) {
+        $q.notify({
+          type: 'negative',
+          message: data.error || 'Произошла ошибка',
+        })
+        return
+      }
       if (data.data && data.data.id) {
         $q.notify({
           type: 'positive',
@@ -48,7 +55,9 @@ export const useCatsStore = defineStore('catsStore', () => {
           },
         })
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error('error', error)
+    }
   }
   return {
     cats,
