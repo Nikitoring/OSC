@@ -1,9 +1,10 @@
-import Header from '../shared/Header'
+import Sidebar from '../components/shared/leftAsideModule/Sidebar'
 
 function App() {
   return (
     <>
-      <Header></Header>
+      <Sidebar></Sidebar>
+
       <main>
         <h1>Open Street Cat</h1>
         <p>Welcome to OSC</p>

@@ -63,3 +63,127 @@ body {
 
   box-shadow: 0 4px 0 #111111;
 }
+
+button {
+  height: 48px;
+  padding: 0 20px;
+  border: 2px solid #111;
+  background: #111;
+  color: white;
+  border-radius: 4px;
+}
+button &:hover {
+  background: #ff6b3d;
+}
+button &:active {
+  transform: translateY(2px);
+}
+
+.button-secondary {
+  height: 44px;
+  background: transparent;
+  border: 2px solid #111;
+  color: #111;
+}
+
+.button-orange {
+  height: 48px;
+  background: #ff6b3d;
+  border: 2px solid #111;
+}
+
+.osc-pa-1 {
+  padding: var(--space-1);
+}
+.osc-pa-2 {
+  padding: var(--space-2);
+}
+.osc-pa-3 {
+  padding: var(--space-3);
+}
+.osc-pa-4 {
+  padding: var(--space-4);
+}
+.osc-pa-5 {
+  padding: var(--space-5);
+}
+
+.osc-px-1 {
+  padding: 0 var(--space-1);
+}
+.osc-px-2 {
+  padding: 0 var(--space-2);
+}
+.osc-px-3 {
+  padding: 0 var(--space-3);
+}
+.osc-px-4 {
+  padding: 0 var(--space-4);
+}
+.osc-px-5 {
+  padding: 0 var(--space-5);
+}
+
+.osc-py-1 {
+  padding: var(--space-1) 0;
+}
+.osc-py-2 {
+  padding: var(--space-2) 0;
+}
+.osc-py-3 {
+  padding: var(--space-3) 0;
+}
+.osc-py-4 {
+  padding: var(--space-4) 0;
+}
+.osc-py-5 {
+  padding: var(--space-5) 0;
+}
+
+.osc-ma-1 {
+  margin: var(--space-1);
+}
+.osc-ma-2 {
+  margin: var(--space-2);
+}
+.osc-ma-3 {
+  margin: var(--space-3);
+}
+.osc-ma-4 {
+  margin: var(--space-4);
+}
+.osc-ma-5 {
+  margin: var(--space-5);
+}
+
+.osc-mx-1 {
+  margin: 0 var(--space-1);
+}
+.osc-mx-2 {
+  margin: 0 var(--space-2);
+}
+.osc-mx-3 {
+  margin: 0 var(--space-3);
+}
+.osc-mx-4 {
+  margin: 0 var(--space-4);
+}
+.osc-mx-5 {
+  margin: 0 var(--space-5);
+}
+
+.osc-my-1 {
+  margin: var(--space-1) 0;
+}
+.osc-my-2 {
+  margin: var(--space-2) 0;
+}
+.osc-my-3 {
+  margin: var(--space-3) 0;
+}
+.osc-my-4 {
+  margin: var(--space-4) 0;
+}
+.osc-my-5 {
+  margin: var(--space-5) 0;
+}
