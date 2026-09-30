@@ -1,0 +1,15 @@
+.cat-male,
+.cat-women,
+.cat-unknown {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-blue); /* Lucide использует currentColor */
+}
+
+.cat-women {
+  color: var(--color-pink);
+}
+
+.cat-unknown {
+  color: var(--color-gray-500);
+}

@@ -1,15 +1,22 @@
-import Sidebar from '../components/shared/leftAsideModule/Sidebar'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import MainPage from '@/components/mainPage/MainPage'
+import { AppLayout } from './AppLayout'
 
 function App() {
   return (
-    <>
-      <Sidebar></Sidebar>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/map" element={<MainPage />} />
+          {/* <Route path="/cats/:catId" element={<CatPage />} /> */}
+          {/* <Route path="/cats/:catId/help" element={<HelpPage />} /> */}
+          {/* <Route path="/about" element={<AboutPage />} /> */}
+        </Route>
 
-      <main>
-        <h1>Open Street Cat</h1>
-        <p>Welcome to OSC</p>
-      </main>
-    </>
+        {/* <Route path="/profile" element={<ProfilePage />} />  */}
+      </Routes>
+    </BrowserRouter>
   )
 }
 

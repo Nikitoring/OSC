@@ -1,0 +1,9 @@
+.osc-app-layout {
+  min-height: 100vh;
+}
+
+.osc-app-main {
+  min-height: 100vh;
+  margin-left: 245px;
+  background: #f7f5ef;
+}

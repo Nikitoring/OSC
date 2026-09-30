@@ -1,0 +1,59 @@
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease;
+  padding: 0 var(--space-3);
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--color-orange);
+}
+
+.input-wrapper--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input-prefix,
+.input-suffix {
+  display: flex;
+  align-items: center;
+  color: var(--color-gray-500);
+  flex-shrink: 0;
+}
+.input-prefix,
+.input-suffix > svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.input-prefix {
+  padding-right: var(--space-2);
+}
+.input-suffix {
+  padding-left: var(--space-2);
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 0.9rem;
+  color: var(--color-black);
+  padding: var(--space-3) 0;
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: var(--color-gray-500);
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}

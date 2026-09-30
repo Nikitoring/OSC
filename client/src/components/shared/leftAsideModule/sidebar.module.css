@@ -1,0 +1,51 @@
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 245px;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-black);
+  padding: 0 2rem 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  min-height: 100vh;
+}
+
+.footer {
+  margin-top: auto;
+
+  padding: 0 24px 28px;
+
+  position: relative;
+}
+
+.footer-image {
+  height: 190px;
+
+  margin: 0 -24px 20px;
+
+  background-image: url('../../../shared/assests/illustrations/sidebar-footer.png');
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+}
+
+.footer p {
+  margin: 0;
+  color: var(--color-white);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.orange-line {
+  width: 120px;
+  height: 5px;
+
+  margin-top: 12px;
+
+  background: var(--color-orange);
+
+  transform: rotate(-5deg);
+}
