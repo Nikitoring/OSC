@@ -10,5 +10,7 @@ CREATE TABLE cats (
 
   created_at TIMESTAMPTZ NOT NULL,
 
-  created_by BIGINT NOT NULL
+  created_by BIGINT NOT NULL,
+
+  description TEXT
 );

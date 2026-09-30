@@ -1,4 +1,5 @@
-import { pool } from '../db/index.ts';
+import { pool } from '../db/index.js';
+import { Cat } from '../types/cat.js';
 export class CatsService {
   async getCats(params: {
     page: number;
@@ -114,47 +115,46 @@ export class CatsService {
     };
   }
 
-  async createCat(catData: {
-    name: string;
-    gender: 'male' | 'female' | 'unknown';
-    latitude: number;
-    longitude: number;
-    created_by: number;
-  }) {
+  async createCat(catData: Cat, userId: string | number) {
+    const gender = !catData.gender ? 'unknown' : catData.gender;
     const result = await pool.query(
       `
-        INSERT INTO cats (
-          name,
-          gender,
-          location,
-          created_at,
-          created_by
-        )
-        VALUES (
-          $1,
-          $2,
-          ST_SetSRID(
-            ST_MakePoint($3, $4),
-            4326
-          )::geography,
-          NOW(),
-          $5
-        )
-        RETURNING
-          id,
-          name,
-          gender,
-          ST_Y(location::geometry) AS latitude,
-          ST_X(location::geometry) AS longitude,
-          created_at,
-          created_by
-      `,
+    INSERT INTO cats (
+      name,
+      gender,
+      location,
+      created_at,
+      created_by,
+      description
+    )
+    VALUES (
+      $1,
+      $2,
+      ST_SetSRID(
+        ST_MakePoint($3, $4),
+        4326
+      )::geography,
+      NOW(),
+      $5,
+      $6
+    )
+    RETURNING
+      id,
+      name,
+      gender,
+      ST_Y(location::geometry) AS latitude,
+      ST_X(location::geometry) AS longitude,
+      created_at,
+      created_by,
+      description
+  `,
       [
         catData.name,
-        catData.gender,
+        gender,
         catData.longitude,
         catData.latitude,
-        catData.created_by,
+        userId,
+        catData.description,
       ],
     );
 

@@ -3,7 +3,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import { catsController } from './controllers/cats.controller.ts';
+import { catsRoutes } from './cats/cats.routes.ts';
+import { usersRoutes } from './users/users.routes.ts';
+import { authRoutes } from './auth/auth.routes.ts';
 
 dotenv.config();
 
@@ -23,7 +25,9 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/cats', catsController);
+app.use('/api/cats', catsRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/auth', authRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
