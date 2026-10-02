@@ -8,6 +8,26 @@ export type HelpType = 'food' | 'medical' | 'home'
 
 export type HelpState = 'needed' | 'resolved'
 
+export type CreateCatDto = {
+  name?: string
+  gender?: CatGender
+  latitude: number
+  longitude: number
+}
+
+export type CatResponseDto = {
+  id: number
+  name: string
+  gender: CatGender
+  location: {
+    latitude: number
+    longitude: number
+    radiusMeters: number
+  }
+  createdAt: string
+  createdBy: number
+}
+
 export type Photo = {
   id: PhotoId
   url: string

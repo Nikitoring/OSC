@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Card } from '../shared/ui/card/Card'
 import type { Cat, HelpRequest } from '@/domains/domains'
-import CatCard from '../cats/CatCard'
+import CatCard from '../../features/cats/ui/catCard/CatCard'
 import { catGenderIcon } from '@/components/shared/catGenderIcon/catGenderIcon'
 
 const LastFinded = () => {
@@ -48,7 +48,7 @@ const LastFinded = () => {
       <hr className="osc-divider" />
       <div className="osc-flex osc-gap-3">
         {lastCats.map((cat) => (
-          <Card>
+          <Card key={cat.id}>
             <div
               className="osc-flex osc-flex-column osc-justify-between"
               style={{ height: '100%' }}

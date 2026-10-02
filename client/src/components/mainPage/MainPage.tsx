@@ -1,25 +1,19 @@
 import styles from './mainPage.module.css'
 import { Map, SearchIcon } from 'lucide-react'
 import OscButton from '@/components/shared/ui/buttons/Button'
-import MapWidget from '../shared/mapWidget/MapWidget'
+import { MapWidget } from '../shared/mapWidget/MapWidget'
 import { TextInput } from '@/components/shared/ui/textInput/TextInput'
-import CatCard from '../cats/CatCard'
+import { GeolocationController } from '@/features/geolocation/geolocationController'
+import CatCard from '../../features/cats/ui/catCard/CatCard'
 import LastObservation from './LastObservation'
 import LastFinded from './LastFinded'
 import Stats from './Statistics'
+import { useState } from 'react'
+import type { Cat } from '@/domains/domains'
+import { CatsLayer } from '@/features/cats/ui/catLayer/catLayer'
 
 const MainPage = () => {
-  const activeCat = {
-    id: 1,
-    name: 'Рыжик',
-    gender: 'unknown',
-    photos: [],
-    location: [],
-    help: [{ type: 'food', state: 'needed', createdAt: new Date() }],
-    description: 'Славный, добрый рыжий кот. Подойдет и штанины оботрет)',
-    createdAt: '',
-    createdBy: 1,
-  }
+  const [selectedCat, setSelectedId] = useState<Cat | null>(null)
 
   return (
     <div className={styles.page}>
@@ -55,11 +49,14 @@ const MainPage = () => {
             className="osc-mb-3"
           ></TextInput>
           <div className={`${styles['map-container']}`}>
-            <MapWidget></MapWidget>
+            <MapWidget>
+              <GeolocationController />
+              <CatsLayer onSelect={setSelectedId} />
+            </MapWidget>
           </div>
         </div>
 
-        <CatCard cat={activeCat}></CatCard>
+        {selectedCat && <CatCard cat={selectedCat}></CatCard>}
         <LastObservation></LastObservation>
       </section>
       <section className={`${styles['additional-section']}`}>
