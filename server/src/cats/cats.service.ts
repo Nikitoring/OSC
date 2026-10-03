@@ -90,7 +90,8 @@ export class CatsService {
           ST_Y(location::geometry) AS latitude,
           ST_X(location::geometry) AS longitude,
           created_at,
-          created_by
+          created_by,
+          description
 
         FROM cats
 
@@ -171,7 +172,8 @@ export class CatsService {
           ST_Y(location::geometry) AS latitude,
           ST_X(location::geometry) AS longitude,
           created_at,
-          created_by
+          created_by,
+          description
 
         FROM cats
 
@@ -304,5 +306,29 @@ export class CatsService {
     return {
       success: true,
     };
+  }
+
+  async getLastCats(limit = 5) {
+    const result = await pool.query(
+      `
+        SELECT
+          id,
+          name,
+          gender,
+          ST_Y(location::geometry) AS latitude,
+          ST_X(location::geometry) AS longitude,
+          created_at,
+          created_by,
+          description
+
+        FROM cats
+
+        ORDER BY created_at DESC
+
+        LIMIT $1
+      `,
+      [limit],
+    );
+    return result.rows;
   }
 }

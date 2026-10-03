@@ -7,6 +7,7 @@ import { createCatSchema } from './cats.schema.ts';
 const router = Router();
 
 router.get('/', catsController.getCats);
+router.get('/last', catsController.getLastCats);
 
 router.get('/:id', catsController.getCatById);
 
