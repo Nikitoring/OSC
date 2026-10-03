@@ -156,7 +156,7 @@ type HelpRequest = {
 - TanStack Query
 - React Hook Form
 - Zod
-- MapLibre
+- Leaflet
 
 ### Backend
 
