@@ -61,7 +61,7 @@ export class AuthService {
             expiresIn: '7d',
           },
         );
-        return { token };
+        return { token, username: user.username, userId: user.id };
       }
     } catch (error) {
       throw error;

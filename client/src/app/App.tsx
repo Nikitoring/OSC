@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
-import MainPage from '@/components/mainPage/MainPage'
-import { AppLayout } from './AppLayout'
+import MainPage from '@/pages/main/MainPage'
+import { AppLayout } from './mainLayout/AppLayout'
+import { AdditionalLayout } from './additionalLayout/AdditionalLayout'
+import AuthPage from '@/pages/auth/AuthPage'
+import AuthAside from '@/pages/auth/AuthAside'
 
 function App() {
   return (
@@ -8,11 +11,10 @@ function App() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<MainPage />} />
         <Route path="/map" element={<MainPage />} />
-        {/* <Route path="/cats/:catId" element={<CatPage />} /> */}
-        {/* <Route path="/cats/:catId/help" element={<HelpPage />} /> */}
-        {/* <Route path="/about" element={<AboutPage />} /> */}
       </Route>
-
+      <Route element={<AdditionalLayout aside={<AuthAside />} />}>
+        <Route path="/login" element={<AuthPage />} />
+      </Route>
       {/* <Route path="/profile" element={<ProfilePage />} />  */}
     </Routes>
   )

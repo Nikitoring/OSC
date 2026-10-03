@@ -16,7 +16,9 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
-
+.input-label {
+  color: var(--color-gray-700);
+}
 .input-prefix,
 .input-suffix {
   display: flex;

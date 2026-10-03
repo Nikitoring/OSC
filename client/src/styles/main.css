@@ -807,9 +807,8 @@ button &:active {
 }
 
 .main {
-  min-height: 100vh;
-
-  margin-left: 245px;
+  flex: 1;
+  min-width: 0;
 
   background: #f7f5ef;
 }
@@ -852,5 +851,28 @@ footer {
   header,
   footer {
     padding: 0 calc(50vw - 590px);
+  }
+}
+
+.osc-app-main {
+  min-height: 100vh;
+  flex: 1;
+  min-width: 0;
+  background: #f7f5ef;
+}
+
+.osc-app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.osc-app-aside {
+  width: 400px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+  .osc-app-aside {
+    display: none;
   }
 }
