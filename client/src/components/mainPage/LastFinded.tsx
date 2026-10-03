@@ -3,9 +3,10 @@ import { Card } from '../shared/ui/card/Card'
 import type { Cat, HelpRequest } from '@/domains/domains'
 import CatCard from '../../features/cats/ui/catCard/CatCard'
 import { catGenderIcon } from '@/components/shared/catGenderIcon/catGenderIcon'
+import { useLastCats } from '@/features/cats/queries/cats.queries'
 
 const LastFinded = () => {
-  const [lastCats, setLastFindedCats] = useState<(HelpRequest & Cat)[]>([])
+  const { data } = useLastCats(5)
   const options = {
     weekday: 'short',
     year: 'numeric',
@@ -24,30 +25,13 @@ const LastFinded = () => {
     '/placeholders/cats/cat-header-09.png',
   ]
   const currentPlaceholder = (id: number) => catPlaceholderPhotos[id % catPlaceholderPhotos.length]
-  useEffect(() => {
-    setLastFindedCats([
-      {
-        name: 'Рыжик',
-        type: 'food',
-        state: 'needed',
-        createdAt: new Date(),
-        id: 1,
-      },
-      {
-        name: 'Барсик',
-        id: 2,
-        type: 'medical',
-        state: 'needed',
-        createdAt: new Date(),
-      },
-    ])
-  }, [])
+
   return (
     <Card className="osc-bg-gray-200">
       <h3 className="osc-mb-0">Недавно замечанные</h3>
       <hr className="osc-divider" />
       <div className="osc-flex osc-gap-3">
-        {lastCats.map((cat) => (
+        {data?.map((cat) => (
           <Card key={cat.id}>
             <div
               className="osc-flex osc-flex-column osc-justify-between"

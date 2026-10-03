@@ -78,3 +78,11 @@ export function createCat(data: CreateCatDto) {
     body: JSON.stringify(data),
   })
 }
+
+export function getLastCats(limit = 5) {
+  return httpClient<Cat[]>(`/cats/last?limit=${limit}`)
+}
+
+export function getCatsStats() {
+  return httpClient<GetCatsResponse>(`/cats/stats`)
+}

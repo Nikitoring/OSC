@@ -6,12 +6,34 @@ import { HelpBadges } from '../../../../components/shared/ui/badge/HelpBadges'
 import OscButton from '@/components/shared/ui/buttons/Button'
 import { currentPlaceholder } from '@/utils/catCardHeaderPlaceholder'
 import { catGenderIcon } from '@/components/shared/catGenderIcon/catGenderIcon'
+import L from 'leaflet'
+import { geocoders } from 'leaflet-control-geocoder'
+import { useEffect, useState } from 'react'
 
 type CatCardProps = {
   cat: Cat
 }
+const geocoder = new geocoders.Nominatim()
 
 const CatCard = ({ cat }: CatCardProps) => {
+  const [address, setAddress] = useState<string>('Адрес не указан')
+
+  const onParseLocation = async () => {
+    if (cat.latitude && cat.longitude) {
+      const latlng = L.latLng(cat.latitude, cat.longitude)
+      const res = await geocoder.reverse(latlng, 1e8)
+      if (res && res.length) {
+        console.log('object', res[0].html)
+        setAddress(res[0].html.replace(/<[^>]*>?/gm, '').trim())
+      } else {
+        setAddress('Адрес не найден')
+      }
+    }
+  }
+  useEffect(() => {
+    onParseLocation()
+  }, [cat.latitude, cat.longitude])
+
   return (
     <Card>
       <div className="osc-flex osc-flex-column osc-justify-between" style={{ height: '100%' }}>
@@ -23,7 +45,7 @@ const CatCard = ({ cat }: CatCardProps) => {
             <h2 className="osc-mb-1">{cat?.name}</h2>
             {catGenderIcon(cat)}
           </div>
-          {cat?.location && <div className="osc-text-gray-500">{cat?.location}</div>}
+          <div className="osc-text-gray-500 osc-text-sm">{address}</div>
           <HelpBadges events={cat?.help || []} />
         </div>
         <div>

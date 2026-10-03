@@ -2,7 +2,7 @@ import L from 'leaflet'
 import type { CatId } from '@/domains/domains'
 
 const MARKER_COUNT = 5
-const MARKER_SIZE = 48
+const MARKER_SIZE = 30
 const MARKER_HEIGHT = Math.round(MARKER_SIZE * (250 / 200)) // 60
 
 const getMarkerUrl = (id: CatId) => `/markers/cat-${id % MARKER_COUNT}.png`

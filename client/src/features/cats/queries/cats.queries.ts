@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { createCat, getCat, getCats } from '@/features/cats/api/catsApi'
+import { createCat, getCat, getCats, getLastCats, getCatsStats } from '@/features/cats/api/catsApi'
 
 import type { GetCatsParams, GetCatsResponse } from '@/features/cats/api/catsApi'
 
@@ -11,14 +11,12 @@ import type { Cat, CatId, CreateCatDto } from '@/domains/domains'
  */
 export const catsQueryKeys = {
   all: ['cats'] as const,
-
   lists: () => [...catsQueryKeys.all, 'list'] as const,
-
   list: (params: GetCatsParams) => [...catsQueryKeys.lists(), params] as const,
-
   details: () => [...catsQueryKeys.all, 'detail'] as const,
-
   detail: (id: CatId) => [...catsQueryKeys.details(), id] as const,
+  last: (limit: number) => [...catsQueryKeys.all, 'last', limit] as const,
+  stats: () => [...catsQueryKeys.all, 'stats'] as const,
 }
 
 /**
@@ -76,3 +74,30 @@ export function useCreateCat() {
     },
   })
 }
+
+/**
+ * Получение последних добавленных котов.
+ * GET /cats/last?limit=5
+ */
+export function useLastCats(limit = 5) {
+  return useQuery<Cat[]>({
+    queryKey: catsQueryKeys.last(limit),
+    queryFn: () => getLastCats(limit),
+    placeholderData: (prev) => prev,
+  })
+}
+
+/**
+ * Получение статистики по котам.
+ * GET /cats/stats
+ */
+// export function useCatsStats() {
+//   // Тип CatsStats нужно будет описать (например: { totalCats: number, catsNeedHelp: number })
+//   return useQuery<CatsStats>({
+//     queryKey: catsQueryKeys.stats(),
+//     queryFn: () => getCatsStats(),
+//     // Статистику можно обновлять реже, например раз в минуту,
+//     // или по событиям (создание кота)
+//     refetchInterval: 60000,
+//   })
+// }

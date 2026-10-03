@@ -1,0 +1,13 @@
+.cat-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.cat-marker img {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  transition: transform 0.15s ease;
+}
+
+.cat-marker:hover img {
+  transform: scale(1.1);
+}

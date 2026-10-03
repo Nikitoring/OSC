@@ -52,7 +52,8 @@ export type Cat = {
   name: string
   gender: CatGender
   photos?: Photo[]
-  location?: CatLocation
+  latitude: number
+  longitude: number
   help?: HelpRequest[]
   createdAt: string
   createdBy: UserId
