@@ -15,7 +15,6 @@ export const validationMiddleware = (schema) => {
         query: req.query,
       };
       const validated = schema.parse(dataToValidate);
-      console.log(`validated->`, validated);
       // Сохраняем валидированные данные в request
       req.validatedData = validated;
       next();

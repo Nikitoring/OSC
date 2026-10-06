@@ -14,6 +14,7 @@ type Props = {
   interactive?: boolean
   height?: string | number
   children?: ReactNode
+  overlays?: ReactNode
 }
 
 export function MapWidget({
@@ -22,9 +23,10 @@ export function MapWidget({
   interactive = true,
   height = '100%',
   children,
+  overlays,
 }: Props) {
   return (
-    <div style={{ height, width: '100%' }}>
+    <div style={{ height, width: '100%', position: 'relative' }}>
       <MapContainer
         center={center}
         zoom={zoom}
@@ -46,6 +48,7 @@ export function MapWidget({
         <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} />
         {children}
       </MapContainer>
+      {overlays}
     </div>
   )
 }

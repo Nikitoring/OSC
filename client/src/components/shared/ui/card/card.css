@@ -5,6 +5,7 @@
   border: 1px solid var(--color-gray-200);
   box-sizing: border-box;
   transition: box-shadow 0.2s ease;
+  position: relative;
 }
 
 .card--hover:hover {
@@ -13,4 +14,14 @@
 
 .card--clickable {
   cursor: pointer;
+}
+
+.closable {
+  position: absolute;
+  top: 5px;
+  right: 2px;
+  z-index: 5;
+}
+.closable svg {
+  width: 14px;
 }

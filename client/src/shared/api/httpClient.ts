@@ -11,6 +11,7 @@ export async function httpClient<T>(path: string, options: RequestOptions = {}):
 
   const response = await fetch(`${API_URL}${path}`, {
     ...requestOptions,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...(token && {

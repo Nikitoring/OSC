@@ -63,12 +63,27 @@
   outline: 3px solid rgba(0, 0, 0, 0.15);
   outline-offset: 2px;
 }
+.osc-button-transparent {
+  background: transparent;
+  color: var(--color-gray-700);
+}
+.osc-button-transparent:hover {
+  background: transparent;
+  color: var(--color-black);
+}
 
 .osc-button:disabled,
 .osc-button-disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.osc-button-xs {
+  height: 12px;
+  padding: 4px;
+  font-size: 10px;
+  border-radius: 4px;
 }
 
 .osc-button-small {

@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import { catsRoutes } from './cats/cats.routes.ts';
 import { usersRoutes } from './users/users.routes.ts';
 import { authRoutes } from './auth/auth.routes.ts';
@@ -13,11 +14,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(cookieParser(process.env.COOKIE_PARSER_SECRET || 'secret-key'));
 app.use(helmet());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
 app.use(morgan('combined'));

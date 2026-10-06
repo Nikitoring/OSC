@@ -152,7 +152,7 @@ type HelpRequest = {
 
 - React
 - TypeScript
-- Tailwind CSS
+- Clear CSS
 - TanStack Query
 - React Hook Form
 - Zod

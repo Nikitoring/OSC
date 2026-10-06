@@ -15,7 +15,7 @@ type CatCardProps = {
 }
 const geocoder = new geocoders.Nominatim()
 
-const CatCard = ({ cat }: CatCardProps) => {
+const CatCard = ({ cat, closable = false }: CatCardProps) => {
   const [address, setAddress] = useState<string>('Адрес не указан')
 
   const onParseLocation = async () => {
@@ -23,7 +23,6 @@ const CatCard = ({ cat }: CatCardProps) => {
       const latlng = L.latLng(cat.latitude, cat.longitude)
       const res = await geocoder.reverse(latlng, 1e8)
       if (res && res.length) {
-        console.log('object', res[0].html)
         setAddress(res[0].html.replace(/<[^>]*>?/gm, '').trim())
       } else {
         setAddress('Адрес не найден')
@@ -35,8 +34,11 @@ const CatCard = ({ cat }: CatCardProps) => {
   }, [cat.latitude, cat.longitude])
 
   return (
-    <Card>
-      <div className="osc-flex osc-flex-column osc-justify-between" style={{ height: '100%' }}>
+    <Card closable>
+      <div
+        className="osc-flex osc-flex-column osc-justify-between"
+        style={{ height: '100%', position: 'relative' }}
+      >
         <div>
           <div className={styles['cat-header-image-container']}>
             <img src={currentPlaceholder(cat.id)} alt={cat?.name} style={{ width: '100%' }} />

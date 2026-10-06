@@ -60,7 +60,7 @@ export type Cat = {
 }
 
 export type User = {
-  id: UserId
+  userId: UserId
   username: string
   createdAt: string
 }

@@ -13,7 +13,7 @@ import type { Cat } from '@/domains/domains'
 import { CatsLayer } from '@/features/cats/ui/catLayer/catLayer'
 
 const MainPage = () => {
-  const [selectedCat, setSelectedId] = useState<Cat | null>(null)
+  const [selectedCat, setSelected] = useState<Cat | null>(null)
 
   return (
     <div className={styles.page}>
@@ -51,7 +51,7 @@ const MainPage = () => {
           <div className={`${styles['map-container']}`}>
             <MapWidget>
               <GeolocationController />
-              <CatsLayer onSelect={setSelectedId} />
+              <CatsLayer onSelect={setSelected} />
             </MapWidget>
           </div>
         </div>

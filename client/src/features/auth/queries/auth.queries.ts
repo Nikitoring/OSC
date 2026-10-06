@@ -15,6 +15,7 @@ export const authQueryKeys = {
   register: () => [...authQueryKeys.all, 'register'] as const,
   details: () => [...authQueryKeys.all, 'detail'] as const,
   detail: (id: string) => [...authQueryKeys.details(), id] as const,
+  me: () => [...authQueryKeys.all, 'me'] as const,
 }
 
 /**

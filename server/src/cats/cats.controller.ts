@@ -56,7 +56,6 @@ export const catsController = {
   async getLastCats(req: Request, res: Response) {
     try {
       const { limit = 5 } = req.query;
-      console.log('req.query', req.query, limit);
       const cats = await catsService.getLastCats(Number(limit));
 
       res.json(cats);

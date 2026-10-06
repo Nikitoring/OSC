@@ -1,6 +1,7 @@
 .cat-header-image-container {
   max-height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .cat-photos-container {

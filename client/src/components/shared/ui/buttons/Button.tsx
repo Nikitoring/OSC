@@ -3,8 +3,8 @@ import { Link, type LinkProps } from 'react-router-dom'
 
 import './button.css'
 
-type ButtonVariant = 'primary' | 'secondary'
-type ButtonSize = 'small' | 'medium' | 'large'
+type ButtonVariant = 'primary' | 'secondary' | 'transparent'
+type ButtonSize = 'small' | 'medium' | 'large' | 'xs'
 
 type BaseProps = {
   children: ReactNode
@@ -12,6 +12,7 @@ type BaseProps = {
   size?: ButtonSize
   full?: boolean
   className?: string
+  onClick?: () => void
 }
 
 type ButtonElementProps = BaseProps &
@@ -40,6 +41,7 @@ const OscButton = ({
   size = 'medium',
   full = false,
   className = '',
+  onClick,
   ...props
 }: ButtonProps) => {
   const classes = [
@@ -51,6 +53,12 @@ const OscButton = ({
   ]
     .filter(Boolean)
     .join(' ')
+
+  const onInheritClick = () => {
+    if (onClick) {
+      onClick()
+    }
+  }
   if ('to' in props && props.to) {
     return (
       <Link {...props} className={classes}>
@@ -70,7 +78,7 @@ const OscButton = ({
 
   // Кнопка
   return (
-    <button {...props} className={classes}>
+    <button {...props} className={classes} onClick={onInheritClick.bind(null)}>
       {children}
     </button>
   )

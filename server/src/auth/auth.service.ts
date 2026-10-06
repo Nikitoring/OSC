@@ -1,6 +1,7 @@
 import { pool } from '../db/index.ts';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { generateSession } from '../utils/sessions.js';
 
 export class AuthService {
   async registration(authData: { login: string; password: string }) {
@@ -52,15 +53,10 @@ export class AuthService {
         user.password_hash,
       );
       if (isValid) {
-        const token = jwt.sign(
-          {
-            userId: user.id,
-          },
-          process.env.JWT_SECRET!,
-          {
-            expiresIn: '7d',
-          },
-        );
+        const token = generateSession({
+          userId: user.id,
+          username: loginData.login,
+        });
         return { token, username: user.username, userId: user.id };
       }
     } catch (error) {

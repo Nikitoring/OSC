@@ -1,0 +1,104 @@
+.map-container {
+  position: relative;
+  width: 90vw;
+  height: 100vh;
+}
+
+/* 1. Панель фильтров (сверху по центру) */
+.map-filters-panel {
+  position: absolute;
+  top: 1rem;
+  left: 25%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 12px 24px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  min-width: 320px;
+  max-width: 90%;
+}
+
+.map-filters-placeholder {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 12px 1rem;
+  font-size: 14px;
+}
+
+.map-legend-title {
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.map-legend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b5563;
+}
+
+.map-legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+/* Цвета для точек легенды */
+.dot-cat {
+  background-color: #1f2937;
+} /* Темно-серый/черный */
+.dot-food {
+  background-color: #a855f7;
+} /* Фиолетовый */
+.dot-med {
+  background-color: #ef4444;
+} /* Красный */
+.dot-home {
+  background-color: #3b82f6;
+} /* Синий */
+
+/* Карточка выбранного кота (справа вверху, под фильтрами) */
+.map-selected-cat {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  padding: 1rem;
+  max-width: 300px;
+}
