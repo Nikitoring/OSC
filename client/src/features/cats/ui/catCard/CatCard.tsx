@@ -12,10 +12,12 @@ import { useEffect, useState } from 'react'
 
 type CatCardProps = {
   cat: Cat
+  closable?: boolean
+  onClose?: (state: null) => void
 }
 const geocoder = new geocoders.Nominatim()
 
-const CatCard = ({ cat, closable = false }: CatCardProps) => {
+const CatCard = ({ cat, closable = false, onClose }: CatCardProps) => {
   const [address, setAddress] = useState<string>('Адрес не указан')
 
   const onParseLocation = async () => {
@@ -32,9 +34,14 @@ const CatCard = ({ cat, closable = false }: CatCardProps) => {
   useEffect(() => {
     onParseLocation()
   }, [cat.latitude, cat.longitude])
+  const onCloseCard = () => {
+    if (closable && onClose) {
+      onClose(null)
+    }
+  }
 
   return (
-    <Card closable>
+    <Card closable={closable} onClose={onCloseCard}>
       <div
         className="osc-flex osc-flex-column osc-justify-between"
         style={{ height: '100%', position: 'relative' }}

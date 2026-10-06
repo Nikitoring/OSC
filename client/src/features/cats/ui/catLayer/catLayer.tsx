@@ -31,7 +31,7 @@ export function CatsLayer({ onSelect, bounds: externalBounds }: Props) {
         <Marker
           key={cat.id}
           position={[cat.latitude, cat.longitude]}
-          icon={getCatMarkerIcon(cat.id)}
+          icon={getCatMarkerIcon(cat)}
           eventHandlers={{ click: () => onSelectCat(cat) }}
         ></Marker>
       ))}

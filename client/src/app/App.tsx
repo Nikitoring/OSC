@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import MainPage from '@/pages/main/MainPage'
 import { AppLayout } from './mainLayout/AppLayout'
 import { AdditionalLayout } from './additionalLayout/AdditionalLayout'
@@ -15,7 +15,8 @@ function App() {
   }, [])
   const isLoading = userState((state) => state.isLoading)
   const isInitialized = userState((state) => state.isInitialized)
-
+  const location = useLocation()
+  const excludedHeaderRoutes = ['/map'].includes(location.pathname)
   if (isLoading || !isInitialized) {
     return (
       <div
@@ -34,7 +35,7 @@ function App() {
 
   return (
     <Routes>
-      <Route element={<AppLayout />}>
+      <Route element={<AppLayout isHeader={!excludedHeaderRoutes} />}>
         <Route path="/" element={<MainPage />} />
         <Route path="/map" element={<MapPage />} />
       </Route>

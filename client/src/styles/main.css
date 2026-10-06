@@ -855,7 +855,7 @@ footer {
 }
 
 .osc-app-main {
-  min-height: 100vh;
+  min-height: 100%;
   flex: 1;
   min-width: 0;
   background: #f7f5ef;

@@ -19,7 +19,7 @@ const MapPage = () => {
             <MapLegend />
             {selectedCat && (
               <div className={styles['map-selected-cat']}>
-                <CatCard cat={selectedCat} closable />
+                <CatCard cat={selectedCat} closable onClose={setSelected} />
               </div>
             )}
           </>

@@ -1,7 +1,7 @@
 .map-container {
   position: relative;
   width: 90vw;
-  height: 100vh;
+  height: 100%;
 }
 
 /* 1. Панель фильтров (сверху по центру) */
@@ -70,28 +70,10 @@
   color: #4b5563;
 }
 
-.map-legend-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  flex-shrink: 0;
+.map-legend-item img {
+  width: 1.2rem;
+  height: 100%;
 }
-
-/* Цвета для точек легенды */
-.dot-cat {
-  background-color: #1f2937;
-} /* Темно-серый/черный */
-.dot-food {
-  background-color: #a855f7;
-} /* Фиолетовый */
-.dot-med {
-  background-color: #ef4444;
-} /* Красный */
-.dot-home {
-  background-color: #3b82f6;
-} /* Синий */
 
 /* Карточка выбранного кота (справа вверху, под фильтрами) */
 .map-selected-cat {
