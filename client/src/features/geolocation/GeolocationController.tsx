@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { useMap, useMapEvents } from 'react-leaflet'
+import { useEffect, useState } from 'react'
+import { useMap, useMapEvents, CircleMarker, Tooltip } from 'react-leaflet'
 
 /**
  * Компонент, который при монтировании запрашивает геолокацию
@@ -9,9 +9,11 @@ import { useMap, useMapEvents } from 'react-leaflet'
  */
 export function GeolocationController() {
   const map = useMap()
+  const [userPosition, setUserPosition] = useState<L.LatLngExpression | null>(null)
 
   useMapEvents({
     locationfound: (e) => {
+      setUserPosition(e.latlng)
       map.setView(e.latlng, 16)
     },
     locationerror: () => {
@@ -23,5 +25,19 @@ export function GeolocationController() {
     map.locate({ setView: false, maxZoom: 16 })
   }, [map])
 
-  return null
+  return (
+    userPosition && (
+      <CircleMarker
+        center={userPosition}
+        radius={10}
+        pathOptions={{
+          color: 'var(--color-orange)',
+          fillColor: 'var(--color-orange)',
+          fillOpacity: 0.5,
+        }}
+      >
+        <Tooltip>Вы здесь</Tooltip>
+      </CircleMarker>
+    )
+  )
 }

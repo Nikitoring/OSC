@@ -5,10 +5,10 @@ import styles from './cat.module.css'
 import { HelpBadges } from '../../../../components/shared/ui/badge/HelpBadges'
 import OscButton from '@/components/shared/ui/buttons/Button'
 import { currentPlaceholder } from '@/utils/catCardHeaderPlaceholder'
-import { catGenderIcon } from '@/components/shared/catGenderIcon/catGenderIcon'
 import L from 'leaflet'
 import { geocoders } from 'leaflet-control-geocoder'
 import { useEffect, useState } from 'react'
+import { СatGenderIcon } from '@/components/shared/catGenderIcon/СatGenderIcon'
 
 type CatCardProps = {
   cat: Cat
@@ -52,7 +52,7 @@ const CatCard = ({ cat, closable = false, onClose }: CatCardProps) => {
           </div>
           <div className="osc-flex osc-items-center osc-gap-1">
             <h2 className="osc-mb-1">{cat?.name}</h2>
-            {catGenderIcon(cat)}
+            {СatGenderIcon(cat)}
           </div>
           <div className="osc-text-gray-500 osc-text-sm">{address}</div>
           <HelpBadges events={cat?.help || []} />

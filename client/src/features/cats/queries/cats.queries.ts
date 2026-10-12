@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query'
 
 import { createCat, getCat, getCats, getLastCats, getCatsStats } from '@/features/cats/api/catsApi'
 
@@ -29,7 +29,7 @@ export function useCats(params: GetCatsParams = {}) {
     queryKey: catsQueryKeys.list(params),
     queryFn: () => getCats(params),
     // сохраняем предыдущие значения, когда карта двигается и меняются bounds, чтобы не было "мерцания" списка
-    placeholderData: (prev) => prev,
+    placeholderData: keepPreviousData,
   })
 }
 

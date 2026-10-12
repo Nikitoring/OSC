@@ -1,8 +1,12 @@
+.gender-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .cat-male,
 .cat-women,
 .cat-unknown {
-  width: 1rem;
-  height: 1rem;
   color: var(--color-blue); /* Lucide использует currentColor */
 }
 

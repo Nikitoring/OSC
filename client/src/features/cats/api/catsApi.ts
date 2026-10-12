@@ -13,6 +13,7 @@ export type GetCatsParams = {
     east: number
     west: number
   }
+  search_text?: string
   gender?: Array<'male' | 'female' | 'unknown'>
 }
 
@@ -48,6 +49,9 @@ function buildCatsQueryString(params: GetCatsParams = {}): string {
     for (const g of params.gender) {
       searchParams.append('gender', g)
     }
+  }
+  if (params.search_text?.length) {
+    searchParams.append('search_text', params.search_text)
   }
 
   const qs = searchParams.toString()

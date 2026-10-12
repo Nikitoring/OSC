@@ -2,28 +2,32 @@ import { Marker, Circle } from 'react-leaflet'
 import { useMapBounds } from '../../model/useMapBounds'
 import { useCats } from '../../queries/cats.queries'
 import { getCatMarkerIcon } from './getCatIconMarker'
-import type { Cat, CatId } from '@/domains/domains'
+import type { CatId } from '@/domains/domains'
 import type { MapBounds } from '../../model/useMapBounds'
 import './cat.layer.css'
-import { useState } from 'react'
 
 type Props = {
+  selectedCatId: CatId | null
   onSelect: (id: CatId) => void
   bounds?: MapBounds
+  filters: { search_text?: string; gender?: string }
 }
 
 const CAT_RADIUS_METERS = 100
 
-export function CatsLayer({ onSelect, bounds: externalBounds }: Props) {
+export function CatsLayer({
+  onSelect,
+  bounds: externalBounds,
+  selectedCatId,
+  filters = {},
+}: Props) {
   const mapBounds = useMapBounds()
   const bounds = externalBounds ?? mapBounds
-  const { data } = useCats(bounds ? { bounds } : {})
-  const [activeCatId, setActiveCat] = useState<CatId | null>(null)
-
-  const onSelectCat = (cat: Cat) => {
-    onSelect(cat)
-    setActiveCat(cat.id)
+  const queryParams = {
+    bounds: bounds,
+    ...filters,
   }
+  const { data } = useCats(queryParams)
 
   return (
     <>
@@ -31,13 +35,13 @@ export function CatsLayer({ onSelect, bounds: externalBounds }: Props) {
         <Marker
           key={cat.id}
           position={[cat.latitude, cat.longitude]}
-          icon={getCatMarkerIcon(cat)}
-          eventHandlers={{ click: () => onSelectCat(cat) }}
+          icon={getCatMarkerIcon(cat, cat.id === selectedCatId)}
+          eventHandlers={{ click: () => onSelect(cat) }}
         ></Marker>
       ))}
-      {activeCatId &&
+      {selectedCatId &&
         data?.cats
-          .filter((cat) => cat.id === activeCatId)
+          .filter((cat) => cat.id === selectedCatId)
           .map((cat) => (
             <Circle
               key={`circle-${cat.id}`}

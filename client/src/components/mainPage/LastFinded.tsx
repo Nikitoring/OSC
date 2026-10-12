@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Card } from '../shared/ui/card/Card'
 import type { Cat, HelpRequest } from '@/domains/domains'
 import CatCard from '../../features/cats/ui/catCard/CatCard'
-import { catGenderIcon } from '@/components/shared/catGenderIcon/catGenderIcon'
+import { СatGenderIcon } from '@/components/shared/catGenderIcon/СatGenderIcon'
 import { useLastCats } from '@/features/cats/queries/cats.queries'
 
 const LastFinded = () => {
@@ -46,7 +46,7 @@ const LastFinded = () => {
               </div>
               <div className="osc-flex osc-items-center osc-gap-2">
                 <h4>{cat.name}</h4>
-                {catGenderIcon(cat)}
+                {СatGenderIcon(cat)}
               </div>
             </div>
           </Card>

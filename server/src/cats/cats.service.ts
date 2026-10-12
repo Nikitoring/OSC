@@ -12,6 +12,7 @@ export class CatsService {
     };
     filters?: {
       gender?: string[];
+      search_text?: string;
     };
   }) {
     const { page, limit, bounds, filters } = params;
@@ -52,6 +53,19 @@ export class CatsService {
       values.push(filters.gender);
 
       conditions.push(`gender = ANY($${values.length})`);
+    }
+
+    // --------------------------------
+    // Фильтрация по имени и описанию
+    // --------------------------------
+
+    if (filters?.search_text?.length) {
+      const searchPattern = `%${filters.search_text}%`;
+      values.push(searchPattern);
+
+      conditions.push(
+        `(name ILIKE $${values.length} OR description ILIKE $${values.length})`,
+      );
     }
 
     // --------------------------------

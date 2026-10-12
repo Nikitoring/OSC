@@ -3,8 +3,7 @@
 
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-
+  justify-content: 'justify-between';
   padding: 0 42px;
 }
 
@@ -15,7 +14,7 @@
 }
 
 .link {
-  color: #171717;
+  color: var(--color-black);
 
   font-size: 14px;
   font-weight: 600;
@@ -48,4 +47,30 @@
 
 .login:hover {
   background: var(--color-orange);
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+.breadcrumbs a {
+  color: var(--color-black);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.breadcrumbs a:not(:last-child)::after {
+  content: ' / ';
+  color: var(--color-gray-700);
+  margin: 0 4px;
+  font-weight: normal;
+  pointer-events: none;
+}
+
+.breadcrumbs a:last-child {
+  color: var(--color-black);
+  pointer-events: none;
+  cursor: default;
 }
