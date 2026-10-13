@@ -46,7 +46,7 @@
   background: var(--color-white);
   color: var(--color-black);
 
-  border: 2px solid var(--color-gray-300);
+  border: 1px solid var(--color-gray-500);
 }
 
 .osc-button-secondary:hover {
@@ -70,6 +70,19 @@
 .osc-button-transparent:hover {
   background: transparent;
   color: var(--color-black);
+}
+
+.osc-button-tertiary {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+.osc-button-tertiary:hover {
+  background: var(--color-black-200);
+  border-color: var(--color-black-200);
+}
+.osc-button-tertiary:active {
+  background: var(--color-black-200);
+  transform: translateY(1px);
 }
 
 .osc-button:disabled,

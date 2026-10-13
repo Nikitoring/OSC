@@ -3,7 +3,7 @@ import { Link, type LinkProps } from 'react-router-dom'
 
 import './button.css'
 
-type ButtonVariant = 'primary' | 'secondary' | 'transparent'
+type ButtonVariant = 'primary' | 'secondary' | 'transparent' | 'tertiary'
 type ButtonSize = 'small' | 'medium' | 'large' | 'xs'
 
 type BaseProps = {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Card } from '../shared/ui/card/Card'
+import { Card } from '../../components/shared/ui/card/Card'
 import { Cat, Drumstick, Heart } from 'lucide-react'
 
 type StatsTypes = 'all' | 'food' | 'medical'

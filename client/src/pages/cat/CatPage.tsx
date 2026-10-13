@@ -5,7 +5,8 @@ import { currentPlaceholder } from '@/utils/catCardHeaderPlaceholder'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import styles from './catPage.module.css'
-import { СatGenderIcon } from '@/components/shared/catGenderIcon/СatGenderIcon'
+import { CatInformation } from './CatInformation'
+import { CatActions } from './CatActions'
 
 const CatPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -17,12 +18,11 @@ const CatPage = () => {
         .getState()
         .setBreadcrumbs([{ title: 'Вернуться к карте', to: '/map' }, { title: cat.name }])
     }
-
-    // Опционально: сброс при уходе со страницы
     return () => {
       mainState.getState().setBreadcrumbs([])
     }
-  }, [cat?.id, cat?.name])
+  }, [cat?.id])
+
   if (isLoading) {
     return (
       <div className={styles.page}>
@@ -50,10 +50,8 @@ const CatPage = () => {
             style={{ width: '100%', minHeight: '300px' }}
           />
         </div>
-        <div>
-          <h2>{cat?.name}</h2>
-          {СatGenderIcon({ cat, iconSize: 'medium', info: true })}
-        </div>
+        <CatInformation cat={cat}></CatInformation>
+        <CatActions cat={cat}></CatActions>
       </section>
     </div>
   )

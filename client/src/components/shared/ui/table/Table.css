@@ -1,0 +1,44 @@
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+/* Стили для ячеек по умолчанию (с границами) */
+.custom-table th,
+.custom-table td {
+  padding: 12px 16px;
+  border: 1px solid var(--color-gray-700);
+  text-align: left;
+}
+
+.custom-table th {
+  background-color: var(--color-gray-200);
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.custom-table tbody tr:hover {
+  background-color: var(--color-gray-300);
+}
+
+/* Состояние borderless (без границ) */
+.custom-table.borderless th,
+.custom-table.borderless td {
+  border: none;
+  border-bottom: 1px solid #f0f0f0; /* Оставляем только легкие разделители между строками */
+}
+
+.custom-table.borderless th {
+  background-color: transparent;
+  border-bottom: 2px solid var(--color-gray-200);
+}
+
+/* Стили для пустого состояния */
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  color: #888;
+  font-style: italic;
+}

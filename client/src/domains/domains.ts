@@ -55,8 +55,8 @@ export type Cat = {
   latitude: number
   longitude: number
   help?: HelpRequest[]
-  createdAt: string
-  createdBy: UserId
+  created_at: string
+  created_by: UserId
 }
 
 export type User = {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Card } from '../shared/ui/card/Card'
+import { Card } from '../../components/shared/ui/card/Card'
 import type { Cat, HelpRequest } from '@/domains/domains'
 import CatCard from '../../features/cats/ui/catCard/CatCard'
 import { СatGenderIcon } from '@/components/shared/catGenderIcon/СatGenderIcon'

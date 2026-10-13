@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Card } from '../shared/ui/card/Card'
+import { Card } from '../../components/shared/ui/card/Card'
 import type { Cat, HelpRequest } from '@/domains/domains'
-import { HelpBadge } from '../shared/ui/badge/HelpBadge'
+import { HelpBadge } from '../../components/shared/ui/badge/HelpBadge'
 
 const LastObservation = () => {
   const [observations, setObservations] = useState<(HelpRequest & Cat)[]>([])

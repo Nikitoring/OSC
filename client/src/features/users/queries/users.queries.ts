@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { getMe } from '../api/users.api'
+import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
+import { getMe, getUser } from '../api/users.api'
+import type { User } from '@/domains/domains'
 
 export type AuthUser = {
   id: string
@@ -33,4 +34,17 @@ export function useGetMe() {
     isLoading,
     isAuthenticated: !!data && !isError,
   }
+}
+
+/**
+ * GET /users/:id
+ */
+
+export function useUser(id: string, options?: UseQueryOptions) {
+  return useQuery<User>({
+    queryKey: usersQueryKeys.detail(id as string),
+    queryFn: () => getUser(id as string),
+    enabled: !!id,
+    ...options, // Передача ваших опций сверху
+  })
 }
