@@ -1,5 +1,4 @@
 import { pool } from '../db/index.js';
-import { User } from '../types/user.js';
 
 export class UserService {
   async getUserById(userId: string) {
@@ -7,10 +6,8 @@ export class UserService {
       `
         SELECT
           id,
-          name,
-          gender,
-          created_at,
-
+          username,
+          created_at
         FROM users
 
         WHERE id = $1
