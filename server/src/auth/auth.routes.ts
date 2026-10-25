@@ -6,11 +6,13 @@ import { registrationSchema } from './registration.schema.js';
 const router = Router();
 
 router.post(
-  '/registration',
+  '/register',
   validateBody(registrationSchema),
   authController.registration,
 );
 
 router.post('/login', validateBody(registrationSchema), authController.login);
+
+router.post('/logout', authController.logout);
 
 export { router as authRoutes };

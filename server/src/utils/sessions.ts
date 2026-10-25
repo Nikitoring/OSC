@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-
 export interface SessionPayload {
   userId: string;
   username: string;
@@ -11,7 +10,6 @@ export async function verifySession(token: string): Promise<SessionPayload> {
       token,
       process.env.JWT_SECRET!,
     ) as SessionPayload;
-
     return {
       userId: decoded.userId,
       username: decoded.username,

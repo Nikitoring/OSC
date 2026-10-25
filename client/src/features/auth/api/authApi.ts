@@ -1,17 +1,22 @@
 import { httpClient } from '@/shared/api/httpClient'
 
+type AuthResponse = {
+  user: {
+    id: number
+    username: string
+  }
+}
+
 export function loginUser(login: string, password: string) {
-  return httpClient<{ token: string }>('/auth/login', {
+  return httpClient<AuthResponse>('/auth/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ login, password }),
   })
 }
 
 export function registerUser(login: string, password: string) {
-  return httpClient<{ message: string }>('/auth/register', {
+  return httpClient<AuthResponse>('/auth/register', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ login, password }),
   })
 }

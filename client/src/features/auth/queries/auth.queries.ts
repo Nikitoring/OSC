@@ -2,10 +2,11 @@ import { useMutation } from '@tanstack/react-query'
 import { loginUser, registerUser } from '../api/authApi'
 
 type LoginUserResponse = {
-  token: string
-  username: string
+  user: {
+    id: number
+    username: string
+  }
 }
-
 /**
  * Query keys
  */

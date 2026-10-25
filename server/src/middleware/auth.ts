@@ -1,34 +1,45 @@
 import type { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { verifySession } from '@/utils/sessions.ts';
 
-type AuthenticatedRequest = Request & {
+export type AuthenticatedRequest = Request & {
   user: {
-    id: string | number;
+    id: string;
+    username: string;
   };
 };
 
-export const authenticateToken = async (
-  req: AuthenticatedRequest,
+export async function authenticateToken(
+  req: Request,
   res: Response,
   next: NextFunction,
-) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+) {
+  const token = req.cookies?.session_id;
 
   if (!token) {
-    return res.status(401).json({ error: 'Access token required' });
+    return res.status(401).json({
+      error: 'Требуется авторизация',
+    });
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: number;
-    };
-    req.user = {
-      id: payload.userId,
+    const session = await verifySession(token);
+
+    (req as AuthenticatedRequest).user = {
+      id: String(session.userId),
+      username: session.username,
     };
 
-    next();
-  } catch (error) {
-    res.status(401).json({ message: 'Invalid Token' });
+    return next();
+  } catch {
+    res.clearCookie('session_id', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    return res.status(401).json({
+      error: 'Сессия недействительна или истекла',
+    });
   }
-};
+}

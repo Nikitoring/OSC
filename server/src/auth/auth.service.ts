@@ -1,8 +1,5 @@
 import { pool } from '../db/index.ts';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { generateSession } from '../utils/sessions.js';
-
 export class AuthService {
   async registration(authData: { login: string; password: string }) {
     try {
@@ -35,32 +32,33 @@ export class AuthService {
   }
 
   async login(loginData: { login: string; password: string }) {
-    try {
-      const result = await pool.query(
-        `
-    SELECT
-      id,
-      username,
-      password_hash
-    FROM users
-    WHERE username = $1
-  `,
-        [loginData.login],
-      );
-      const user = result.rows[0] || {};
-      const isValid = await bcrypt.compare(
-        loginData.password,
-        user.password_hash,
-      );
-      if (isValid) {
-        const token = generateSession({
-          userId: user.id,
-          username: loginData.login,
-        });
-        return { token, username: user.username, userId: user.id };
-      }
-    } catch (error) {
-      throw error;
+    const result = await pool.query(
+      `
+      SELECT id, username, password_hash
+      FROM users
+      WHERE username = $1
+    `,
+      [loginData.login],
+    );
+
+    const user = result.rows[0];
+
+    if (!user) {
+      return null;
     }
+
+    const isValid = await bcrypt.compare(
+      loginData.password,
+      user.password_hash,
+    );
+
+    if (!isValid) {
+      return null;
+    }
+
+    return {
+      id: user.id,
+      username: user.username,
+    };
   }
 }
