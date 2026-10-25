@@ -11,6 +11,7 @@ export type HelpState = 'needed' | 'resolved'
 export type CreateCatDto = {
   name?: string
   gender?: CatGender
+  description?: string
   latitude: number
   longitude: number
 }
@@ -19,6 +20,7 @@ export type CatResponseDto = {
   id: number
   name: string
   gender: CatGender
+  description: string | null
   location: {
     latitude: number
     longitude: number
@@ -51,6 +53,7 @@ export type Cat = {
   id: CatId
   name: string
   gender: CatGender
+  description: string | null
   photos?: Photo[]
   latitude: number
   longitude: number
