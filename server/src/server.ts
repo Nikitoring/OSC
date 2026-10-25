@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import { catsRoutes } from './cats/cats.routes.ts';
 import { usersRoutes } from './users/users.routes.ts';
 import { authRoutes } from './auth/auth.routes.ts';
+import { helpRoutes } from './help/help.routes.ts';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/cats', catsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/help', helpRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
