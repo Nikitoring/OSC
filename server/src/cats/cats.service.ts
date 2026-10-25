@@ -131,49 +131,90 @@ export class CatsService {
   }
 
   async createCat(catData: Cat, userId: string | number) {
-    const gender = !catData.gender ? 'unknown' : catData.gender;
-    const result = await pool.query(
-      `
-    INSERT INTO cats (
-      name,
-      gender,
-      location,
-      created_at,
-      created_by,
-      description
-    )
-    VALUES (
-      $1,
-      $2,
-      ST_SetSRID(
-        ST_MakePoint($3, $4),
-        4326
-      )::geography,
-      NOW(),
-      $5,
-      $6
-    )
-    RETURNING
-      id,
-      name,
-      gender,
-      ST_Y(location::geometry) AS latitude,
-      ST_X(location::geometry) AS longitude,
-      created_at,
-      created_by,
-      description
-  `,
-      [
-        catData.name,
-        gender,
-        catData.longitude,
-        catData.latitude,
-        userId,
-        catData.description,
-      ],
-    );
+    const client = await pool.connect();
 
-    return result.rows[0];
+    try {
+      await client.query('BEGIN');
+
+      const name = catData.name?.trim();
+      const gender = catData.gender ?? 'unknown';
+
+      const result = await client.query(
+        `
+        WITH new_id AS (
+          SELECT nextval(pg_get_serial_sequence('cats', 'id')) AS id
+        )
+        INSERT INTO cats (
+          id,
+          name,
+          gender,
+          location,
+          created_at,
+          created_by,
+          description
+        )
+        SELECT
+          id,
+          COALESCE(NULLIF($1, ''), 'Кот #' || id),
+          $2,
+          ST_SetSRID(ST_MakePoint($3, $4), 4326)::geography,
+          NOW(),
+          $5,
+          $6
+        FROM new_id
+        RETURNING
+          id,
+          name,
+          gender,
+          ST_Y(location::geometry) AS latitude,
+          ST_X(location::geometry) AS longitude,
+          created_at,
+          created_by,
+          description;
+      `,
+        [
+          name,
+          gender,
+          catData.longitude,
+          catData.latitude,
+          userId,
+          catData.description ?? null,
+        ],
+      );
+
+      let cat = result.rows[0];
+
+      if (!name) {
+        const updated = await client.query(
+          `
+          UPDATE cats
+          SET name = 'Кот #' || id
+          WHERE id = $1
+          RETURNING
+            id,
+            name,
+            gender,
+            ST_Y(location::geometry) AS latitude,
+            ST_X(location::geometry) AS longitude,
+            created_at,
+            created_by,
+            description
+        `,
+          [cat.id],
+        );
+
+        cat = updated.rows[0];
+      }
+
+      await client.query('COMMIT');
+
+      return cat;
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 
   async getCatById(catId: string) {
