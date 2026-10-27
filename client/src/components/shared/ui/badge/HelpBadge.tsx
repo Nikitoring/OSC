@@ -4,8 +4,8 @@ import type { HelpState, HelpType } from '@/domains/domains'
 
 export interface HelpEvent {
   type: HelpType
-  state: HelpState
-  createdAt: Date
+  status: HelpState
+  created_at: Date | string
 }
 
 interface HelpBadgeProps {
@@ -27,9 +27,10 @@ const typeToVariant: Record<HelpType, BadgeVariant> = {
 }
 
 export const HelpBadge: React.FC<HelpBadgeProps> = ({ event, className }) => {
-  const variant = event.state === 'resolved' ? 'resolved' : typeToVariant[event.type]
+  console.log('event:', event)
+  const variant = event.status === 'resolved' ? 'resolved' : typeToVariant[event.type]
 
-  const label = helpLabels[event.type][event.state]
+  const label = helpLabels[event.type][event.status]
 
   return <Badge variant={variant} label={label} className={className} />
 }

@@ -617,6 +617,9 @@ button &:active {
 .osc-bg-gray-200 {
   background-color: var(--color-gray-200);
 }
+.osc-bg {
+  background-color: var(--color-background);
+}
 
 .osc-text-xs {
   font-size: 0.75rem;

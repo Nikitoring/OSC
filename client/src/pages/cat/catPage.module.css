@@ -4,18 +4,35 @@
 
 .content-section {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 3rem;
-}
-.content-section > div {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+  gap: 2rem;
 }
 
-@media (max-width: 459px) {
+.content-section > div {
+  min-width: 0;
+}
+
+/* Планшеты и небольшие ноутбуки */
+@media (max-width: 1024px) {
+  .page {
+    padding-inline: 24px;
+  }
+
   .content-section {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 600px) {
+  .page {
+    padding-inline: 16px;
+    padding-bottom: 24px;
+  }
+
+  .content-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
   }
 }

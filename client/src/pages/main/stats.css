@@ -1,0 +1,23 @@
+.stats-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.stat-item {
+  display: flex;
+  min-width: 0;
+}
+
+.stat-item > * {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Мобильные устройства */
+@media (max-width: 600px) {
+  .stats-list {
+    grid-template-columns: 1fr;
+  }
+}

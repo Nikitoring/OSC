@@ -44,11 +44,7 @@ const CatPage = () => {
     <div className={styles.page}>
       <section className={`${styles['content-section']} osc-my-3`}>
         <div>
-          <img
-            src={currentPlaceholder(cat.id)}
-            alt={cat?.name}
-            style={{ width: '100%', minHeight: '300px' }}
-          />
+          <img src={currentPlaceholder(cat.id)} alt={cat?.name} style={{ width: '100%' }} />
         </div>
         <CatInformation cat={cat}></CatInformation>
         <CatActions cat={cat}></CatActions>

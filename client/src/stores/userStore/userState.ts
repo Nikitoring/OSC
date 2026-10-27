@@ -1,5 +1,5 @@
 import type { User } from '@/domains/domains'
-import { getMe } from '@/features/users/api/users.api'
+import { getMe } from '@/features/users/api/usersApi'
 
 import { create } from 'zustand'
 

@@ -1,24 +1,30 @@
 .page {
   padding: 0 40px 40px;
+  min-width: 0;
 }
+
+/* Hero */
 
 .hero {
   min-height: 280px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   position: relative;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--color-gray-300);
+  gap: 2rem;
+}
+
+.hero > div:first-child {
+  flex: 1 1 45%;
+  min-width: 0;
 }
 
 .hero h1 {
   margin: 0;
-
-  font-size: 44px;
-  line-height: 0.95;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 0.98;
   font-weight: 900;
   letter-spacing: -1px;
 }
@@ -29,15 +35,14 @@
 
 .hero p {
   margin-top: 20px;
-
   color: var(--color-gray-700);
-
   font-size: 15px;
   line-height: 1.5;
 }
 
 .hero-illustration {
-  width: 60%;
+  flex: 1 1 55%;
+  min-width: 0;
   height: 280px;
   background-image: url('../../shared/assests/illustrations/hero.png');
   background-repeat: no-repeat;
@@ -45,28 +50,20 @@
   background-size: contain;
 }
 
-.map-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 10px 20px;
-  background: var(--color-orange);
-  color: var(--color-white);
-  text-decoration: none;
-  border-radius: 0.5rem;
-  text-wrap: nowrap;
-  max-width: 11rem;
-}
+/* Основной контент */
 
 .content-section {
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr;
+  grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr) minmax(220px, 1fr);
   grid-template-rows: 30rem;
   gap: 1rem;
+  align-items: stretch;
+  min-width: 0;
 }
+
 .content-section > div {
-  height: 100%;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -74,11 +71,139 @@
 .map-container {
   flex: 1;
   min-height: 0;
+  min-width: 0;
 }
+
+/* Дополнительные блоки */
 
 .additional-section {
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   grid-template-rows: 15rem;
   gap: 1rem;
+  min-width: 0;
+}
+
+.additional-section > * {
+  min-width: 0;
+}
+
+/* Мобильные устройства */
+@media (max-width: 600px) {
+  .stats-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Планшеты и небольшие ноутбуки */
+
+@media (max-width: 1199px) {
+  .page {
+    padding-inline: 24px;
+  }
+
+  .hero {
+    min-height: 240px;
+    gap: 1rem;
+  }
+
+  .hero-illustration {
+    height: 240px;
+  }
+
+  .content-section {
+    grid-template-columns: minmax(0, 3fr) minmax(220px, 2fr);
+    grid-template-rows: 28rem auto;
+  }
+
+  /* Последние наблюдения — под картой и карточкой */
+  .content-section > :last-child {
+    grid-column: 1 / -1;
+  }
+
+  .additional-section {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: 15rem;
+  }
+}
+
+/* Мобильные */
+
+@media (max-width: 700px) {
+  .page {
+    padding: 0 16px 24px;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 24px 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .hero > div:first-child {
+    flex: none;
+  }
+
+  .hero h1 {
+    font-size: clamp(25px, 7vw, 36px);
+    letter-spacing: -0.7px;
+    line-height: 1.05;
+  }
+
+  .hero p {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+
+  .hero-illustration {
+    flex: none;
+    width: 100%;
+    height: clamp(140px, 42vw, 220px);
+    background-position: center;
+  }
+
+  .content-section {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+
+  .content-section > :last-child {
+    grid-column: auto;
+  }
+
+  .map-container {
+    height: 360px;
+    min-height: 360px;
+    flex: none;
+  }
+
+  .additional-section {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+
+  .additional-section > * {
+    min-height: 220px;
+  }
+}
+
+/* Очень узкие экраны */
+
+@media (max-width: 380px) {
+  .page {
+    padding-inline: 12px;
+  }
+
+  .hero h1 {
+    font-size: 25px;
+  }
+
+  .map-container {
+    height: 300px;
+    min-height: 300px;
+  }
 }

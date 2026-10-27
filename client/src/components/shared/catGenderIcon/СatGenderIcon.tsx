@@ -21,15 +21,15 @@ export const СatGenderIcon = ({
   if (cat?.gender === 'male') {
     IconComponent = Mars
     colorClass = styles['cat-male']
-    textLabel = 'Самец'
+    textLabel = 'Кот'
   } else if (cat?.gender === 'female') {
     IconComponent = Venus
     colorClass = styles['cat-women']
-    textLabel = 'Самка'
+    textLabel = 'Кошка'
   } else {
     IconComponent = VenusAndMars
     colorClass = styles['cat-unknown']
-    textLabel = 'Неизвестно'
+    textLabel = 'Котосоздание'
   }
 
   return (

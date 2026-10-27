@@ -41,14 +41,6 @@ export type CatLocation = {
   radiusMeters: number
 }
 
-export type HelpRequest = {
-  catId: CatId
-  type: HelpType
-  state: HelpState
-  createdAt: string
-  createdBy: UserId
-}
-
 export type Cat = {
   id: CatId
   name: string
@@ -57,7 +49,6 @@ export type Cat = {
   photos?: Photo[]
   latitude: number
   longitude: number
-  help?: HelpRequest[]
   created_at: string
   created_by: UserId
 }

@@ -1,0 +1,19 @@
+.badge-wrapper {
+  display: inline-flex;
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.food,
+.medical,
+.home {
+  color: var(--color-green); /* Lucide использует currentColor */
+}
+
+.medical {
+  color: var(--color-pink);
+}
+
+.home {
+  color: var(--color-purple);
+}

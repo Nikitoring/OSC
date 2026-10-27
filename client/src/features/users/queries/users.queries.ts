@@ -1,5 +1,5 @@
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
-import { getMe, getUser } from '../api/users.api'
+import { getMe, getUser } from '../api/usersApi'
 import type { User } from '@/domains/domains'
 
 export type AuthUser = {

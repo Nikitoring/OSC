@@ -39,7 +39,7 @@ function App() {
       <Route element={<AppLayout isHeader={!excludedHeaderRoutes} />}>
         <Route path="/" element={<MainPage />} />
         <Route path="/map" element={<MapPage />} />
-        <Route path="/cat/:id" element={<CatPage />} />
+        <Route path="/cats/:id" element={<CatPage />} />
       </Route>
       <Route element={<AdditionalLayout aside={<AuthAside />} />}>
         <Route path="/login" element={<AuthPage />} />

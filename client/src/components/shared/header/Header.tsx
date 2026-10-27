@@ -7,7 +7,6 @@ import mainState from '@/stores/mainState'
 
 const LoginLogoutBtn = () => {
   const user = userState((s) => s.user)
-  console.log('user', user)
   const isLoggedIn = !!user?.userId
   const btnProps = isLoggedIn ? { label: 'Выйти', to: '/logout' } : { label: 'Войти', to: '/login' }
 
