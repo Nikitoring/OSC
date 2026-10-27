@@ -6,8 +6,8 @@ import { createHelpSchema } from './help.schema.ts';
 
 const router = Router();
 
-router.get('/:catId', helpController.getCatHelp);
 router.get('/last', helpController.getLast);
+router.get('/:catId', helpController.getCatHelp);
 
 router.post(
   '/:catId',
