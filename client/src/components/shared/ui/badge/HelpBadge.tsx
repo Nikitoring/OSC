@@ -27,7 +27,6 @@ const typeToVariant: Record<HelpType, BadgeVariant> = {
 }
 
 export const HelpBadge: React.FC<HelpBadgeProps> = ({ event, className }) => {
-  console.log('event:', event)
   const variant = event.status === 'resolved' ? 'resolved' : typeToVariant[event.type]
 
   const label = helpLabels[event.type][event.status]

@@ -1,7 +1,8 @@
-import { Cat, Map, Plus, UserRound, type LucideIcon } from 'lucide-react'
+import { Cat, Map, MessageCircleMore, Plus, UserRound, type LucideIcon } from 'lucide-react'
 import './navigation.css'
 import userState from '@/stores/userStore/userState'
 import { NavLink } from 'react-router-dom'
+import OscButton from '@/components/shared/ui/buttons/Button'
 
 type NavItem = {
   id: string
@@ -23,7 +24,12 @@ const Navigation = () => {
   }))
   if (username) {
     items.push(
-      { id: 'my_requests', label: 'Мои наблюдения', icon: Plus, href: '/observations' },
+      {
+        id: 'my_requests',
+        label: 'Мои наблюдения',
+        icon: MessageCircleMore,
+        href: '/observations',
+      },
       { id: 'profile', label: username, icon: UserRound, href: '/profile' },
     )
   }
@@ -50,6 +56,18 @@ const Navigation = () => {
           )
         })}
       </ul>
+      {username && (
+        <OscButton
+          variant="primary"
+          size="small"
+          className="osc-mt-3"
+          style={{ width: '100%' }}
+          to={`/add-cat`}
+        >
+          <Plus></Plus>
+          Добавить кота
+        </OscButton>
+      )}
     </nav>
   )
 }

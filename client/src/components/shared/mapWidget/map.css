@@ -1,3 +1,15 @@
+.mapPage {
+  height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 767px) {
+  .mapPage {
+    height: calc(100dvh - 80px - env(safe-area-inset-bottom));
+    overflow: hidden;
+  }
+}
+
 .leaflet-tile-pane {
   filter: sepia(0.42) saturate(0.6) brightness(0.94) contrast(0.99);
 }

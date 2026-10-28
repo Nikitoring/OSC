@@ -1,6 +1,8 @@
 .map-container {
   position: relative;
   width: 100%;
+  min-height: 0;
+
   height: 100%;
   min-width: 0;
   min-height: 0;
@@ -122,6 +124,10 @@
 /* Мобильные устройства */
 
 @media (max-width: 600px) {
+  .map-container {
+    height: calc(100dvh - 80px - env(safe-area-inset-bottom));
+    overflow: hidden;
+  }
   .map-filters-panel {
     top: 0.5rem;
     left: 0.3rem;

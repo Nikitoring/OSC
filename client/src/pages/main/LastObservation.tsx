@@ -3,46 +3,58 @@ import { HelpBadge } from '../../components/shared/ui/badge/HelpBadge'
 import { useLastHelp } from '@/features/help/queries/help.queries'
 import { currentPlaceholder } from '@/utils/catCardHeaderPlaceholder'
 import { formatRelativeDate } from '@/utils/formatedDate'
+import styles from './lastObservation.module.css'
 
 const LastObservation = () => {
   const { data } = useLastHelp(5)
-
+  const hasObservations = Boolean(data?.length)
   return (
     <Card>
       <h3 className="osc-mb-0">Последние наблюдения</h3>
       <hr className="osc-divider" />
-      <div className="osc-flex osc-flex-column osc-gap-3">
-        {data?.length > 0 ? (
-          data?.map((observation) => (
-            <div key={observation.id} className="osc-flex osc-items-start osc-gap-3">
+
+      {hasObservations ? (
+        <div className={styles.list}>
+          {data.map((observation) => (
+            <article key={observation.id} className={styles.observation}>
               <img
-                src={currentPlaceholder(observation.catId)}
-                alt={observation.id}
-                style={{ maxWidth: '150px', maxHeight: '150px', objectFit: 'cover' }}
+                className={styles.image}
+                src={currentPlaceholder(observation.cat_id)}
+                alt={`Кот ${observation.cat_name}`}
+                loading="lazy"
               />
-              <div>
-                <h4 className="osc-mt-0 osc-mb-1">{observation.cat_name}</h4>
-                <p className="osc-text-gray-500 osc-text-xs osc-mt-0">
-                  {observation.created_at && formatRelativeDate(observation.created_at)}
-                </p>
-                <HelpBadge key={observation.type} event={observation} />
+
+              <div className={styles.content}>
+                <h4 className={styles.title}>{observation.cat_name}</h4>
+
+                {observation.created_at && (
+                  <p className={styles.date}>{formatRelativeDate(observation.created_at)}</p>
+                )}
+
+                <div className={styles.badge}>
+                  <HelpBadge event={observation} />
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <div>
-            <img
-              src="/placeholders/placeholder_empty.png"
-              alt="Ничего не найдено"
-              style={{ maxWidth: '200px' }}
-            />
-            <h4 className="osc-my-0">Пока тихо</h4>
-            <p className="osc-text-gray-500 osc-text-sm osc-my-0">
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className={styles.empty}>
+          <img
+            className={styles.emptyImage}
+            src="/placeholders/placeholder_empty.png"
+            alt=""
+            aria-hidden="true"
+          />
+
+          <div className={styles.emptyContent}>
+            <h4 className={styles.emptyTitle}>Пока тихо</h4>
+            <p className={styles.emptyDescription}>
               Здесь появятся последние наблюдения за котами и новости об оказанной помощи
             </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </Card>
   )
 }

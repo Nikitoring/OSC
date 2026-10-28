@@ -11,22 +11,10 @@ interface BadgeProps {
 }
 
 const variantConfig: Record<BadgeVariant, { bg: string; Icon: LucideIcon }> = {
-  food: {
-    bg: 'osc-bg-orange',
-    Icon: Beef,
-  },
-  medical: {
-    bg: 'osc-bg-pink',
-    Icon: BriefcaseMedical,
-  },
-  home: {
-    bg: 'osc-bg-purple',
-    Icon: House,
-  },
-  resolved: {
-    bg: 'osc-bg-green',
-    Icon: CircleCheck,
-  },
+  food: { bg: 'osc-bg-orange', Icon: Beef },
+  medical: { bg: 'osc-bg-pink', Icon: BriefcaseMedical },
+  home: { bg: 'osc-bg-purple', Icon: House },
+  resolved: { bg: 'osc-bg-green', Icon: CircleCheck },
 }
 
 export const Badge: React.FC<BadgeProps> = ({ variant, label, className = '' }) => {
@@ -35,15 +23,18 @@ export const Badge: React.FC<BadgeProps> = ({ variant, label, className = '' }) 
   return (
     <span
       className={`
-        osc-inline-flex osc-items-center osc-gap-2
+        osc-inline-flex osc-flex-wrap osc-items-center osc-gap-2
         osc-px-4 osc-py-1 osc-rounded-2xl
         osc-text-white osc-font-semibold osc-text-xs
         ${bg}
+        badge
         ${className}
       `}
+      aria-label={label}
+      title={label}
     >
-      <Icon size={'1rem'} />
-      {label}
+      <Icon size="1rem" aria-hidden="true" />
+      <span className="badge-label">{label}</span>
     </span>
   )
 }

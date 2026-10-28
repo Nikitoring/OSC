@@ -3,11 +3,13 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: 0.5rem;
+  height: 100%;
 }
 
 .stat-item {
   display: flex;
   min-width: 0;
+  height: 100%;
 }
 
 .stat-item > * {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Card } from '../../components/shared/ui/card/Card'
 import { Cat, Beef, Heart } from 'lucide-react'
-import './stats.css'
+import style from './stats.module.css'
 type StatsTypes = 'all' | 'food' | 'medical'
 
 const StatTitle = ({ type }: { type: StatsTypes }) => {
@@ -46,12 +46,14 @@ const Stats = () => {
     <Card className="osc-bg">
       <h3 className="osc-mb-0">Статистика</h3>
       <hr className="osc-divider" />
-      <div className="stats-list">
+      <div className={style['stats-list']}>
         {stats.map((stat) => (
-          <div key={stat.type} className="stat-item">
+          <div key={stat.type} className={style['stat-item']}>
             <Card>
               <StatTitle type={stat.type} />
-              <h1 className="osc-my-2">{stat.count || '-'}</h1>
+              <h1 className="osc-my-4 osc-self-center" style={{ fontSize: '3rem' }}>
+                {stat.count || '-'}
+              </h1>
             </Card>
           </div>
         ))}

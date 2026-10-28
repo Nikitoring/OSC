@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import CatSpinner from '@/components/shared/ui/loaders/CatSpinner'
 import MapPage from '@/pages/map/MapPage'
 import CatPage from '@/pages/cat/CatPage'
+import { MobileBottomNavigation } from '@/components/shared/mobileBottomNavigation/MobileBottomNavigation'
 
 function App() {
   useEffect(() => {
@@ -16,6 +17,8 @@ function App() {
   }, [])
   const isLoading = userState((state) => state.isLoading)
   const isInitialized = userState((state) => state.isInitialized)
+  const user = userState((state) => state.user)
+  const isAuthenticated = Boolean(user)
   const location = useLocation()
   const excludedHeaderRoutes = ['/map'].includes(location.pathname)
   if (isLoading || !isInitialized) {
@@ -35,17 +38,20 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route element={<AppLayout isHeader={!excludedHeaderRoutes} />}>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/cats/:id" element={<CatPage />} />
-      </Route>
-      <Route element={<AdditionalLayout aside={<AuthAside />} />}>
-        <Route path="/login" element={<AuthPage />} />
-      </Route>
-      {/* <Route path="/profile" element={<ProfilePage />} />  */}
-    </Routes>
+    <>
+      <Routes>
+        <Route element={<AppLayout isHeader={!excludedHeaderRoutes} />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/cats/:id" element={<CatPage />} />
+        </Route>
+        <Route element={<AdditionalLayout aside={<AuthAside />} />}>
+          <Route path="/login" element={<AuthPage />} />
+        </Route>
+        {/* <Route path="/profile" element={<ProfilePage />} />  */}
+      </Routes>
+      <MobileBottomNavigation isAuthenticated={isAuthenticated} />
+    </>
   )
 }
 

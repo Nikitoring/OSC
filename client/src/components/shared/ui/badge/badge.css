@@ -10,3 +10,28 @@
 .osc-bg-pink {
   background-color: var(--color-pink);
 }
+
+.badge {
+  white-space: nowrap;
+}
+
+.badge-label {
+  display: inline;
+  white-space: wrap;
+}
+
+@media (max-width: 480px) {
+  .badge {
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    gap: 0;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .badge-label {
+    display: none;
+  }
+}
