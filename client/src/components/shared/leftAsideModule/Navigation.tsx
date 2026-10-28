@@ -62,7 +62,7 @@ const Navigation = () => {
           size="small"
           className="osc-mt-3"
           style={{ width: '100%' }}
-          to={`/add-cat`}
+          to={`/map?mode=add-cat`}
         >
           <Plus></Plus>
           Добавить кота

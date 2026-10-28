@@ -9,7 +9,7 @@ const LastObservation = () => {
   const { data } = useLastHelp(5)
   const hasObservations = Boolean(data?.length)
   return (
-    <Card>
+    <Card styles={{ height: '100%' }}>
       <h3 className="osc-mb-0">Последние наблюдения</h3>
       <hr className="osc-divider" />
 

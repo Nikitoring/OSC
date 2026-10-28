@@ -10,7 +10,7 @@ import LastFinded from './LastFinded'
 import Stats from './Statistics'
 import { useState } from 'react'
 import type { Cat } from '@/domains/domains'
-import { CatsLayer } from '@/features/cats/ui/catLayer/catLayer'
+import { CatsLayer } from '@/features/cats/ui/catLayer/CatLayer'
 
 const MainPage = () => {
   const [selectedCat, setSelected] = useState<Cat | null>(null)
@@ -41,14 +41,19 @@ const MainPage = () => {
         <div className={styles['hero-illustration']}></div>
       </section>
 
-      <section className={`${styles['content-section']} osc-my-3`}>
-        <div>
+      <section
+        className={`${styles['content-section']} osc-my-3 ${
+          selectedCat ? styles['content-section--selected'] : ''
+        }`}
+      >
+        <div className={styles['map-column']}>
           <TextInput
             prefix={<SearchIcon />}
             placeholder="Поиск по адресу, району или имени кота..."
             className="osc-mb-3"
-          ></TextInput>
-          <div className={`${styles['map-container']}`}>
+          />
+
+          <div className={styles['map-container']}>
             <MapWidget>
               <GeolocationController />
               <CatsLayer onSelect={setSelected} />
@@ -56,9 +61,13 @@ const MainPage = () => {
           </div>
         </div>
 
-        {selectedCat && <CatCard cat={selectedCat}></CatCard>}
-        <LastObservation></LastObservation>
+        {selectedCat && <CatCard cat={selectedCat} />}
+
+        <div className={styles['observations-column']} style={{ heigth: '100%' }}>
+          <LastObservation />
+        </div>
       </section>
+
       <section className={`${styles['additional-section']}`}>
         <LastFinded></LastFinded>
         <Stats></Stats>

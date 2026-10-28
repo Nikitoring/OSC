@@ -8,6 +8,7 @@ const router = Router();
 
 router.get('/', catsController.getCats);
 router.get('/last', catsController.getLastCats);
+router.get('/statistics', catsController.getStatistics);
 
 router.get('/:id', catsController.getCatById);
 

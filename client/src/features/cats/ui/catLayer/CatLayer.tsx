@@ -12,6 +12,7 @@ type Props = {
   selectedCatId: CatId | null
   onSelect: (cat: Cat) => void
   bounds?: MapBounds
+  interactionDisabled?: boolean
   filters: {
     search_text?: string
     gender?: string
@@ -26,6 +27,7 @@ export function CatsLayer({
   bounds: externalBounds,
   selectedCatId,
   filters = {},
+  interactionDisabled = false,
 }: Props) {
   const mapBounds = useMapBounds()
   const bounds = externalBounds ?? mapBounds
@@ -56,6 +58,7 @@ export function CatsLayer({
         <Marker
           key={cat.id}
           position={[cat.latitude, cat.longitude]}
+          interactive={!interactionDisabled}
           icon={getCatMarkerIcon(cat, cat.id === selectedCatId)}
           eventHandlers={{
             click: () => onSelect(cat),

@@ -4,7 +4,7 @@ import { createCat, getCat, getCats, getLastCats, getCatsStats } from '@/feature
 
 import type { GetCatsParams, GetCatsResponse } from '@/features/cats/api/catsApi'
 
-import type { Cat, CatId, CreateCatDto } from '@/domains/domains'
+import type { Cat, CatId, CatsStats, CreateCatDto } from '@/domains/domains'
 
 /**
  * Query keys
@@ -89,15 +89,15 @@ export function useLastCats(limit = 5) {
 
 /**
  * Получение статистики по котам.
- * GET /cats/stats
+ * GET /cats/statistics
  */
-// export function useCatsStats() {
-//   // Тип CatsStats нужно будет описать (например: { totalCats: number, catsNeedHelp: number })
-//   return useQuery<CatsStats>({
-//     queryKey: catsQueryKeys.stats(),
-//     queryFn: () => getCatsStats(),
-//     // Статистику можно обновлять реже, например раз в минуту,
-//     // или по событиям (создание кота)
-//     refetchInterval: 60000,
-//   })
-// }
+export function useCatsStats() {
+  // Тип CatsStats нужно будет описать (например: { totalCats: number, catsNeedHelp: number })
+  return useQuery<CatsStats>({
+    queryKey: catsQueryKeys.stats(),
+    queryFn: () => getCatsStats(),
+    // Статистику можно обновлять реже, например раз в минуту,
+    // или по событиям (создание кота)
+    refetchInterval: 60000,
+  })
+}

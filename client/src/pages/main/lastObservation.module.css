@@ -46,8 +46,8 @@
 }
 
 .empty {
-  display: grid;
-  grid-template-columns: minmax(0, 160px) minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 24px;
   padding: 8px 0;

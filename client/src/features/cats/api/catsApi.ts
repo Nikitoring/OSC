@@ -1,5 +1,5 @@
 import { httpClient } from '@/shared/api/httpClient'
-import type { Cat, CatId, CreateCatDto } from '@/domains/domains'
+import type { Cat, CatId, CatsStats, CreateCatDto } from '@/domains/domains'
 
 /**
  * Параметры запроса списка котов.
@@ -94,5 +94,5 @@ export function getLastCats(limit = 5) {
 }
 
 export function getCatsStats() {
-  return httpClient<GetCatsResponse>(`/cats/stats`)
+  return httpClient<CatsStats>(`/cats/statistics`)
 }

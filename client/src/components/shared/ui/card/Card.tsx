@@ -12,6 +12,7 @@ interface CardProps {
   padding?: Padding
   hover?: boolean
   closable?: boolean
+  styles?: Record<string, string>
   onClick?: () => void
   onClose?: () => void
 }
@@ -24,6 +25,7 @@ export function Card({
   closable = false,
   onClick,
   onClose,
+  styles,
 }: CardProps) {
   const classes = [
     'card',
@@ -37,7 +39,7 @@ export function Card({
     .join(' ')
 
   return (
-    <div className={classes} onClick={onClick}>
+    <div className={classes} onClick={onClick} style={styles}>
       {closable && (
         <div className={`osc-self-end closable`}>
           <OscButton size="xs" variant="transparent" onClick={onClose}>

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Card } from '../../components/shared/ui/card/Card'
 import { Cat, Beef, Heart } from 'lucide-react'
 import style from './stats.module.css'
-type StatsTypes = 'all' | 'food' | 'medical'
+import { useCatsStats } from '@/features/cats/queries/cats.queries'
+type StatsTypes = 'all_cats' | 'food' | 'medical'
 
 const StatTitle = ({ type }: { type: StatsTypes }) => {
   let typeIcon = <Cat></Cat>
@@ -21,7 +22,7 @@ const StatTitle = ({ type }: { type: StatsTypes }) => {
       typeTitle = 'Всего котов'
       break
   }
-  type === 'all' ? Cat : type === 'food' ? Beef : Heart
+  type === 'all_cats' ? Cat : type === 'food' ? Beef : Heart
 
   return (
     <div className="osc-flex osc-gap-2 osc-items-center">
@@ -32,31 +33,23 @@ const StatTitle = ({ type }: { type: StatsTypes }) => {
 }
 
 const Stats = () => {
-  const [stats, setStats] = useState<{ type: StatsTypes; count: number }[]>([])
-
-  useEffect(() => {
-    setStats([
-      { type: 'all', count: 10 },
-      { type: 'food', count: 5 },
-      { type: 'medical', count: 1 },
-    ])
-  }, [])
-
+  const { data: statistics } = useCatsStats()
   return (
     <Card className="osc-bg">
       <h3 className="osc-mb-0">Статистика</h3>
       <hr className="osc-divider" />
       <div className={style['stats-list']}>
-        {stats.map((stat) => (
-          <div key={stat.type} className={style['stat-item']}>
-            <Card>
-              <StatTitle type={stat.type} />
-              <h1 className="osc-my-4 osc-self-center" style={{ fontSize: '3rem' }}>
-                {stat.count || '-'}
-              </h1>
-            </Card>
-          </div>
-        ))}
+        {statistics &&
+          Object.entries(statistics).map(([type, value]) => (
+            <div key={type} className={style['stat-item']}>
+              <Card>
+                <StatTitle type={type} />
+                <h1 className="osc-my-4 osc-self-center" style={{ fontSize: '3rem' }}>
+                  {value || '-'}
+                </h1>
+              </Card>
+            </div>
+          ))}
       </div>
     </Card>
   )

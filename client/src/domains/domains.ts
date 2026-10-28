@@ -58,3 +58,9 @@ export type User = {
   username: string
   createdAt: string
 }
+
+export type CatsStats = {
+  all_cats: string
+  food: string
+  medical: string
+}

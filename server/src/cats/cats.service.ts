@@ -426,4 +426,18 @@ export class CatsService {
     );
     return result.rows;
   }
+  async getCatsStatistic() {
+    const { rows } = await pool.query(`
+    SELECT
+      (SELECT COUNT(*) FROM cats) AS all_cats,
+      (SELECT COUNT(*)
+        FROM help_requests
+        WHERE type = 'food' AND status = 'resolved') AS food,
+      (SELECT COUNT(*)
+        FROM help_requests
+        WHERE type = 'medical' AND status = 'resolved') AS medical
+  `);
+
+    return rows[0];
+  }
 }

@@ -102,6 +102,13 @@
   overscroll-behavior: contain;
 }
 
+.add-cat-launcher {
+  position: absolute;
+  top: 1rem;
+  left: 20%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
 /* Планшеты */
 
 @media (max-width: 900px) {

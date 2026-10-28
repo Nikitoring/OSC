@@ -21,7 +21,7 @@ export function MobileBottomNavigation({ isAuthenticated }: MobileBottomNavigati
           <span>Коты</span>
         </NavLink>
 
-        <NavLink to="/add-cat" className={styles.addButton} aria-label="Добавить кота">
+        <NavLink to="/map?mode=add-cat" className={styles.addButton} aria-label="Добавить кота">
           <Plus />
         </NavLink>
 

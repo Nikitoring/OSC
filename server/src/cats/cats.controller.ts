@@ -73,4 +73,16 @@ export const catsController = {
       });
     }
   },
+
+  async getStatistics(req: Request, res: Response) {
+    try {
+      const cats = await catsService.getCatsStatistic();
+
+      res.json(cats);
+    } catch (error: any) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
 };
