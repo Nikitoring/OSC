@@ -13,6 +13,7 @@ export class CatsService {
     filters?: {
       gender?: string[];
       search_text?: string;
+      help_type?: ('food' | 'medical' | 'home')[];
     };
   }) {
     const { page, limit, bounds, filters } = params;
@@ -67,6 +68,27 @@ export class CatsService {
         `(name ILIKE $${values.length} OR description ILIKE $${values.length})`,
       );
     }
+    if (filters?.help_type?.length) {
+      console.log('filters?.help_type', filters?.help_type);
+      values.push(filters.help_type);
+      conditions.push(`
+        EXISTS (
+          SELECT 1
+          FROM help_requests hr
+          WHERE hr.cat_id = cats.id
+            AND hr.type = ANY($${values.length})
+            AND hr.status = 'needed'
+            AND hr.id = (
+              SELECT hr_last.id
+              FROM help_requests hr_last
+              WHERE hr_last.cat_id = hr.cat_id
+                AND hr_last.type = hr.type
+              ORDER BY hr_last.created_at DESC, hr_last.id DESC
+              LIMIT 1
+            )
+        )
+      `);
+    }
 
     // --------------------------------
     // WHERE
@@ -97,25 +119,43 @@ export class CatsService {
 
     const result = await pool.query(
       `
-        SELECT
-          id,
-          name,
-          gender,
-          ST_Y(location::geometry) AS latitude,
-          ST_X(location::geometry) AS longitude,
-          created_at,
-          created_by,
-          description
+      SELECT
+        c.id,
+        c.name,
+        c.gender,
+        ST_Y(c.location::geometry) AS latitude,
+        ST_X(c.location::geometry) AS longitude,
+        c.created_at,
+        c.created_by,
+        c.description,
 
-        FROM cats
+        COALESCE(
+          (
+            SELECT json_agg(
+              json_build_object(
+                'catId', hr.cat_id,
+                'type', hr.type,
+                'state', hr.status,
+                'createdAt', hr.created_at,
+                'createdBy', hr.created_by
+              )
+              ORDER BY hr.created_at ASC
+            )
+            FROM help_requests hr
+            WHERE hr.cat_id = c.id
+          ),
+          '[]'::json
+        ) AS help
 
-        ${where}
+      FROM cats c
 
-        ORDER BY created_at DESC
+      ${where}
 
-        LIMIT $${values.length + 1}
-        OFFSET $${values.length + 2}
-      `,
+      ORDER BY c.created_at DESC
+
+      LIMIT $${values.length + 1}
+      OFFSET $${values.length + 2}
+    `,
       dataValues,
     );
 

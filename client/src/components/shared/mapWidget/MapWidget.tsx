@@ -32,7 +32,7 @@ export function MapWidget({
         zoom={zoom}
         minZoom={3}
         maxZoom={19}
-        zoomControl={interactive}
+        zoomControl={false}
         dragging={interactive}
         scrollWheelZoom={interactive}
         doubleClickZoom={interactive}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Card } from '../../components/shared/ui/card/Card'
-import { Cat, Drumstick, Heart } from 'lucide-react'
+import { Cat, Beef, Heart } from 'lucide-react'
 import './stats.css'
 type StatsTypes = 'all' | 'food' | 'medical'
 
@@ -10,7 +10,7 @@ const StatTitle = ({ type }: { type: StatsTypes }) => {
   switch (true) {
     case type === 'food':
       typeTitle = 'Покормлено'
-      typeIcon = <Drumstick className="osc-text-orange"></Drumstick>
+      typeIcon = <Beef className="osc-text-orange"></Beef>
       break
     case type === 'medical':
       typeTitle = 'Вылечено'
@@ -21,7 +21,7 @@ const StatTitle = ({ type }: { type: StatsTypes }) => {
       typeTitle = 'Всего котов'
       break
   }
-  type === 'all' ? Cat : type === 'food' ? Drumstick : Heart
+  type === 'all' ? Cat : type === 'food' ? Beef : Heart
 
   return (
     <div className="osc-flex osc-gap-2 osc-items-center">

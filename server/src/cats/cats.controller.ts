@@ -7,12 +7,20 @@ export const catsController = {
   async getCats(req: Request, res: Response) {
     try {
       const { page = 1, limit = 20, bounds, ...filters } = req.query;
-
+      const prepareFilters = { ...filters };
+      if (prepareFilters.help_type) {
+        const helpType = prepareFilters.help_type;
+        prepareFilters.help_type = Array.isArray(helpType)
+          ? helpType
+          : typeof helpType === 'string'
+            ? [helpType]
+            : [];
+      }
       const cats = await catsService.getCats({
         page: Number(page),
         limit: Number(limit),
         bounds: bounds ? JSON.parse(bounds as string) : undefined,
-        filters,
+        filters: prepareFilters,
       });
 
       res.json(cats);

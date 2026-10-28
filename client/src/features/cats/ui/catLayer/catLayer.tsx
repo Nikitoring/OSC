@@ -1,16 +1,22 @@
 import { Marker, Circle } from 'react-leaflet'
 import { useMapBounds } from '../../model/useMapBounds'
 import { useCats } from '../../queries/cats.queries'
-import { getCatMarkerIcon } from './getCatIconMarker'
-import type { CatId } from '@/domains/domains'
+import { getCatMarkerIcon, getActiveHelpTypes } from './getCatIconMarker'
+import type { Cat, CatId } from '@/domains/domains'
 import type { MapBounds } from '../../model/useMapBounds'
 import './cat.layer.css'
 
+type HelpType = 'food' | 'medical' | 'home'
+
 type Props = {
   selectedCatId: CatId | null
-  onSelect: (id: CatId) => void
+  onSelect: (cat: Cat) => void
   bounds?: MapBounds
-  filters: { search_text?: string; gender?: string }
+  filters: {
+    search_text?: string
+    gender?: string
+    help_type?: HelpType[]
+  }
 }
 
 const CAT_RADIUS_METERS = 100
@@ -23,24 +29,42 @@ export function CatsLayer({
 }: Props) {
   const mapBounds = useMapBounds()
   const bounds = externalBounds ?? mapBounds
+
+  // Передаём серверу фильтры, которые он поддерживает.
+  const { help_type, ...queryFilters } = filters
+
   const queryParams = {
-    bounds: bounds,
-    ...filters,
+    bounds,
+    ...queryFilters,
   }
+
   const { data } = useCats(queryParams)
+
+  // Если тип помощи выбран, оставляем котов,
+  // у которых есть актуальный запрос подходящего типа.
+  const cats = (data?.cats ?? []).filter((cat) => {
+    if (!help_type?.length) return true
+
+    const activeHelpTypes = getActiveHelpTypes(cat)
+
+    return help_type.some((type) => activeHelpTypes.includes(type))
+  })
 
   return (
     <>
-      {data?.cats.map((cat) => (
+      {cats.map((cat) => (
         <Marker
           key={cat.id}
           position={[cat.latitude, cat.longitude]}
           icon={getCatMarkerIcon(cat, cat.id === selectedCatId)}
-          eventHandlers={{ click: () => onSelect(cat) }}
-        ></Marker>
+          eventHandlers={{
+            click: () => onSelect(cat),
+          }}
+        />
       ))}
+
       {selectedCatId &&
-        data?.cats
+        cats
           .filter((cat) => cat.id === selectedCatId)
           .map((cat) => (
             <Circle

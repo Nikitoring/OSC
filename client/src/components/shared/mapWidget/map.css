@@ -88,3 +88,7 @@
 .leaflet-popup-close-button:hover {
   color: var(--color-black) !important;
 }
+
+.leaflet-bottom.leaflet-right {
+  display: none;
+}

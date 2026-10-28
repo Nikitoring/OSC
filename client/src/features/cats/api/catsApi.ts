@@ -15,6 +15,7 @@ export type GetCatsParams = {
   }
   search_text?: string
   gender?: Array<'male' | 'female' | 'unknown'>
+  help_type?: ('food' | 'medical' | 'home')[]
 }
 
 /**
@@ -52,6 +53,11 @@ function buildCatsQueryString(params: GetCatsParams = {}): string {
   }
   if (params.search_text?.length) {
     searchParams.append('search_text', params.search_text)
+  }
+  if (params.help_type?.length) {
+    for (const h of params.help_type) {
+      searchParams.append('help_type', h)
+    }
   }
 
   const qs = searchParams.toString()

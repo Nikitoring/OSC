@@ -11,6 +11,7 @@ import CatCard from '@/features/cats/ui/catCard/CatCard'
 type CatFilters = {
   search_text?: string
   gender?: string
+  help_type?: ('food' | 'medical' | 'home')[]
 }
 
 const MapPage = () => {

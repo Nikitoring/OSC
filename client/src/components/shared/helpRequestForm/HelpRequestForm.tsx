@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import OscSelect from '../ui/select/OSCSelect'
 
-const HelpRequestForm = ({ onChange }: { onChange: (type: string) => void }) => {
+const HelpRequestForm = ({
+  onChange,
+  isHideLable,
+}: {
+  onChange: (type: string) => void
+  isHideLable: boolean
+}) => {
   const [helpType, setHelpType] = useState('')
   const menuItems = [
     { label: '🍗 Необходима еда', value: 'food' },
@@ -16,12 +22,12 @@ const HelpRequestForm = ({ onChange }: { onChange: (type: string) => void }) => 
   return (
     <div className="osc-mb-3">
       <OscSelect
-        label="Выберите тип помощи"
+        label={isHideLable ? '' : 'Выберите тип помощи'}
         name="helpType"
         options={menuItems}
         value={helpType}
         onChange={handleSelect}
-        placeholder="Выберите"
+        placeholder={!isHideLable ? 'Выберите' : 'Выберите тип помощи'}
       />
     </div>
   )
