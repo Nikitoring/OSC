@@ -8,8 +8,7 @@ import { MapFiltersPanel } from './MapFiltersPanel'
 import { MapLegend } from './MapLegend'
 import CatCard from '@/features/cats/ui/catCard/CatCard'
 import { useSearchParams } from 'react-router-dom'
-import { AddCatMapMode, type CatCoordinates } from '@/features/cats/ui/addCat/AddCatMapMode'
-import OscButton from '@/components/shared/ui/buttons/Button'
+import AddCartSidebar from '@/features/cats/ui/addCat/AddCatSidebar'
 
 type CatFilters = {
   search_text?: string
@@ -34,28 +33,11 @@ const MapPage = () => {
     })
   }, [setSearchParams])
 
-  const exitAddCatMode = useCallback(() => {
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev)
-        next.delete('mode')
-        return next
-      },
-      { replace: true },
-    )
-  }, [setSearchParams])
-
   useEffect(() => {
     if (isAddingCat) {
       setSelected(null)
     }
   }, [isAddingCat])
-
-  function handleConfirm(location: CatCoordinates) {
-    // TODO: вызвать createCat mutation.
-    // Выходить из режима только после успешного сохранения.
-    console.log('Selected location:', location)
-  }
 
   return (
     <div className={styles['map-container']}>
@@ -86,9 +68,7 @@ const MapPage = () => {
           interactionDisabled={isAddingCat}
         />
 
-        {isAddingCat && (
-          <AddCatMapMode active radius={100} onConfirm={handleConfirm} onCancel={exitAddCatMode} />
-        )}
+        {isAddingCat && <AddCartSidebar></AddCartSidebar>}
       </MapWidget>
     </div>
   )

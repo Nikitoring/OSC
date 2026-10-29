@@ -12,17 +12,13 @@
 
 .footer {
   margin-top: auto;
-
   padding: 0 24px 28px;
-
   position: relative;
 }
 
 .footer-image {
   height: 190px;
-
   margin: 0 -24px 20px;
-
   background-image: url('../../../shared/assests/illustrations/sidebar-footer.png');
   background-repeat: no-repeat;
   background-position: bottom center;
