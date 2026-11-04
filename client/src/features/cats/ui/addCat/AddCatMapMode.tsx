@@ -1,22 +1,12 @@
 import { useState } from 'react'
 import L from 'leaflet'
 import { Circle, Marker, useMapEvents } from 'react-leaflet'
-
+import OpenStreetCatLogo from '@/shared/assests/logo/main_logo.svg?react'
 import { Card } from '@/components/shared/ui/card/Card'
 import OscButton from '@/components/shared/ui/buttons/Button'
 import { useDisableMapEvents } from '@/utils/useDisableMapEvents'
-
-export interface MapCat {
-  id: string
-  name: string
-  latitude: number
-  longitude: number
-}
-
-export interface CatCoordinates {
-  latitude: number
-  longitude: number
-}
+import { geocoders } from 'leaflet-control-geocoder'
+import type { CatCoordinates } from './domains'
 
 interface AddCatMapModeProps {
   active: boolean
@@ -33,6 +23,8 @@ const selectedLocationIcon = L.divIcon({
   iconAnchor: [12, 12],
 })
 
+const geocoder = new geocoders.Nominatim()
+
 function LocationPicker({
   active,
   onSelect,
@@ -41,11 +33,15 @@ function LocationPicker({
   onSelect: (location: CatCoordinates) => void
 }) {
   useMapEvents({
-    click(event) {
+    async click(event) {
       if (!active) return
+      const latlng = L.latLng(event.latlng.lat, event.latlng.lng)
+      const res = await geocoder.reverse(latlng, 1e8)
+
       onSelect({
         latitude: event.latlng.lat,
         longitude: event.latlng.lng,
+        address: res[0].properties.display_name,
       })
     },
   })
@@ -112,16 +108,21 @@ export function AddCatMapMode({
         >
           <Card className="add-cat-panel">
             <div className="add-cat-panel__heading">
-              <span className="add-cat-panel__icon"></span>
+              <span className="add-cat-panel__icon">
+                <OpenStreetCatLogo />
+              </span>
 
               <div>
                 <h2>Добавить кота</h2>
+                <h4 className="osc-my-0 osc-text-gray-500">Шаг 1</h4>
                 <p>{location ? 'Местоположение выбрано' : 'Нажмите на свободное место карты'}</p>
               </div>
             </div>
 
             {location && (
               <div className="add-cat-panel__coordinates">
+                <span>Адрес</span>
+                <span>{location.address}</span>
                 <span>Широта</span>
                 <strong>{location.latitude.toFixed(5)}</strong>
 

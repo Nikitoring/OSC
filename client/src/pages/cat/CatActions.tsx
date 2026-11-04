@@ -6,9 +6,14 @@ import { useState } from 'react'
 import OscModal from '../../components/shared/ui/modal/Modal'
 import HelpRequestForm from '@/components/shared/helpRequestForm/HelpRequestForm'
 import HelpRequestBadge from '@/components/shared/helpRequestBadge/HelpRequestBadge'
+import userState from '@/stores/userStore/userState'
+import { useNavigate } from 'react-router-dom'
 
 export const CatActions = ({ cat }: { cat: Cat }) => {
+  const navigate = useNavigate()
+
   const { data: helpRequest } = useHelpByCatId(cat.id)
+  const isAutorize = userState().user?.userId
   const { mutateAsync, isPending } = useCreateHelpRequest()
   const [neededHelpType, setNeededHelpType] = useState(null)
   const [isShowCreateForm, changeStateCreateForm] = useState(false)
@@ -32,9 +37,16 @@ export const CatActions = ({ cat }: { cat: Cat }) => {
       console.error('Не удалось создать запрос о помощи:', error)
     }
   }
+  const onCanHelp = () => {
+    if (!isAutorize) {
+      navigate('/login', { replace: true })
+      return
+    }
+    changeStateCreateForm(!isShowCreateForm)
+  }
   return (
     <div>
-      <OscButton variant="tertiary" onClick={() => changeStateCreateForm(!isShowCreateForm)}>
+      <OscButton variant="tertiary" onClick={onCanHelp}>
         Сообщить о помощи
       </OscButton>
       {!!helpRequest?.current.length && (

@@ -66,15 +66,11 @@ const CatCard = ({ cat, closable = false, onClose }: CatCardProps) => {
           <OscButton
             variant="primary"
             size="small"
-            to={`/cat/${cat?.id}`}
+            to={`/cats/${cat?.id}`}
             className="osc-mb-2"
             full
           >
             Посмотреть кота
-          </OscButton>
-          <OscButton variant="secondary" size="small" full>
-            <Navigation></Navigation>
-            Проложить маршрут
           </OscButton>
         </div>
       </div>

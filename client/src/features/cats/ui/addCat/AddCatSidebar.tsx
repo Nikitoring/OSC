@@ -1,9 +1,12 @@
 import { useCallback, useState } from 'react'
-import { AddCatMapMode, type CatCoordinates } from './AddCatMapMode'
+import { AddCatMapMode } from './AddCatMapMode'
 import { useSearchParams } from 'react-router-dom'
 import './addCatMapMode.css'
-import { useDisableMapEvents } from '@/utils/useDisableMapEvents'
 import L from 'leaflet'
+import type { CatCoordinates } from './domains'
+import { Card } from '@/components/shared/ui/card/Card'
+import { MoveLeft } from 'lucide-react'
+import OscButton from '@/components/shared/ui/buttons/Button'
 
 const AddCartSidebar = () => {
   const [catLocation, setCatLocation] = useState<CatCoordinates | null>(null)
@@ -15,13 +18,6 @@ const AddCartSidebar = () => {
     L.DomEvent.disableClickPropagation(element)
     L.DomEvent.disableScrollPropagation(element)
   }, [])
-
-  function handleConfirm(location: CatCoordinates) {
-    // TODO: вызвать createCat mutation.
-    // Выходить из режима только после успешного сохранения.
-    console.log('Selected location:', location)
-    setCatLocation(location)
-  }
 
   const exitAddCatMode = useCallback(() => {
     setSearchParams(
@@ -35,14 +31,27 @@ const AddCartSidebar = () => {
   }, [setSearchParams])
 
   if (!catLocation)
-    return <AddCatMapMode active radius={100} onConfirm={handleConfirm} onCancel={exitAddCatMode} />
+    return (
+      <AddCatMapMode active radius={100} onConfirm={setCatLocation} onCancel={exitAddCatMode} />
+    )
   return (
     <div ref={sidebarRef} className="add-cat-sidebar">
-      <div>
-        {catLocation.latitude} — {catLocation.longitude}
+      <div className="osc-flex osc-gap-4 osc-items-center">
+        <OscButton variant="transparent" size="xs" onClick={() => setCatLocation(null)}>
+          <MoveLeft />
+        </OscButton>
+        <h2 className="osc-mb-0">Добавить кота</h2>
       </div>
 
-      {/* Следующий шаг формы добавления кота */}
+      <h4 className=" osc-text-gray-500">Шаг 2. Информация о коте</h4>
+      <Card>
+        <h3 className="osc-mb-1">Местоположение выбрано</h3>
+        <p>
+          {catLocation.address} <br />
+          Приблизительная область встречи · 100 м
+        </p>
+        <span>Можно вернуться и изменить точку на карте.</span>
+      </Card>
     </div>
   )
 }

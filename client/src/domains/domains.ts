@@ -54,7 +54,7 @@ export type Cat = {
 }
 
 export type User = {
-  iserId: UserId
+  userId: UserId
   username: string
   createdAt: string
 }

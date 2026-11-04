@@ -15,23 +15,26 @@ type NavItem = {
 const mainItems: NavItem[] = [
   { id: 'map', label: 'Карта', icon: Map, href: '/map' },
   { id: 'cats', label: 'Коты', icon: Cat, href: '/cats' },
+  { id: 'profile', label: 'Войти', icon: UserRound, href: '/login' },
 ]
 
 const Navigation = () => {
   const username = userState((s) => s.user?.username)
-  const items = mainItems.map((item) => ({
-    ...item,
-  }))
+  const items = mainItems.map((item) => {
+    if (username && item.id === 'profile') {
+      item.href = '/profile'
+      item.label = username
+    }
+
+    return { ...item }
+  })
   if (username) {
-    items.push(
-      {
-        id: 'my_requests',
-        label: 'Мои наблюдения',
-        icon: MessageCircleMore,
-        href: '/observations',
-      },
-      { id: 'profile', label: username, icon: UserRound, href: '/profile' },
-    )
+    items.push({
+      id: 'my_requests',
+      label: 'Мои наблюдения',
+      icon: MessageCircleMore,
+      href: '/observations',
+    })
   }
 
   return (
