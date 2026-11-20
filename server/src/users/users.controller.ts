@@ -7,25 +7,26 @@ const userService = new UserService();
 export const usersController = {
   async getMe(req: Request, res: Response) {
     const sessionToken = req.cookies?.session_id;
-
     if (!sessionToken) {
       return res.status(401).json({ error: 'Требуется авторизация' });
     }
 
     try {
-      const user = await verifySession(sessionToken);
-      return res.json(user);
+      return res.json(await verifySession(sessionToken));
     } catch (error) {
       console.error('GET /api/users/me: invalid session', error);
-      return res.status(401).json({
-        error: 'Сессия недействительна или истекла',
-      });
+      return res.status(401).json({ error: 'Сессия недействительна или истекла' });
     }
   },
 
-  async getUserById(req, res) {
+  async getUserById(req: Request, res: Response) {
+    const id = req.params.id;
+    if (!/^\d{1,19}$/.test(id) || BigInt(id) > 9223372036854775807n) {
+      return res.status(400).json({ error: 'Некорректный ID пользователя' });
+    }
+
     try {
-      const user = await userService.getUserById(req.params.id);
+      const user = await userService.getProfile(id);
 
       if (!user) {
         return res.status(404).json({
@@ -34,10 +35,9 @@ export const usersController = {
       }
 
       res.json(user);
-    } catch (error: any) {
-      res.status(500).json({
-        error: error.message,
-      });
+    } catch (error) {
+      console.error('GET /api/users/:id failed', error);
+      res.status(500).json({ error: 'Не удалось загрузить профиль пользователя' });
     }
   },
 };
