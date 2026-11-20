@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
-import { CatsService } from './cats.service.ts';
+import { Request, Response } from "express";
+import { CatServiceError, CatsService } from "./cats.service.ts";
+import type { AuthenticatedRequest } from "../middleware/auth.ts";
 
 const catsService = new CatsService();
 
@@ -12,7 +13,7 @@ export const catsController = {
         const helpType = prepareFilters.help_type;
         prepareFilters.help_type = Array.isArray(helpType)
           ? helpType
-          : typeof helpType === 'string'
+          : typeof helpType === "string"
             ? [helpType]
             : [];
       }
@@ -37,7 +38,7 @@ export const catsController = {
 
       if (!cat) {
         return res.status(404).json({
-          error: 'Кот не найден',
+          error: "Кот не найден",
         });
       }
 
@@ -51,13 +52,37 @@ export const catsController = {
 
   async createCat(req: Request, res: Response) {
     try {
-      const cat = await catsService.createCat(req.body, req.user.id);
+      const cat = await catsService.createCat(
+        req.body,
+        (req as AuthenticatedRequest).user.id,
+      );
 
       res.status(201).json(cat);
     } catch (error: any) {
       res.status(500).json({
         error: error.message,
       });
+    }
+  },
+
+  async updateCat(req: Request, res: Response) {
+    try {
+      const cat = await catsService.updateCat(
+        req.params.id,
+        (req as AuthenticatedRequest).user.id,
+        req.body,
+      );
+
+      return res.json(cat);
+    } catch (error) {
+      if (error instanceof CatServiceError) {
+        return res.status(error.statusCode).json({ error: error.message });
+      }
+
+      console.error("PATCH /api/cats/:id failed", error);
+      return res
+        .status(500)
+        .json({ error: "Не удалось обновить информацию о коте" });
     }
   },
 

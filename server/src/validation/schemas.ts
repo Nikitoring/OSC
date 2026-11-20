@@ -9,12 +9,14 @@ export const coordinatesSchema = z.object({
 export const paginationSchema = z.object({
   page: z
     .string()
-    .transform(Number)
-    .pipe(z.number().int().positive().default(1)),
+    .optional()
+    .transform((value) => (value ? Number(value) : 1))
+    .pipe(z.number().int().positive()),
   limit: z
     .string()
-    .transform(Number)
-    .pipe(z.number().int().positive().max(100).default(20)),
+    .optional()
+    .transform((value) => (value ? Number(value) : 20))
+    .pipe(z.number().int().positive().max(100)),
 });
 
 // Схемы для котов

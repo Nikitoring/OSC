@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import type { Request, Response } from 'express';
 import { UserService } from './users.service.ts';
 import { verifySession } from '@/utils/sessions.js';
 

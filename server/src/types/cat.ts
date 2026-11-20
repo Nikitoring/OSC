@@ -1,7 +1,8 @@
 export interface Cat {
   id: number;
   name: string;
-  location: number[];
+  latitude: number;
+  longitude: number;
   gender: 'male' | 'female' | 'unknown';
   description: string;
   created_at: string;

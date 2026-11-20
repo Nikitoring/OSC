@@ -2,15 +2,28 @@ import CatSpinner from '@/components/shared/ui/loaders/CatSpinner'
 import { useCat } from '@/features/cats/queries/cats.queries'
 import mainState from '@/stores/mainState'
 import { currentPlaceholder } from '@/utils/catCardHeaderPlaceholder'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styles from './catPage.module.css'
 import { CatInformation } from './CatInformation'
 import { CatActions } from './CatActions'
+import OscNotice, { type OscNoticeType } from '@/components/shared/ui/notice/OscNotice'
+
+type CatPageNotice = { type: OscNoticeType; message: string }
 
 const CatPage = () => {
   const { id } = useParams<{ id: string }>()
   const { data: cat, isLoading } = useCat(id)
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [notice, setNotice] = useState<CatPageNotice | null>(null)
+
+  useEffect(() => {
+    const incomingNotice = (location.state as { notice?: CatPageNotice } | null)?.notice
+    if (!incomingNotice) return
+    setNotice(incomingNotice)
+    navigate(location.pathname, { replace: true, state: null })
+  }, [location.key, location.pathname, location.state, navigate])
 
   useEffect(() => {
     if (cat?.id) {
@@ -42,6 +55,9 @@ const CatPage = () => {
   }
   return (
     <div className={styles.page}>
+      {notice && (
+        <OscNotice type={notice.type} message={notice.message} onClose={() => setNotice(null)} />
+      )}
       <section className={`${styles['content-section']} osc-my-3`}>
         <div>
           <img src={currentPlaceholder(cat.id)} alt={cat?.name} style={{ width: '100%' }} />

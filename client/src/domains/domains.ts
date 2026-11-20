@@ -16,6 +16,14 @@ export type CreateCatDto = {
   longitude: number
 }
 
+export type UpdateCatDto = {
+  name?: string
+  gender?: CatGender
+  description?: string | null
+  latitude?: number
+  longitude?: number
+}
+
 export type CatResponseDto = {
   id: number
   name: string

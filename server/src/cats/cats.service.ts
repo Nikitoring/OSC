@@ -1,5 +1,16 @@
-import { pool } from '../db/index.js';
-import { Cat } from '../types/cat.js';
+import { pool } from "../db/index.js";
+import { Cat } from "../types/cat.js";
+
+export class CatServiceError extends Error {
+  constructor(
+    message: string,
+    public readonly statusCode: number,
+  ) {
+    super(message);
+    this.name = "CatServiceError";
+  }
+}
+
 export class CatsService {
   async getCats(params: {
     page: number;
@@ -13,7 +24,7 @@ export class CatsService {
     filters?: {
       gender?: string[];
       search_text?: string;
-      help_type?: ('food' | 'medical' | 'home')[];
+      help_type?: ("food" | "medical" | "home")[];
     };
   }) {
     const { page, limit, bounds, filters } = params;
@@ -69,7 +80,7 @@ export class CatsService {
       );
     }
     if (filters?.help_type?.length) {
-      console.log('filters?.help_type', filters?.help_type);
+      console.log("filters?.help_type", filters?.help_type);
       values.push(filters.help_type);
       conditions.push(`
         EXISTS (
@@ -94,7 +105,7 @@ export class CatsService {
     // WHERE
     // --------------------------------
 
-    const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+    const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
 
     // --------------------------------
     // Получаем количество
@@ -174,18 +185,14 @@ export class CatsService {
     const client = await pool.connect();
 
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
 
       const name = catData.name?.trim();
-      const gender = catData.gender ?? 'unknown';
+      const gender = catData.gender ?? "unknown";
 
       const result = await client.query(
         `
-        WITH new_id AS (
-          SELECT nextval(pg_get_serial_sequence('cats', 'id')) AS id
-        )
         INSERT INTO cats (
-          id,
           name,
           gender,
           location,
@@ -193,15 +200,14 @@ export class CatsService {
           created_by,
           description
         )
-        SELECT
-          id,
-          COALESCE(NULLIF($1, ''), 'Кот #' || id),
+        VALUES (
+          COALESCE(NULLIF($1, ''), 'Кот'),
           $2,
           ST_SetSRID(ST_MakePoint($3, $4), 4326)::geography,
           NOW(),
           $5,
           $6
-        FROM new_id
+        )
         RETURNING
           id,
           name,
@@ -246,11 +252,11 @@ export class CatsService {
         cat = updated.rows[0];
       }
 
-      await client.query('COMMIT');
+      await client.query("COMMIT");
 
       return cat;
     } catch (error) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       throw error;
     } finally {
       client.release();
@@ -286,10 +292,11 @@ export class CatsService {
 
   async updateCat(
     catId: string,
-    userId: number,
+    userId: string | number,
     updateData: {
       name?: string;
-      gender?: 'male' | 'female' | 'unknown';
+      gender?: "male" | "female" | "unknown";
+      description?: string | null;
       latitude?: number;
       longitude?: number;
     },
@@ -309,11 +316,11 @@ export class CatsService {
     );
 
     if (existingCat.rows.length === 0) {
-      throw new Error('Кот не найден');
+      throw new CatServiceError("Кот не найден", 404);
     }
 
-    if (existingCat.rows[0].created_by !== userId) {
-      throw new Error('Недостаточно прав');
+    if (String(existingCat.rows[0].created_by) !== String(userId)) {
+      throw new CatServiceError("Недостаточно прав", 403);
     }
 
     // --------------------------------
@@ -333,6 +340,12 @@ export class CatsService {
       values.push(updateData.gender);
 
       fields.push(`gender = $${values.length}`);
+    }
+
+    if (updateData.description !== undefined) {
+      values.push(updateData.description);
+
+      fields.push(`description = $${values.length}`);
     }
 
     if (
@@ -362,7 +375,7 @@ export class CatsService {
       `
         UPDATE cats
 
-        SET ${fields.join(', ')}
+        SET ${fields.join(", ")}
 
         WHERE id = $${values.length}
 
@@ -373,7 +386,8 @@ export class CatsService {
           ST_Y(location::geometry) AS latitude,
           ST_X(location::geometry) AS longitude,
           created_at,
-          created_by
+          created_by,
+          description
       `,
       values,
     );
@@ -395,7 +409,7 @@ export class CatsService {
     );
 
     if (result.rows.length === 0) {
-      throw new Error('Кот не найден или недостаточно прав');
+      throw new Error("Кот не найден или недостаточно прав");
     }
 
     return {

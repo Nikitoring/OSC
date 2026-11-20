@@ -1,11 +1,11 @@
 import type { Request, Response, NextFunction } from 'express';
-import { ZodError } from 'zod';
+import { ZodError, type ZodType } from 'zod';
 
 export interface ValidationRequest extends Request {
-  validatedData?: any;
+  validatedData?: unknown;
 }
 
-export const validationMiddleware = (schema) => {
+export const validationMiddleware = (schema: ZodType) => {
   return (req: ValidationRequest, res: Response, next: NextFunction) => {
     try {
       // Валидируем данные, объединяя body, params и query при необходимости
@@ -37,7 +37,7 @@ export const validationMiddleware = (schema) => {
 };
 
 // Альтернативная версия для валидации только body
-export const validateBody = (schema: ZodSchema) => {
+export const validateBody = (schema: ZodType) => {
   return (req: ValidationRequest, res: Response, next: NextFunction) => {
     try {
       const validated = schema.parse(req.body);

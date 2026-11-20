@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { HelpService, HelpServiceError } from './help.service';
-import type { AuthenticatedRequest } from '@/middleware/auth';
-import { helpTypeSchema } from './help.schema';
+import { HelpService, HelpServiceError } from './help.service.ts';
+import type { AuthenticatedRequest } from '../middleware/auth.ts';
+import { helpTypeSchema } from './help.schema.ts';
 
 const helpService = new HelpService();
 

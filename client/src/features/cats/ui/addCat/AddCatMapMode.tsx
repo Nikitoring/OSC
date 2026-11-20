@@ -11,6 +11,7 @@ import type { CatCoordinates } from './domains'
 interface AddCatMapModeProps {
   active: boolean
   radius?: number
+  initialLocation?: CatCoordinates
   onConfirm: (location: CatCoordinates) => void
   onCancel: () => void
   onOpenCat: (catId: string) => void
@@ -52,11 +53,12 @@ function LocationPicker({
 export function AddCatMapMode({
   active,
   radius = 100,
+  initialLocation,
   onConfirm,
   onCancel,
   onOpenCat,
 }: AddCatMapModeProps) {
-  const [location, setLocation] = useState<CatCoordinates | null>(null)
+  const [location, setLocation] = useState<CatCoordinates | null>(() => initialLocation ?? null)
 
   // При выключении режима сбрасываем временную точку.
   // При повторном открытии пользователь начинает заново.

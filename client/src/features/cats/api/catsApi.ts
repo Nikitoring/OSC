@@ -1,5 +1,5 @@
 import { httpClient } from '@/shared/api/httpClient'
-import type { Cat, CatId, CatsStats, CreateCatDto } from '@/domains/domains'
+import type { Cat, CatId, CatsStats, CreateCatDto, UpdateCatDto } from '@/domains/domains'
 
 /**
  * Параметры запроса списка котов.
@@ -85,6 +85,16 @@ export function createCat(data: CreateCatDto) {
   return httpClient<Cat>('/cats', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+}
+
+/**
+ * PATCH /cats/:id
+ */
+export function updateCat(id: CatId, data: UpdateCatDto) {
+  return httpClient<Cat>(`/cats/${id}`, {
+    method: 'PATCH',
     body: JSON.stringify(data),
   })
 }

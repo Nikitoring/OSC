@@ -42,9 +42,7 @@ const CatCard = ({ cat, closable = false, onClose }: CatCardProps) => {
 
   return (
     <Card className={styles['cat-card']} closable={closable} onClose={onCloseCard}>
-      <div
-        className={styles['cat-card-content']}
-      >
+      <div className={styles['cat-card-content']}>
         <div className={styles['cat-card-main']}>
           <div className={styles['cat-header-image-container']}>
             <img
@@ -65,7 +63,8 @@ const CatCard = ({ cat, closable = false, onClose }: CatCardProps) => {
               <div className="osc-text-gray-500 osc-text-sm">
                 <CalendarDays size={18} aria-hidden="true" />
                 <span>
-                  Добавлен {new Date(cat.created_at).toLocaleDateString('ru-RU', {
+                  Добавлен{' '}
+                  {new Date(cat.created_at).toLocaleDateString('ru-RU', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',

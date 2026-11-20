@@ -1,10 +1,17 @@
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query'
 
-import { createCat, getCat, getCats, getLastCats, getCatsStats } from '@/features/cats/api/catsApi'
+import {
+  createCat,
+  getCat,
+  getCats,
+  getLastCats,
+  getCatsStats,
+  updateCat,
+} from '@/features/cats/api/catsApi'
 
 import type { GetCatsParams, GetCatsResponse } from '@/features/cats/api/catsApi'
 
-import type { Cat, CatId, CatsStats, CreateCatDto } from '@/domains/domains'
+import type { Cat, CatId, CatsStats, CreateCatDto, UpdateCatDto } from '@/domains/domains'
 
 /**
  * Query keys
@@ -71,6 +78,23 @@ export function useCreateCat() {
       queryClient.invalidateQueries({
         queryKey: catsQueryKeys.lists(),
       })
+    },
+  })
+}
+
+/**
+ * Обновление кота.
+ * PATCH /cats/:id
+ */
+export function useUpdateCat() {
+  const queryClient = useQueryClient()
+
+  return useMutation<Cat, Error, { id: CatId; data: UpdateCatDto }>({
+    mutationFn: ({ id, data }) => updateCat(id, data),
+    onSuccess: (updatedCat) => {
+      queryClient.setQueryData(catsQueryKeys.detail(updatedCat.id), updatedCat)
+      queryClient.invalidateQueries({ queryKey: catsQueryKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: catsQueryKeys.last(5) })
     },
   })
 }

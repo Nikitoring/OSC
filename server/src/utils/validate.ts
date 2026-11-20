@@ -1,10 +1,14 @@
+type ValidationErrors = Partial<
+  Record<'username' | 'email' | 'password' | 'confirmPassword', string>
+>;
+
 const validateRegisterInput = (
-  username,
-  email,
-  password,
-  confirmPassword
+  username: string,
+  email: string,
+  password: string,
+  confirmPassword: string,
 ) => {
-  const errors = {};
+  const errors: ValidationErrors = {};
   if (username.trim() === '') {
     errors.username = 'Username must not be empty';
   }
@@ -28,8 +32,8 @@ const validateRegisterInput = (
   };
 };
 
-const validateLoginInput = (username, password) => {
-  const errors = {};
+const validateLoginInput = (username: string, password: string) => {
+  const errors: ValidationErrors = {};
   if (username.trim() === '') {
     errors.username = 'Username must not be empty';
   }

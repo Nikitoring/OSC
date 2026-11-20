@@ -1,4 +1,4 @@
-import { pool } from '@/db/index';
+import { pool } from '../db/index.ts';
 import type { HelpType } from './help.schema.js';
 
 type HelpStatus = 'needed' | 'resolved';

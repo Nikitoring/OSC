@@ -8,13 +8,17 @@ import HelpRequestForm from '@/components/shared/helpRequestForm/HelpRequestForm
 import HelpRequestBadge from '@/components/shared/helpRequestBadge/HelpRequestBadge'
 import userState from '@/stores/userStore/userState'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { SquarePen } from 'lucide-react'
 
 export const CatActions = ({ cat }: { cat: Cat }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const { data: helpRequest } = useHelpByCatId(cat.id)
-  const isAutorize = userState().user?.userId
+  const currentUser = userState((state) => state.user)
+  const isAutorize = currentUser?.userId
+  const canEditCat =
+    currentUser?.userId !== undefined && String(currentUser.userId) === String(cat.created_by)
   const { mutateAsync, isPending } = useCreateHelpRequest()
   const [neededHelpType, setNeededHelpType] = useState(null)
   const [isShowCreateForm, changeStateCreateForm] = useState(false)
@@ -46,7 +50,23 @@ export const CatActions = ({ cat }: { cat: Cat }) => {
     changeStateCreateForm(!isShowCreateForm)
   }
   return (
-    <div className="osc-flex osc-flex-column osc-items-end osc-justify-center osc-gap-2">
+    <div className="osc-flex osc-flex-column osc-items-end osc-justify-start osc-gap-2">
+      {canEditCat && (
+        <OscButton
+          type="button"
+          variant="transparent"
+          title="Редактировать информацию о коте"
+          aria-label="Редактировать информацию о коте"
+          onClick={() =>
+            navigate(`/map?mode=edit-cat&catId=${cat.id}`, {
+              state: { returnTo: location.pathname },
+            })
+          }
+        >
+          <SquarePen size={18} aria-hidden="true" />
+          Редактировать кота
+        </OscButton>
+      )}
       <OscButton variant="tertiary" onClick={onCanHelp}>
         Сообщить о помощи
       </OscButton>
