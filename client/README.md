@@ -1,48 +1,36 @@
-# osc-vue-client
+# Open Street Cat: клиент
 
-This template should help get you started developing with Vue 3 in Vite.
+Клиентское приложение на React 19, TypeScript и Vite 7. Использует React Router для маршрутов, TanStack Query для серверных данных, Zustand для локального состояния и Leaflet/React Leaflet для карты.
 
-## Recommended IDE Setup
+## Требования и запуск
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Нужен Node.js `^20.19.0 || >=22.12.0`. Сначала запустите API и PostgreSQL по инструкции в корневом [README](../README.md), затем:
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-yarn
+```bash
+npm install
+VITE_API_BASE_URL=http://localhost:3000/api npm run dev
 ```
 
-### Compile and Hot-Reload for Development
+Вместо переменной в командной строке можно создать `client/.env` с такой записью:
 
-```sh
-yarn dev
+```dotenv
+VITE_API_BASE_URL=http://localhost:3000/api
 ```
 
-### Type-Check, Compile and Minify for Production
+## Скрипты
 
-```sh
-yarn build
-```
+- `npm run dev` — Vite dev-сервер.
+- `npm run type-check` — проверка TypeScript.
+- `npm run build` — проверка типов и production-сборка.
+- `npm run preview` — локальный просмотр собранного приложения.
+- `npm run lint` — ESLint.
+- `npm run format` — форматирование файлов в `src/` через Prettier.
 
-### Lint with [ESLint](https://eslint.org/)
+## Маршруты приложения
 
-```sh
-yarn lint
-```
+- `/` — главная страница.
+- `/map` — карта котов.
+- `/cats/:id` — страница кота.
+- `/login` — регистрация и вход.
+
+Профильный маршрут пока не подключён. API URL задаётся через `VITE_API_BASE_URL`; запросы отправляют cookie для сессии (`credentials: include`).
