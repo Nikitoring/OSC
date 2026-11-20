@@ -7,10 +7,11 @@ import OscModal from '../../components/shared/ui/modal/Modal'
 import HelpRequestForm from '@/components/shared/helpRequestForm/HelpRequestForm'
 import HelpRequestBadge from '@/components/shared/helpRequestBadge/HelpRequestBadge'
 import userState from '@/stores/userStore/userState'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const CatActions = ({ cat }: { cat: Cat }) => {
   const navigate = useNavigate()
+  const location = useLocation()
 
   const { data: helpRequest } = useHelpByCatId(cat.id)
   const isAutorize = userState().user?.userId
@@ -39,7 +40,7 @@ export const CatActions = ({ cat }: { cat: Cat }) => {
   }
   const onCanHelp = () => {
     if (!isAutorize) {
-      navigate('/login', { replace: true })
+      navigate('/login', { replace: true, state: { from: { pathname: location.pathname } } })
       return
     }
     changeStateCreateForm(!isShowCreateForm)
@@ -70,7 +71,6 @@ export const CatActions = ({ cat }: { cat: Cat }) => {
               </OscButton>
 
               <OscButton
-                variant="transparent"
                 onClick={() => changeStateCreateForm(false)}
                 variant="secondary"
                 disabled={isPending}

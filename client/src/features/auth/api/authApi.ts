@@ -20,3 +20,7 @@ export function registerUser(login: string, password: string) {
     body: JSON.stringify({ login, password }),
   })
 }
+
+export function checkLoginAvailability(login: string) {
+  return httpClient<{ available: boolean }>(`/auth/availability?login=${encodeURIComponent(login)}`)
+}

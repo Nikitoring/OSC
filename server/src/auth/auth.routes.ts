@@ -5,6 +5,8 @@ import { registrationSchema } from './registration.schema.js';
 
 const router = Router();
 
+router.get('/availability', authController.checkLoginAvailability);
+
 router.post(
   '/register',
   validateBody(registrationSchema),

@@ -1,6 +1,14 @@
 import { pool } from '../db/index.ts';
 import bcrypt from 'bcrypt';
 export class AuthService {
+  async isLoginAvailable(login: string) {
+    const result = await pool.query(
+      'SELECT 1 FROM users WHERE username = $1 LIMIT 1',
+      [login],
+    );
+    return result.rowCount === 0;
+  }
+
   async registration(authData: { login: string; password: string }) {
     try {
       const passwordHash = await bcrypt.hash(authData.password, 12);
@@ -24,7 +32,9 @@ export class AuthService {
       return result.rows[0];
     } catch (error) {
       if (error instanceof Error && 'code' in error && error.code === '23505') {
-        throw new Error('User already exists');
+        const duplicate = new Error('Этот логин уже занят');
+        duplicate.name = 'LoginAlreadyTakenError';
+        throw duplicate;
       }
 
       throw error;

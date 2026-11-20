@@ -25,8 +25,24 @@ function setSessionCookie(
 }
 
 export const authController = {
+  async checkLoginAvailability(req: Request, res: Response) {
+    const login = String(req.query.login ?? '').trim();
+    if (login.length < 3 || login.length > 100) {
+      return res.status(400).json({ error: 'Логин должен содержать от 3 до 100 символов' });
+    }
+    return res.json({ available: await authService.isLoginAvailable(login) });
+  },
+
   async registration(req: Request, res: Response) {
-    const user = await authService.registration(req.body);
+    let user;
+    try {
+      user = await authService.registration(req.body);
+    } catch (error) {
+      if (error instanceof Error && error.name === 'LoginAlreadyTakenError') {
+        return res.status(409).json({ error: error.message });
+      }
+      throw error;
+    }
 
     setSessionCookie(res, user);
 

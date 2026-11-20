@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { loginUser, registerUser } from '../api/authApi'
+import { checkLoginAvailability, loginUser, registerUser } from '../api/authApi'
 
 type LoginUserResponse = {
   user: {
@@ -33,8 +33,14 @@ export function useLoginUser() {
  * POST /auth/register
  */
 export function useRegisterUser() {
-  return useMutation<{ message: string }, Error, { login: string; password: string }>({
+  return useMutation<LoginUserResponse, Error, { login: string; password: string }>({
     mutationKey: authQueryKeys.register(),
     mutationFn: ({ login, password }) => registerUser(login, password),
+  })
+}
+
+export function useCheckLoginAvailability() {
+  return useMutation<{ available: boolean }, Error, string>({
+    mutationFn: checkLoginAvailability,
   })
 }

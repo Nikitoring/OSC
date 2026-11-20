@@ -22,8 +22,11 @@ export async function httpClient<T>(path: string, options: RequestOptions = {}):
   })
 
   if (!response.ok) {
-    const data = await response.json()
-    throw new ApiError(response.status, data.error)
+    const data = await response.json().catch(() => ({}))
+    const message = typeof data.error === 'string'
+      ? data.error
+      : data.error?.message || data.message || 'Не удалось выполнить запрос'
+    throw new ApiError(response.status, { code: String(response.status), message })
   }
 
   return response.json() as Promise<T>

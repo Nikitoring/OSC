@@ -56,7 +56,7 @@ export type Cat = {
 export type User = {
   userId: UserId
   username: string
-  createdAt: string
+  createdAt?: string
 }
 
 export type CatsStats = {

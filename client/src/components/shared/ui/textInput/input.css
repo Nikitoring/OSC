@@ -39,6 +39,16 @@
   padding-left: var(--space-2);
 }
 
+.input-suffix button {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
 .input {
   flex: 1;
   border: none;
