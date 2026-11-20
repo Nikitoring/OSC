@@ -1,3 +1,10 @@
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
 .input-wrapper {
   display: flex;
   align-items: center;
@@ -12,12 +19,19 @@
   border-color: var(--color-orange);
 }
 
+.input-wrapper--error {
+  border-color: var(--color-pink);
+}
+
 .input-wrapper--disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 .input-label {
   color: var(--color-gray-700);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 .input-prefix,
 .input-suffix {
@@ -55,11 +69,21 @@
   outline: none;
   background: transparent;
   font-family: inherit;
-  font-size: 0.8rem;
-  line-height: 0.9rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   color: var(--color-black);
   padding: var(--space-3) 0;
   min-width: 0;
+}
+
+.input-error {
+  color: var(--color-pink);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.input-wrapper--error:focus-within {
+  border-color: var(--color-pink);
 }
 
 .input::placeholder {

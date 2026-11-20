@@ -49,7 +49,7 @@ const MainPage = () => {
         <div className={styles['map-column']}>
           <TextInput
             prefix={<SearchIcon />}
-            placeholder="Поиск по адресу, району или имени кота..."
+            placeholder="Поиск по адресу или имени кота"
             className="osc-mb-3"
           />
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { CircleCheck, CircleX, X } from 'lucide-react'
 import './oscNotice.css'
+import OscButton from '../buttons/Button'
 
 export type OscNoticeType = 'success' | 'error'
 
@@ -23,9 +24,16 @@ const OscNotice = ({ type, message, duration = 5000, onClose }: OscNoticeProps) 
     <div className={`osc-notice osc-notice--${type}`} role={type === 'error' ? 'alert' : 'status'}>
       <Icon size={21} aria-hidden="true" />
       <span className="osc-notice__message">{message}</span>
-      <button className="osc-notice__close" type="button" onClick={onClose} aria-label="Закрыть">
+      <OscButton
+        className="osc-notice__close osc-button-icon-only"
+        variant="transparent"
+        size="small"
+        type="button"
+        onClick={onClose}
+        aria-label="Закрыть"
+      >
         <X size={18} aria-hidden="true" />
-      </button>
+      </OscButton>
     </div>
   )
 }

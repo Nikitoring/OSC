@@ -52,7 +52,8 @@
 
 .navigation__link:not(.navigation__link--active):hover {
   color: var(--color-white);
-  background: var(--color-gray-800);
+  background: var(--color-gray-500);
+  border-radius: 4px;
 }
 
 .navigation__icon {

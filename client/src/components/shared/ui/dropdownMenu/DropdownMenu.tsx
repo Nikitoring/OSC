@@ -101,7 +101,9 @@ const OscDropdownMenu = ({
         <ul className={`osc-dropdown-menu ${menuClassName}`} role="menu">
           {items.map((item) => (
             <li key={item.value} role="none">
-              <button
+              <OscButton
+                variant="transparent"
+                size="small"
                 type="button"
                 className={`osc-dropdown-item ${itemClassName}`}
                 role="menuitem"
@@ -109,7 +111,7 @@ const OscDropdownMenu = ({
                 onClick={() => handleSelect(item.value)}
               >
                 {item.label}
-              </button>
+              </OscButton>
             </li>
           ))}
         </ul>

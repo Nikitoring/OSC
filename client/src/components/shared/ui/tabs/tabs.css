@@ -21,6 +21,14 @@
   border-bottom: 3px solid transparent;
 }
 
+.osc-tabs .osc-tab {
+  height: auto;
+  min-height: 48px;
+  max-height: none;
+  border-radius: 0;
+  font-family: inherit;
+}
+
 .osc-tab.is-active {
   color: var(--color-black);
   border-bottom: 3px solid var(--color-orange);

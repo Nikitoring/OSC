@@ -12,6 +12,18 @@
   max-width: 500px;
 }
 
+.content-section > :global(.login-form) {
+  width: 100%;
+}
+
+.content-section :global(.login-form form) {
+  width: 100%;
+}
+
+.content-section :global(.input-group) {
+  width: 100%;
+}
+
 .aside {
   width: 500px;
   flex-shrink: 0;
@@ -27,5 +39,18 @@
 @media (max-width: 767px) {
   .aside {
     display: none;
+  }
+
+  .page {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 24px 16px 88px;
+  }
+
+  .content-section {
+    width: 100%;
+    min-width: 0;
+    max-width: 500px;
+    margin-inline: auto;
   }
 }

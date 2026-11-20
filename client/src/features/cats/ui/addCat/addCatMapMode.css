@@ -16,6 +16,25 @@
   cursor: auto;
 }
 
+@media (max-width: 640px) {
+  .add-cat-sidebar {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    background-color: var(--color-white);
+    overscroll-behavior: contain;
+  }
+}
+
 .cat-map-marker {
   background: transparent;
   border: 0;
@@ -29,7 +48,7 @@
   height: 36px;
   border: 2px solid white;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-white);
   box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
   font-size: 22px;
   cursor: pointer;
@@ -46,9 +65,9 @@
   height: 24px;
   border: 4px solid white;
   border-radius: 50%;
-  background: #2878f0;
+  background: var(--color-orange);
   box-shadow:
-    0 0 0 2px #2878f0,
+    0 0 0 2px var(--color-orange),
     0 2px 8px rgb(0 0 0 / 25%);
 }
 
@@ -60,11 +79,11 @@
   width: min(360px, calc(100% - 32px));
   box-sizing: border-box;
   padding: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  background: white;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
   box-shadow: 0 8px 32px rgb(0 0 0 / 12%);
-  color: #172033;
+  color: var(--color-black);
 }
 
 .add-cat-panel__heading {
@@ -96,7 +115,7 @@
   margin-top: 20px;
   padding: 14px;
   border-radius: 10px;
-  background: #f8fafc;
+  background: var(--color-background);
   font-size: 13px;
 }
 
@@ -115,17 +134,81 @@
 }
 
 @media (max-width: 640px) {
+  /* На телефоне выбор точки становится отдельным полноэкранным режимом карты.
+     Свободная область пропускает касания к карте, а панели остаются интерактивными. */
+  .add-cat-panel-wrapper {
+    position: absolute;
+    z-index: 2000;
+    inset: 0;
+    display: flex;
+    pointer-events: none !important;
+  }
+
   .add-cat-panel {
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
     width: 100%;
-    padding: 20px 16px max(20px, env(safe-area-inset-bottom));
-    border-radius: 18px 18px 0 0;
+    min-height: 100%;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  .add-cat-panel__heading,
+  .add-cat-panel__coordinates,
+  .add-cat-panel__actions {
+    pointer-events: auto;
+  }
+
+  .add-cat-panel__heading {
+    align-self: flex-start;
+    max-width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: 0 4px 18px rgb(0 0 0 / 12%);
+  }
+
+  .add-cat-panel__coordinates {
+    align-self: stretch;
+    grid-template-columns: minmax(0, 1fr) auto;
+    margin-top: auto;
+    background: var(--color-white);
+    box-shadow: 0 4px 18px rgb(0 0 0 / 12%);
+  }
+
+  .add-cat-panel__address-label,
+  .add-cat-panel__address-value {
+    grid-column: 1 / -1;
+  }
+
+  .add-cat-panel__address-value {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   .add-cat-panel__actions {
     gap: 8px;
+    align-self: stretch;
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: 0 4px 18px rgb(0 0 0 / 12%);
+  }
+
+  .add-cat-panel__actions > button {
+    flex: 1;
   }
 }

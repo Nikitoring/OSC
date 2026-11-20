@@ -9,49 +9,8 @@
   margin-top: 1.25rem;
 }
 
-.add-cat-form__field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  font-weight: 600;
-}
-
 .add-cat-form__optional {
-  color: var(--color-gray-500, #6b7280);
+  color: var(--color-gray-700);
   font-size: 0.85em;
   font-weight: 400;
-}
-
-.add-cat-form input,
-.add-cat-form select,
-.add-cat-form textarea {
-  box-sizing: border-box;
-  width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 0.5rem;
-  padding: 0.7rem 0.75rem;
-  color: inherit;
-  font: inherit;
-  font-weight: 400;
-}
-
-.add-cat-form textarea {
-  resize: vertical;
-}
-
-.add-cat-form input:focus,
-.add-cat-form select:focus,
-.add-cat-form textarea:focus {
-  border-color: #2878f0;
-  outline: 2px solid rgb(40 120 240 / 18%);
-}
-
-.add-cat-form input[aria-invalid='true'] {
-  border-color: #dc2626;
-}
-
-.add-cat-form__error {
-  margin: 0;
-  color: #b91c1c;
-  font-size: 0.9rem;
 }

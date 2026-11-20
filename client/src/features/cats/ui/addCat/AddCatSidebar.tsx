@@ -11,6 +11,9 @@ import { useCreateCat, useCat, useUpdateCat } from '@/features/cats/queries/cats
 import { Card } from '@/components/shared/ui/card/Card'
 import OscButton from '@/components/shared/ui/buttons/Button'
 import OscNotice, { type OscNoticeType } from '@/components/shared/ui/notice/OscNotice'
+import { TextInput } from '@/components/shared/ui/textInput/TextInput'
+import { TextArea } from '@/components/shared/ui/textInput/TextArea'
+import OscSelect from '@/components/shared/ui/select/OSCSelect'
 
 const AddCartSidebar = () => {
   const [catLocation, setCatLocation] = useState<CatCoordinates | null>(null)
@@ -216,52 +219,46 @@ const AddCartSidebar = () => {
       </Card>
 
       <form className="add-cat-form" onSubmit={handleSubmit} noValidate>
-        <label className="add-cat-form__field">
-          Кличка кота{' '}
-          {!isEditMode && <span className="add-cat-form__optional">(необязательно)</span>}
-          <input
-            name="name"
-            value={name}
-            onChange={(event) => {
-              setName(event.target.value)
-              if (nameError) setNameError('')
-            }}
-            maxLength={256}
-            required={isEditMode}
-            aria-invalid={!!nameError}
-            aria-describedby={nameError ? 'add-cat-name-error' : undefined}
-            placeholder="Например, Рыжик"
-          />
-          {nameError && (
-            <span id="add-cat-name-error" className="add-cat-form__error">
-              {nameError}
-            </span>
-          )}
-        </label>
+        <TextInput
+          className="add-cat-form__field"
+          label={<>Кличка кота {!isEditMode && <span className="add-cat-form__optional">(необязательно)</span>}</>}
+          id="add-cat-name"
+          name="name"
+          value={name}
+          onChange={(event) => {
+            setName(event.target.value)
+            if (nameError) setNameError('')
+          }}
+          maxLength={255}
+          required={isEditMode}
+          aria-invalid={!!nameError}
+          error={nameError}
+          placeholder="Например, Рыжик"
+        />
 
-        <label className="add-cat-form__field">
-          Пол
-          <select
-            name="gender"
-            value={gender}
-            onChange={(event) => setGender(event.target.value as CatGender)}
-          >
-            <option value="unknown">Неизвестен</option>
-            <option value="male">Самец</option>
-            <option value="female">Самка</option>
-          </select>
-        </label>
+        <OscSelect
+          className="add-cat-form__field"
+          label="Пол"
+          name="gender"
+          value={gender}
+          onChange={(value) => setGender(value as CatGender)}
+          options={[
+            { value: 'unknown', label: 'Неизвестен' },
+            { value: 'male', label: 'Самец' },
+            { value: 'female', label: 'Самка' },
+          ]}
+        />
 
-        <label className="add-cat-form__field">
-          Описание <span className="add-cat-form__optional">(необязательно)</span>
-          <textarea
-            name="description"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            rows={4}
-            placeholder="Особые приметы, поведение или другая полезная информация"
-          />
-        </label>
+        <TextArea
+          className="add-cat-form__field"
+          label={<>Описание <span className="add-cat-form__optional">(необязательно)</span></>}
+          id="add-cat-description"
+          name="description"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
+          rows={4}
+          placeholder="Особые приметы, поведение или другая полезная информация"
+        />
 
         {notice && (
           <OscNotice type={notice.type} message={notice.message} onClose={() => setNotice(null)} />

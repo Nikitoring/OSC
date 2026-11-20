@@ -5,6 +5,7 @@ import userState from '@/stores/userStore/userState'
 import { useUser } from '@/features/users/queries/users.queries'
 import { ApiError } from '@/shared/api/apiError'
 import CatSpinner from '@/components/shared/ui/loaders/CatSpinner'
+import OscButton from '@/components/shared/ui/buttons/Button'
 import { formatRelativeDate } from '@/utils/formatedDate'
 import styles from './profilePage.module.css'
 
@@ -67,7 +68,7 @@ export default function ProfilePage() {
             />
             <h1>Пользователь не найден</h1>
             <p>Похоже, эта страница потерялась. Проверьте ссылку или вернитесь на карту.</p>
-            <Link className={styles.homeLink} to="/map">Вернуться к карте</Link>
+            <OscButton className={styles.homeLink} to="/map">Вернуться к карте</OscButton>
           </section>
         </div>
       )
@@ -78,7 +79,7 @@ export default function ProfilePage() {
         <section className={styles.message} role="alert">
           <h1>Не удалось загрузить профиль</h1>
           <p>Проверьте подключение и попробуйте ещё раз.</p>
-          <button type="button" onClick={() => void refetch()}>Повторить</button>
+          <OscButton type="button" onClick={() => void refetch()}>Повторить</OscButton>
         </section>
       </div>
     )

@@ -103,14 +103,17 @@ const RegisterForm = () => {
             placeholder="Введите пароль (минимум 8 символов)"
 
             suffix={
-              <button
+              <OscButton
+                variant="transparent"
+                size="small"
+                className="osc-button-icon-only password-toggle"
                 type="button"
                 aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                 aria-pressed={showPassword}
                 onClick={() => setShowPassword((shown) => !shown)}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+              </OscButton>
             }
             value={formData.password}
             onChange={handleInputChange}
@@ -128,14 +131,17 @@ const RegisterForm = () => {
             placeholder="Введите пароль еще раз"
 
             suffix={
-              <button
+              <OscButton
+                variant="transparent"
+                size="small"
+                className="osc-button-icon-only password-toggle"
                 type="button"
                 aria-label={showConfirmPassword ? 'Скрыть пароль' : 'Показать пароль'}
                 aria-pressed={showConfirmPassword}
                 onClick={() => setShowConfirmPassword((shown) => !shown)}
               >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+              </OscButton>
             }
             value={formData.confirmPassword}
             onChange={handleInputChange}

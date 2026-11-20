@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import './select.css'
+import OscButton from '../buttons/Button'
 
 export type SelectOption = {
   label: string
@@ -91,7 +92,9 @@ const OscSelect = ({
         </label>
       )}
 
-      <button
+      <OscButton
+        variant="secondary"
+        size="small"
         id={selectId}
         type="button"
         className={`osc-select-trigger ${isOpen ? 'osc-select-trigger-open' : ''} ${error ? 'osc-select-trigger-error' : ''}`}
@@ -126,7 +129,7 @@ const OscSelect = ({
             strokeLinejoin="round"
           />
         </svg>
-      </button>
+      </OscButton>
 
       {name && <input type="hidden" name={name} value={selectedValue} />}
       {error && (
@@ -146,7 +149,9 @@ const OscSelect = ({
             const isSelected = option.value === selectedValue
             return (
               <li key={option.value} role="option" aria-selected={isSelected}>
-                <button
+                <OscButton
+                  variant="transparent"
+                  size="small"
                   type="button"
                   className={`osc-select-option ${isSelected ? 'osc-select-option-selected' : ''} ${optionClassName}`}
                   disabled={option.disabled}
@@ -164,7 +169,7 @@ const OscSelect = ({
                       />
                     </svg>
                   )}
-                </button>
+                </OscButton>
               </li>
             )
           })}

@@ -78,7 +78,12 @@ const OscButton = ({
 
   // Кнопка
   return (
-    <button {...props} className={classes} onClick={onInheritClick.bind(null)}>
+    <button
+      {...props}
+      type={props.type ?? 'button'}
+      className={classes}
+      onClick={onInheritClick.bind(null)}
+    >
       {children}
     </button>
   )

@@ -93,9 +93,10 @@
 }
 
 .osc-button-xs {
-  height: 12px;
-  padding: 4px;
-  font-size: 10px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 14px;
   border-radius: 4px;
 }
 
@@ -136,6 +137,11 @@
 .osc-button-small.osc-button-icon-only {
   width: 40px;
   height: 40px;
+}
+
+.osc-button-xs.osc-button-icon-only {
+  width: 32px;
+  height: 32px;
 }
 
 .osc-button-full {

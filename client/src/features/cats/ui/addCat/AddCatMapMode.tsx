@@ -123,8 +123,8 @@ export function AddCatMapMode({
 
             {location && (
               <div className="add-cat-panel__coordinates">
-                <span>Адрес</span>
-                <span>{location.address}</span>
+                <span className="add-cat-panel__address-label">Адрес</span>
+                <span className="add-cat-panel__address-value">{location.address}</span>
                 <span>Широта</span>
                 <strong>{location.latitude.toFixed(5)}</strong>
 

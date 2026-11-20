@@ -1,16 +1,31 @@
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react'
+import { InputHTMLAttributes, ReactNode, forwardRef, useId } from 'react'
 import './input.css'
 
 interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix'> {
   prefix?: ReactNode
   suffix?: ReactNode
-  label?: string
+  label?: ReactNode
   error?: string
 }
 
 export const TextInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ prefix, suffix, label, error, className = '', disabled, id, ...props }, ref) => {
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
+  (
+    {
+      prefix,
+      suffix,
+      label,
+      error,
+      className = '',
+      disabled,
+      id,
+      'aria-invalid': ariaInvalid,
+      ...props
+    },
+    ref,
+  ) => {
+    const generatedId = useId()
+    const inputId = id || generatedId
+    const hasError = Boolean(error || ariaInvalid)
 
     return (
       <div className={`input-group ${className}`}>
@@ -19,12 +34,21 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        <div className={`input-wrapper ${disabled ? 'input-wrapper--disabled' : ''}`}>
+        <div
+          className={`input-wrapper ${disabled ? 'input-wrapper--disabled' : ''} ${hasError ? 'input-wrapper--error' : ''}`}
+        >
           {prefix && <div className="input-prefix">{prefix}</div>}
-          <input ref={ref} id={inputId} className="input" disabled={disabled} {...props} />
+          <input
+            ref={ref}
+            id={inputId}
+            className="input"
+            disabled={disabled}
+            aria-invalid={hasError || undefined}
+            {...props}
+          />
           {suffix && <div className="input-suffix">{suffix}</div>}
         </div>
-        {error && <div className="input-error">{error}</div>}
+        {error && <div className="input-error" role="alert">{error}</div>}
       </div>
     )
   },

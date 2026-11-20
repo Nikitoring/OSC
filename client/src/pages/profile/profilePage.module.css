@@ -8,10 +8,10 @@
 
 .panel {
   overflow: hidden;
-  border: 1px solid #e9e6e1;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 8px 28px rgb(30 36 38 / 5%);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
 }
 
 .profileHeader {
@@ -27,15 +27,15 @@
   width: 64px;
   height: 64px;
   place-items: center;
-  color: #34464a;
+  color: var(--color-gray-700);
   border-radius: 50%;
-  background: linear-gradient(145deg, #f1e5d4, #dce7e4);
+  background: var(--color-background);
 }
 
 .identity { flex: 1; min-width: 0; }
 .identity h1 { margin: 2px 0 4px; font-size: 26px; }
-.eyebrow { margin: 0; color: #858f94; font-size: 13px; }
-.subline { margin: 0; color: #829097; font-size: 13px; }
+.eyebrow { margin: 0; color: var(--color-gray-700); font-size: 13px; }
+.subline { margin: 0; color: var(--color-gray-700); font-size: 13px; }
 
 .stats {
   display: grid;
@@ -51,42 +51,39 @@
   gap: 2px 10px;
   min-height: 92px;
   padding: 16px;
-  border: 1px solid #e8e9e7;
-  border-radius: 12px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
 }
 
-.statIcon { grid-row: span 2; color: #426d70; }
-.heart { color: #ff6175; }
-.statLabel { color: #77858b; font-size: 13px; }
-.statCard strong { color: #202b31; font-size: 21px; }
+.statIcon { grid-row: span 2; color: var(--color-orange); }
+.heart { color: var(--color-pink); }
+.statLabel { color: var(--color-gray-700); font-size: 13px; }
+.statCard strong { color: var(--color-black); font-size: 21px; }
 
-.activity { padding: 25px 32px 32px; border-top: 1px solid #efefed; }
+.activity { padding: 25px 32px 32px; border-top: 1px solid var(--color-gray-200); }
 .activity h2 { margin: 0 0 18px; font-size: 19px; }
-.emptyState { display: flex; align-items: center; gap: 14px; padding: 18px; border-radius: 12px; background: #f8f8f6; }
-.emptyIcon { display: grid; flex: 0 0 42px; width: 42px; height: 42px; place-items: center; color: #426d70; border-radius: 50%; background: #e8f0ed; }
+.emptyState { display: flex; align-items: center; gap: 14px; padding: 18px; border-radius: var(--radius-md); background: var(--color-background); }
+.emptyIcon { display: grid; flex: 0 0 42px; width: 42px; height: 42px; place-items: center; color: var(--color-orange); border-radius: 50%; background: var(--color-white); }
 .emptyState h3 { margin: 0 0 5px; font-size: 15px; }
-.emptyState p { margin: 0; color: #758188; font-size: 13px; line-height: 1.5; }
+.emptyState p { margin: 0; color: var(--color-gray-700); font-size: 13px; line-height: 1.5; }
 .activityList { margin: 0; padding: 0; list-style: none; }
-.activityItem { display: flex; align-items: center; gap: 14px; min-width: 0; padding: 14px 4px; border-bottom: 1px solid #efefed; }
+.activityItem { display: flex; align-items: center; gap: 14px; min-width: 0; padding: 14px 4px; border-bottom: 1px solid var(--color-gray-200); }
 .activityItem:last-child { border-bottom: 0; }
-.activityIcon { display: grid; flex: 0 0 38px; width: 38px; height: 38px; place-items: center; color: #426d70; border-radius: 50%; background: #e8f0ed; }
-.activityIcon.heart { color: #ff6175; background: #fff0f2; }
+.activityIcon { display: grid; flex: 0 0 38px; width: 38px; height: 38px; place-items: center; color: var(--color-orange); border-radius: 50%; background: var(--color-background); }
+.activityIcon.heart { color: var(--color-pink); background: var(--color-white); }
 .activityContent { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 2px; }
-.activityTitle { overflow-wrap: anywhere; color: #33484d; font-size: 14px; line-height: 1.4; text-decoration: none; }
+.activityTitle { overflow-wrap: anywhere; color: var(--color-black); font-size: 14px; line-height: 1.4; text-decoration: none; }
 .activityTitle:hover { color: var(--color-orange); }
-.activityDate { color: #899399; font-size: 12px; }
-.activityArrow { flex: 0 0 auto; color: #91a0a2; }
+.activityDate { color: var(--color-gray-700); font-size: 12px; }
+.activityArrow { flex: 0 0 auto; color: var(--color-gray-500); }
 .message { display: flex; min-height: 240px; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; }
 .message h1, .message p { margin: 0; }
-.message p { color: #758188; }
-.message button { cursor: pointer; }
+.message p { color: var(--color-gray-700); }
 .notFound { min-height: 420px; gap: 10px; }
 .lostCatIllustration { display: block; width: min(100%, 320px); height: auto; margin-bottom: 2px; }
-.homeLink { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin-top: 8px; padding: 0 18px; border-radius: 8px; color: #fff; background: var(--color-orange); font-size: 14px; font-weight: 600; text-decoration: none; }
-.homeLink:hover { background: #e85d33; }
+.homeLink { margin-top: 8px; }
 @media (max-width: 700px) {
   .page { padding: 16px 14px 88px; }
-  .panel { border-radius: 15px; }
   .profileHeader { flex-wrap: wrap; gap: 12px; padding: 20px 18px; }
   .avatar { flex-basis: 52px; width: 52px; height: 52px; }
   .identity h1 { font-size: 21px; }

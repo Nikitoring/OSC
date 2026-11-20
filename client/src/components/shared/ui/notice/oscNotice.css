@@ -41,7 +41,7 @@
   line-height: 1.4;
 }
 
-.osc-notice__close {
+.osc-notice .osc-notice__close {
   display: grid;
   flex: 0 0 auto;
   place-items: center;
@@ -53,7 +53,7 @@
   cursor: pointer;
 }
 
-.osc-notice__close:hover {
+.osc-notice .osc-notice__close:hover {
   background: rgb(15 23 42 / 7%);
 }
 

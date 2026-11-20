@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import './tabs.css'
+import OscButton from '../buttons/Button'
 type TabVariant = 'primary' | 'secondary'
 type TabSize = 'small' | 'medium' | 'large'
 
@@ -49,13 +50,15 @@ const OscTabs = ({
   return (
     <div {...props} className={classes}>
       {items.map((item) => (
-        <button
+        <OscButton
+          type="button"
+          variant="transparent"
           key={item.id}
           className={`osc-tab ${isActive === item.id ? 'is-active' : ''}`}
           onClick={onClick.bind(null, item.id)}
         >
           {item.label}
-        </button>
+        </OscButton>
       ))}
       {children}
     </div>

@@ -9,8 +9,8 @@
   --color-purple: #8b6fd8;
   --color-blue: #6a9fd3;
 
-  --color-gray-700: #69727c;
-  --color-gray-500: #8b93a1;
+  --color-gray-700: #535d67;
+  --color-gray-500: #69727c;
   --color-gray-300: #d9dde3;
   --color-gray-200: #e7e9e8;
 
@@ -69,33 +69,6 @@ body {
   background-color: var(--color-background);
 }
 
-button {
-  height: 48px;
-  padding: 0 20px;
-  border: 2px solid var(--color-black);
-  background: var(--color-black);
-  color: white;
-  border-radius: 4px;
-}
-button &:hover {
-  background: var(--color-orange);
-}
-button &:active {
-  transform: translateY(2px);
-}
-
-.button-secondary {
-  height: 44px;
-  background: transparent;
-  border: 2px solid var(--color-black);
-  color: var(--color-black);
-}
-
-.button-orange {
-  height: 48px;
-  background: var(--color-orange);
-  border: 2px solid var(--color-black);
-}
 /* =========================================
    PADDING - All sides
    ========================================= */
