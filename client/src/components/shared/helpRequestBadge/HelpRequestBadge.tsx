@@ -22,8 +22,10 @@ const HelpRequestBadge = ({ request }: { request: HelpRequestDto }) => {
     textLabel = 'Нужна помощь (мед.)'
   }
   return (
-    <span className={`${styles['badge-wrapper']}`}>
-      <IconComponent size={40} className={colorClass} />
+    <span className={styles['badge-wrapper']}>
+      <span className={`${styles['icon-wrapper']} ${colorClass}`} aria-hidden="true">
+        <IconComponent size={18} strokeWidth={2} />
+      </span>
       <div>
         <h4 className="osc-color-black osc-my-0">{textLabel}</h4>
         <span className="osc-text-gray-700">

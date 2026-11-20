@@ -1,9 +1,8 @@
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
-import { getMe, getUser } from '../api/usersApi'
-import type { User } from '@/domains/domains'
+import { getMe, getUser, type UserProfile } from '../api/usersApi'
 
 export type AuthUser = {
-  id: string
+  userId: string
   username: string
 }
 
@@ -40,11 +39,12 @@ export function useGetMe() {
  * GET /users/:id
  */
 
-export function useUser(id: string, options?: UseQueryOptions) {
-  return useQuery<User>({
-    queryKey: usersQueryKeys.detail(id as string),
-    queryFn: () => getUser(id as string),
-    enabled: !!id,
+export function useUser(id: string | number, options?: UseQueryOptions<UserProfile>) {
+  const normalizedId = String(id)
+  return useQuery<UserProfile>({
+    queryKey: usersQueryKeys.detail(normalizedId),
+    queryFn: () => getUser(normalizedId),
+    enabled: Boolean(id),
     ...options, // Передача ваших опций сверху
   })
 }

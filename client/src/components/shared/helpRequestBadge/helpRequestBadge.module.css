@@ -1,19 +1,30 @@
 .badge-wrapper {
   display: inline-flex;
-  align-items: start;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.food,
-.medical,
-.home {
-  color: var(--color-green); /* Lucide использует currentColor */
+.icon-wrapper {
+  display: inline-flex;
+  flex: 0 0 2.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+}
+
+.food {
+  color: var(--color-orange);
+  background-color: var(--color-orange-light, #fff0dc);
 }
 
 .medical {
   color: var(--color-pink);
+  background-color: var(--color-pink-light, #fde8f0);
 }
 
 .home {
   color: var(--color-purple);
+  background-color: var(--color-purple-light, #f0e9ff);
 }

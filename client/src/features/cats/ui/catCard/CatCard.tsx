@@ -1,6 +1,6 @@
 import { Card } from '../../../../components/shared/ui/card/Card'
 import type { Cat } from '@/domains/domains'
-import { Navigation } from 'lucide-react'
+import { CalendarDays, MapPin } from 'lucide-react'
 import styles from './cat.module.css'
 import { HelpBadges } from '../../../../components/shared/ui/badge/HelpBadges'
 import OscButton from '@/components/shared/ui/buttons/Button'
@@ -41,28 +41,58 @@ const CatCard = ({ cat, closable = false, onClose }: CatCardProps) => {
   }
 
   return (
-    <Card closable={closable} onClose={onCloseCard}>
+    <Card className={styles['cat-card']} closable={closable} onClose={onCloseCard}>
       <div
-        className="osc-flex osc-flex-column osc-justify-between"
-        style={{ height: '100%', position: 'relative' }}
+        className={styles['cat-card-content']}
       >
-        <div>
+        <div className={styles['cat-card-main']}>
           <div className={styles['cat-header-image-container']}>
-            <img src={currentPlaceholder(cat.id)} alt={cat?.name} style={{ width: '100%' }} />
+            <img
+              src={cat.photos?.[0]?.url || currentPlaceholder(cat.id)}
+              alt={`Фото кота ${cat.name}`}
+            />
           </div>
-          <div className="osc-flex osc-items-center osc-gap-1">
-            <h2 className="osc-mb-1">{cat?.name}</h2>
-            {СatGenderIcon(cat)}
+          <div className={styles['cat-title']}>
+            <h2>{cat?.name}</h2>
+            {СatGenderIcon({ cat, info: true })}
           </div>
-          <div className="osc-text-gray-500 osc-text-sm">{address}</div>
+          <div className={styles['cat-meta']}>
+            <div className={`osc-text-gray-500 osc-text-sm ${styles['cat-address']}`}>
+              <MapPin size={18} aria-hidden="true" />
+              <span>{address}</span>
+            </div>
+            {cat.created_at && (
+              <div className="osc-text-gray-500 osc-text-sm">
+                <CalendarDays size={18} aria-hidden="true" />
+                <span>
+                  Добавлен {new Date(cat.created_at).toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+            )}
+          </div>
           <HelpBadges events={cat?.help || []} />
         </div>
-        <div>
-          {cat?.description && <p className="osc-text-gray-700 osc-text-sm">{cat?.description}</p>}
-          <div className={styles['cat-photos-container']}> </div>
+        <div className={styles['cat-card-details']}>
+          <section className={styles['cat-description']}>
+            <h3>О коте</h3>
+            <p className="osc-text-gray-700 osc-text-sm">
+              {cat?.description || 'Описание пока не добавлено.'}
+            </p>
+          </section>
+          {!!cat.photos?.length && cat.photos.length > 1 && (
+            <div className={styles['cat-photos-container']} aria-label="Фотографии кота">
+              {cat.photos.slice(1).map((photo) => (
+                <img key={photo.id} src={photo.url} alt={`Фото кота ${cat.name}`} loading="lazy" />
+              ))}
+            </div>
+          )}
         </div>
 
-        <div>
+        <div className={styles['cat-card-actions']}>
           <OscButton
             variant="primary"
             size="small"

@@ -30,7 +30,7 @@ export function MobileBottomNavigation({ isAuthenticated }: MobileBottomNavigati
           <span>Наблюдения</span>
         </NavLink>
 
-        <NavLink to="/personal" className={styles.item}>
+        <NavLink to="/profile" className={styles.item}>
           <UserRound />
           <span>Профиль</span>
         </NavLink>

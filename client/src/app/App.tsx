@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import CatSpinner from '@/components/shared/ui/loaders/CatSpinner'
 import MapPage from '@/pages/map/MapPage'
 import CatPage from '@/pages/cat/CatPage'
+import ProfilePage from '@/pages/profile/ProfilePage'
 import { MobileBottomNavigation } from '@/components/shared/mobileBottomNavigation/MobileBottomNavigation'
 
 function App() {
@@ -44,11 +45,12 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/cats/:id" element={<CatPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/users/:id" element={<ProfilePage />} />
         </Route>
         <Route element={<AdditionalLayout aside={<AuthAside />} />}>
           <Route path="/login" element={<AuthPage />} />
         </Route>
-        {/* <Route path="/profile" element={<ProfilePage />} />  */}
       </Routes>
       <MobileBottomNavigation isAuthenticated={isAuthenticated} />
     </>

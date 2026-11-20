@@ -46,7 +46,7 @@ export const CatActions = ({ cat }: { cat: Cat }) => {
     changeStateCreateForm(!isShowCreateForm)
   }
   return (
-    <div>
+    <div className="osc-flex osc-flex-column osc-items-end osc-justify-center osc-gap-2">
       <OscButton variant="tertiary" onClick={onCanHelp}>
         Сообщить о помощи
       </OscButton>

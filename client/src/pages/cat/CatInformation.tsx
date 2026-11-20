@@ -2,6 +2,7 @@ import type { Cat } from '@/domains/domains'
 import { useUser } from '@/features/users/queries/users.queries'
 import { geocoders } from 'leaflet-control-geocoder'
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { СatGenderIcon } from '@/components/shared/catGenderIcon/СatGenderIcon'
 import { MapPin } from 'lucide-react'
 import L from 'leaflet'
@@ -47,7 +48,9 @@ export const CatInformation = ({ cat }: { cat: Cat }) => {
       {
         id: 'user',
         info: 'Добавил пользователь',
-        data: user?.username || (isUserLoading ? 'Загрузка...' : cat.created_by),
+        data: user?.username ? (
+          <Link to={`/users/${cat.created_by}`}>{user.username}</Link>
+        ) : isUserLoading ? 'Загрузка...' : cat.created_by,
       },
     ]
   }, [cat?.id, cat?.name, cat?.created_at, cat?.created_by, user?.username, isUserLoading])
